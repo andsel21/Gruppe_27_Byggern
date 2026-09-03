@@ -99,14 +99,13 @@ int main(void)
 	while (1) 
     {
 		
-		PORTB |= (1 << PB0);   // sett PB0 høy
-		_delay_ms(500);   // styrer frekvensen
-		PORTB ^= (1 << PB0);  // sett PB0 lav
-		_delay_ms(500);   // styrer frekvensen
+		//PORTB |= (1 << PB0);   // sett PB0 høy
+		//_delay_ms(250);   // styrer frekvensen
+		//PORTB ^= (1 << PB0);  // sett PB0 lav
+		//_delay_ms(250);   // styrer frekvensen
+		//
 		
-		
-		
-		uart_receive();
+		//uart_receive();
 		
 		uart_print(ptrMelding);
 		
