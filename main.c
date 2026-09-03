@@ -85,6 +85,14 @@ void uart_print(const char *str)
 */
 
 
+void sqaureWaveFunc(){
+	PORTB |= (1 << PB0);   // sett PB0 høy
+	_delay_ms(250);   // styrer frekvensen
+	PORTB ^= (1 << PB0);  // sett PB0 lav
+	_delay_ms(250);   // styrer frekvensen
+}
+
+
 int main(void)
 {
     /* Replace with your application code */
@@ -98,12 +106,8 @@ int main(void)
 	    
 	while (1) 
     {
+		sqaureWaveFunc();
 		
-		//PORTB |= (1 << PB0);   // sett PB0 høy
-		//_delay_ms(250);   // styrer frekvensen
-		//PORTB ^= (1 << PB0);  // sett PB0 lav
-		//_delay_ms(250);   // styrer frekvensen
-		//
 		
 		//uart_receive();
 		
