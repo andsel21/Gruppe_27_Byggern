@@ -13,12 +13,10 @@
 #include <avr/io.h>
 #include <util/delay.h>
 
-
-
-//#define  SET_BIT(x,n)  ((x) |= (1u<<(n)))
-//#define  CLEAR_BIT(x,n)  ((x) &= ~(1u<<(n)))
-//#define  TOGGLE_BIT(x,n)  ((x) ^= (1u<<(n)))
-//#define  CHECK_BIT(x,n)  ((x) >> (n)) & 1u)
+#define  SET_BIT(x,n)  ((x) |= (1u<<(n)))
+#define  CLEAR_BIT(x,n)  ((x) &= ~(1u<<(n)))
+#define  TOGGLE_BIT(x,n)  ((x) ^= (1u<<(n)))
+#define  CHECK_BIT(x,n)  ((x) >> (n)) & 1u)
 
 void uart_init(void)
 {
