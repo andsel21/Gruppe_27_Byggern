@@ -92,6 +92,7 @@ void sqaureWaveFunc(){
 	_delay_ms(250);   // styrer frekvensen
 }
 
+//Test å forandre noke for git push
 
 int main(void)
 {
