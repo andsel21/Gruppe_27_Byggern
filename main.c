@@ -92,6 +92,8 @@ void sqaureWaveFunc(){
 
 //Test å forandre noke for git push
 
+//TOR GIT TEST
+
 int main(void)
 {
     /* Replace with your application code */
