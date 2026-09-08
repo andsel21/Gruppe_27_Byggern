@@ -7,7 +7,7 @@
 
 #define F_CPU 4915200UL
 #define BAUD 9600
-#define UBRR_VALUE (F_CPU/(16UL*BAUD)-1)
+#define UBRR_VALUE ((F_CPU/(16UL*BAUD))-1)
 
 
 #include <avr/io.h>
@@ -28,7 +28,9 @@ void uart_init(void)
 	UCSR0B = (1 << RXEN0) | (1 << TXEN0);
 
 	// Frame format: 8 data bits, 1 stop bit, no parity
-	UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);
+	//UCSR0C = (1 << UCSZ01) | (1 << UCSZ00);
+	// Frame format: 8 data bits, 1 stop bit, no parity
+	UCSR0C = (1<<URSEL0)|(1<<USBS0)|(3<<UCSZ00);
 }
 
 
@@ -41,14 +43,15 @@ void uart_transmit(unsigned char data)
 	UDR0 = data;
 }
 
-unsigned char uart_receive(void)
-{
-	// Wait for data to be received
-	while (!(UCSR0A & (1 << RXC0)));
-
-	// Get and return received data from buffer
-	return UDR0;
-}
+//
+//unsigned char uart_receive(void)
+//{
+	//// Wait for data to be received
+	//while (!(UCSR0A & (1 << RXC0)));
+//
+	//// Get and return received data from buffer
+	//return UDR0;
+//}
 
 
 
@@ -56,7 +59,7 @@ void uart_print(const char *str)
 {
 	while (*str)
 	{
-		uart_transmit(*str++);
+		uart_transmit(*str++); //Bruker tegnet str peker på deretter øker pekeren til neste tegn.
 	}
 }
 
@@ -104,7 +107,7 @@ int main(void)
 	
 	const char melding[] = "DataWoho\n";
 	const char* ptrMelding = melding;
-	    
+		
 	while (1) 
     {
 		sqaureWaveFunc();
