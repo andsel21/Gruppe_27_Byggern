@@ -14,6 +14,7 @@
 #include "Protokoller/UART_driver.h"
 #include "Utils/BitHandling.h"
 
+// Sqare Wave
 void sqaureWaveFunc(){
 	PORTB |= (1 << PB0);   // sett PB0 høy
 	_delay_ms(250);   // styrer frekvensen
