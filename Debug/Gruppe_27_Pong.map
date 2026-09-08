@@ -15,6 +15,8 @@ Discarded input sections
  .text          0x00000000        0x0 Protokoller/UART_driver.o
  .data          0x00000000        0x0 Protokoller/UART_driver.o
  .bss           0x00000000        0x0 Protokoller/UART_driver.o
+ .text.uart_receive
+                0x00000000        0x8 Protokoller/UART_driver.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
@@ -175,7 +177,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x152
+.text           0x00000000      0x1a6
  *(.vectors)
  .vectors       0x00000000       0x70 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega162/avr5/crtatmega162.o
                 0x00000000                __vector_default
@@ -244,7 +246,6 @@ END GROUP
                 0x0000009a                __vector_11
                 0x0000009a                __vector_13
                 0x0000009a                __vector_17
-                0x0000009a                __vector_19
                 0x0000009a                __vector_7
                 0x0000009a                __vector_27
                 0x0000009a                __vector_5
@@ -265,25 +266,28 @@ END GROUP
  .text.sqaureWaveFunc
                 0x0000009e       0x34 main.o
                 0x0000009e                sqaureWaveFunc
- .text.main     0x000000d2       0x42 main.o
+ .text.main     0x000000d2       0x40 main.o
                 0x000000d2                main
  .text.uart_init
-                0x00000114       0x10 Protokoller/UART_driver.o
-                0x00000114                uart_init
- .text.uart_receive
-                0x00000124        0x8 Protokoller/UART_driver.o
-                0x00000124                uart_receive
+                0x00000112       0x1c Protokoller/UART_driver.o
+                0x00000112                uart_init
+ .text.uart_printf
+                0x0000012e        0x4 Protokoller/UART_driver.o
+                0x0000012e                uart_printf
+ .text.__vector_19
+                0x00000132       0x4e Protokoller/UART_driver.o
+                0x00000132                __vector_19
  .text.uart_transmit
-                0x0000012c        0x8 Protokoller/UART_driver.o
-                0x0000012c                uart_transmit
+                0x00000180        0x8 Protokoller/UART_driver.o
+                0x00000180                uart_transmit
  .text.uart_print
-                0x00000134       0x1a Protokoller/UART_driver.o
-                0x00000134                uart_print
-                0x0000014e                . = ALIGN (0x2)
+                0x00000188       0x1a Protokoller/UART_driver.o
+                0x00000188                uart_print
+                0x000001a2                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000014e        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x0000014e                _exit
-                0x0000014e                exit
+ .fini9         0x000001a2        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x000001a2                _exit
+                0x000001a2                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -302,11 +306,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000014e        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x000001a2        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000152                _etext = .
+                0x000001a6                _etext = .
 
-.data           0x00800100       0x18 load address 0x00000152
+.data           0x00800100       0x18 load address 0x000001a6
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -326,8 +330,8 @@ END GROUP
  *(.bss*)
  *(COMMON)
                 [!provide]                PROVIDE (__bss_end, .)
-                0x00000152                __data_load_start = LOADADDR (.data)
-                0x0000016a                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000001a6                __data_load_start = LOADADDR (.data)
+                0x000001be                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800118        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
@@ -399,51 +403,51 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0x60
+.debug_aranges  0x00000000       0x70
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x28 main.o
  .debug_aranges
-                0x00000028       0x38 Protokoller/UART_driver.o
+                0x00000028       0x48 Protokoller/UART_driver.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000      0x8dc
+.debug_info     0x00000000      0x91f
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x5d0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega162/avr5/crtatmega162.o
- .debug_info    0x000005d0      0x202 main.o
- .debug_info    0x000007d2      0x10a Protokoller/UART_driver.o
+ .debug_info    0x000005d0      0x1ec main.o
+ .debug_info    0x000007bc      0x163 Protokoller/UART_driver.o
 
-.debug_abbrev   0x00000000      0x7a4
+.debug_abbrev   0x00000000      0x7c2
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x580 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega162/avr5/crtatmega162.o
  .debug_abbrev  0x00000580      0x14c main.o
- .debug_abbrev  0x000006cc       0xd8 Protokoller/UART_driver.o
+ .debug_abbrev  0x000006cc       0xf6 Protokoller/UART_driver.o
 
-.debug_line     0x00000000      0x3f6
+.debug_line     0x00000000      0x443
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x140 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega162/avr5/crtatmega162.o
- .debug_line    0x00000140      0x184 main.o
- .debug_line    0x000002c4      0x132 Protokoller/UART_driver.o
+ .debug_line    0x00000140      0x180 main.o
+ .debug_line    0x000002c0      0x183 Protokoller/UART_driver.o
 
-.debug_frame    0x00000000       0xa4
+.debug_frame    0x00000000      0x10c
  *(.debug_frame)
  .debug_frame   0x00000000       0x44 main.o
- .debug_frame   0x00000044       0x60 Protokoller/UART_driver.o
+ .debug_frame   0x00000044       0xc8 Protokoller/UART_driver.o
 
-.debug_str      0x00000000      0x3fe
+.debug_str      0x00000000      0x416
  *(.debug_str)
  .debug_str     0x00000000      0x1f6 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega162/avr5/crtatmega162.o
- .debug_str     0x000001f6      0x1d8 main.o
-                                0x211 (size before relaxing)
- .debug_str     0x000003ce       0x30 Protokoller/UART_driver.o
-                                0x1ba (size before relaxing)
+ .debug_str     0x000001f6      0x1cb main.o
+                                0x204 (size before relaxing)
+ .debug_str     0x000003c1       0x55 Protokoller/UART_driver.o
+                                0x1d2 (size before relaxing)
 
-.debug_loc      0x00000000      0x12c
+.debug_loc      0x00000000      0x20a
  *(.debug_loc)
  .debug_loc     0x00000000       0xd5 main.o
- .debug_loc     0x000000d5       0x57 Protokoller/UART_driver.o
+ .debug_loc     0x000000d5      0x135 Protokoller/UART_driver.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -463,10 +467,10 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0x40
+.debug_ranges   0x00000000       0x50
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x18 main.o
- .debug_ranges  0x00000018       0x28 Protokoller/UART_driver.o
+ .debug_ranges  0x00000018       0x38 Protokoller/UART_driver.o
 
 .debug_macro
  *(.debug_macro)

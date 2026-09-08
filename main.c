@@ -11,23 +11,32 @@
 
 #include <avr/io.h>
 #include <util/delay.h>
+#include <avr/interrupt.h>
 #include "Protokoller/UART_driver.h"
 #include "Utils/BitHandling.h"
 
+
 void sqaureWaveFunc(){
-	PORTB |= (1 << PB0);   // sett PB0 høy
+	PORTB |= (1 << PB0);   // sett PB0 hih
 	_delay_ms(250);   // styrer frekvensen
-	PORTB ^= (1 << PB0);  // sett PB0 lav
+	PORTB ^= (1 << PB0);  // sett PB0 low
 	_delay_ms(250);   // styrer frekvensen
 }
 
-//Added some change to my branch
+
 
 int main(void)
 {
-	DDRB |= (1 << PB0); 
 	
+	//Enable global interrupts
+	sei();
+	
+	//Enable UART
 	uart_init();
+	
+	
+	DDRB |= (1 << PB0); //Enable Square Wave Function
+	
 	
 	const char melding[] = "DATA funker fremdeles?\n";
 	const char* ptrMelding = melding;
@@ -37,7 +46,7 @@ int main(void)
 		sqaureWaveFunc();
 
 		
-		uart_receive();
+		//uart_receive();
 		
 		uart_print(ptrMelding); 
 			
