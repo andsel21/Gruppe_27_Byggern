@@ -62,37 +62,38 @@ void uart_print(const char *str)
 
 
 /*
-	DDRB(RETNING) - Data Direction Register - velger om skal være input eller output
+	DDRB(RETNING) - Data Direction Register - velger om skal vÃ¦re input eller output
 	
 	PORTB() - Dobbel funksjon avhengig av DDRB ()
 		Hvis DDB0 = 1 (output):
-		PORTB0 bestemmer spenningsnivået du sender ut:
+		PORTB0 bestemmer spenningsnivÃ¥et du sender ut:
 
 		PORTB |= (1 << PB0);   // PB0 settes HIGH (5V)
 		PORTB &= ~(1 << PB0);  // PB0 settes LOW (0V)
 		
 		Hvis DDB0 = 0 (input)
-		PORTB |= (1 << PB0);   // aktiverer intern pull-up på PB0 (som input)
+		PORTB |= (1 << PB0);   // aktiverer intern pull-up pÃ¥ PB0 (som input)
 	
-	PINB - kun for å lese input-verdi
-		Uansett om pinnen er satt som input eller output, kan du lese den faktiske elektriske tilstanden på pinnen via PINB:
+	PINB - kun for Ã¥ lese input-verdi
+		Uansett om pinnen er satt som input eller output, kan du lese den faktiske elektriske tilstanden pÃ¥ pinnen via PINB:
 		if (PINB & (1 << PB0)) {
-			// PB0 er fysisk HIGH akkurat nå
+			// PB0 er fysisk HIGH akkurat nÃ¥
 		}
 		
 */
 
 
 void sqaureWaveFunc(){
-	PORTB |= (1 << PB0);   // sett PB0 høy
+	PORTB |= (1 << PB0);   // sett PB0 hÃ¸y
 	_delay_ms(250);   // styrer frekvensen
 	PORTB ^= (1 << PB0);  // sett PB0 lav
 	_delay_ms(250);   // styrer frekvensen
 }
 
-//Test å forandre noke for git push
+//Test Ã¥ forandre noke for git push
 
 //TOR GIT TEST
+//sjekk om fetch
 
 int main(void)
 {
