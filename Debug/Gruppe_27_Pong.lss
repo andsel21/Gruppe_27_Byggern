@@ -129,9 +129,9 @@ void sqaureWaveFunc(){
   d0:	08 95       	ret
 
 000000d2 <main>:
-	_delay_ms(250);   // styrer frekvensen
 }
 
+//Added some change to my branch
 
 int main(void)
 {
