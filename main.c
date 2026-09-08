@@ -24,12 +24,16 @@ void sqaureWaveFunc(){
 }
 
 
-
 int main(void)
 {
 	
+	
 	//Enable global interrupts
 	sei();
+
+	
+	
+	
 	
 	//Enable UART
 	uart_init();
@@ -40,15 +44,16 @@ int main(void)
 	
 	const char melding[] = "DATA funker fremdeles?\n";
 	const char* ptrMelding = melding;
-		
 	while (1) 
     {
 		sqaureWaveFunc();
-
+		
+		_delay_us(100);
+		UCSR0B = UCSR0B | (1u << UDRIE0);
 		
 		//uart_receive();
 		
-		uart_print(ptrMelding); 
+		//uart_print(ptrMelding); 
 			
 			
     }
