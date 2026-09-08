@@ -21,6 +21,7 @@ void sqaureWaveFunc(){
 	_delay_ms(250);   // styrer frekvensen
 }
 
+//Added some change to my branch
 
 int main(void)
 {
