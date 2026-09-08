@@ -105,7 +105,7 @@ int main(void)
 	
 	uart_init();
 	
-	const char melding[] = "DataWoho\n";
+	const char melding[] = "DATA woho\n";
 	const char* ptrMelding = melding;
 		
 	while (1) 
