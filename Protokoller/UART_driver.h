@@ -13,13 +13,11 @@
 #define UBRR_VALUE ((F_CPU/(16UL*BAUD))-1)
 
 #include <avr/io.h>
-#include <avr/interrupt.h>
-#include <util/delay.h>
+#include <stdio.h>
+#include "../Utils/BitHandling.h"
 
-
-
-void uart_init(void);
-unsigned char uart_receive(void);
-void uart_print(const char *str);
-void uart_transmit(unsigned char data);
-void uart_printf(char c);
+int UART_getchar(FILE *stream);
+int UART_putchar(char c, FILE *stream);
+unsigned char UART_receive(void);
+void UART_transmit(unsigned char data);
+void UART_init(void);

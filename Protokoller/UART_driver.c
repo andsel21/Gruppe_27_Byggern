@@ -10,92 +10,111 @@
 
 
 unsigned int counter = 0;
-char Langmelding[] = "DDDDDDDTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTBBBBBB";
-unsigned int size = sizeof(Langmelding) / sizeof(Langmelding[0]);
+char melding[] = "Hello world!";
+unsigned int size = sizeof(melding) / sizeof(melding[0]);
 
-//char* packagePtr = Langmelding;
 
-//RECEIVE DATA
-ISR(USART0_RXC_vect) 
+
+/* =========================================================
+   UART INITIALISERING
+   ========================================================= */
+
+void UART_init(void)
 {
-	unsigned char data = UDR0; //Received byte
-	if (data == 'a'){ uart_printf(data);
-	}
+    /* Sett baudrate */
+    UBRR0H = (unsigned char)(UBRR_VALUE >> 8);
+    UBRR0L = (unsigned char)UBRR_VALUE;
+
+    /*
+     * Enable Receiver og Transmitter.
+     * Ingen interrupts brukes.
+     */
+    UCSR0B =
+        (1u << RXEN0) |
+        (1u << TXEN0);
+
+    /* Formatering
+     * URSEL0 = velg UCSR0C
+     * 8 databits
+     * No parity
+     * 1 stopbit
+     */
+    UCSR0C =
+        (1u << URSEL0) |
+        (1u << UCSZ01) |
+        (1u << UCSZ00);
 }
 
-//TRANSMIT DATA
-ISR(USART0_UDRE_vect) { //Skal håndtere noke
-	UDR0 = Langmelding[counter];
-	counter++;
-	
-	if(counter >= size){ //Full? Forlat Interrupt!
-		CLEAR_BIT(UCSR0B,UDRIE0);
-		counter = 0;
-	}
-}
 
-void writeOutput(){
-	
-		//packagePtr = Langmelding;
-		CLEAR_BIT(UCSR0B,UDRIE0);
-}
+/* =========================================================
+   FUNKSJON FOR INPUT
+   ========================================================= */
 
-
-void uart_init(void)
+int UART_getchar(FILE *stream)
 {
-	// Set baud rate
-	UBRR0H = (unsigned char)(UBRR_VALUE >> 8);
-	UBRR0L = (unsigned char)UBRR_VALUE;
-	
-	
-	//Page 186/187
-	// Enable receiver and transmitter
-	UCSR0B = (1u << RXEN0) | (1u << TXEN0);
-	
-	//Enable Local Read interrupts
-	UCSR0B = UCSR0B | (1u << RXCIE0);
-	UCSR0A = UCSR0A | (1u << RXC0);
-	
-	//Enable local Write interrupts
-	//UCSR0B = UCSR0B | (1u << UDRIE0);
-	UCSR0A = UCSR0A | (1u << UDRE0);
-
-	// Frame format: 8 data bits, 1 stop bit, no parity
-	UCSR0C = (1u<<URSEL0) | (1u << UCSZ01) | (1u << UCSZ00);
-			
+    return UART_receive();
 }
 
-unsigned char uart_receive(void)
+
+/* =========================================================
+   RECEIVE ÉN CHARACTER
+   ========================================================= */
+
+unsigned char UART_receive(void)
 {
-	// Wait for data to be received
-	while ((UCSR0A & (1u << RXC0)));
+    /*
+     * Vent til en character er mottatt.
+     *
+     * RXC0 = 0 -> ingen ny data
+     * RXC0 = 1 -> data tilgjengelig
+     */
+    while (!(UCSR0A & (1u << RXC0)))
+    {
+        /* Vent */
+    }
 
-	// Get and return received data from buffer
-	return UDR0;
+    return UDR0;
 }
 
+/* =========================================================
+   FUNKSJON FOR PRINTF
+   ========================================================= */
 
-void uart_printf(char c){
-	UDR0 = c;
-}
-
-
-void uart_transmit(unsigned char data)
+int UART_putchar(char c, FILE *stream)
 {
-	// Wait for empty transmit buffer
-	while (!(UCSR0A & (1u << UDRE0)));
+    /*
+     * Gjør \n om til \r\n slik at terminalen
+     * får korrekt linjeskift.
+     */
+    if (c == '\n')
+    {
+        UART_transmit('\r');
+    }
 
-	// Put data into buffer, sends the data
-	UDR0 = data;
-	
-	
+    UART_transmit((unsigned char)c);
+
+    return 0;
 }
 
+/* =========================================================
+   SEND ÉN CHARACTER
+   ========================================================= */
 
-void uart_print(const char *str)
+void UART_transmit(unsigned char data)
 {
-	while (*str)
-	{
-		uart_transmit(*str++); //Bruker tegnet str peker på deretter oeker pekeren til neste tegn.
-	}
+    /*
+     * Vent så lenge UDR0 IKKE er ledig.
+     *
+     * UDRE0 = 0 -> UDR0 opptatt
+     * UDRE0 = 1 -> UDR0 ledig
+     */
+    while (!(UCSR0A & (1u << UDRE0)))
+    {
+        /* Vent */
+    }
+
+    /* Legg ny character i transmit-buffer */
+    UDR0 = data;
 }
+
+

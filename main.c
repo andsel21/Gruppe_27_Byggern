@@ -1,21 +1,125 @@
-/*
- * Gruppe_27_Byggern.c
- *
- * Created: 01.09.2026 13:59:26
- * Author : andrksel
- */ 
-
 #ifndef F_CPU
 #define F_CPU 4915200UL
 #endif
 
 #include <avr/io.h>
-#include <util/delay.h>
-#include <avr/interrupt.h>
+#include <stdio.h>
 #include "Protokoller/UART_driver.h"
 #include "Utils/BitHandling.h"
 
+#define BAUD 9600UL
+#define UBRR_VALUE ((F_CPU / (16UL * BAUD)) - 1)
 
+//
+//
+///* =========================================================
+   //UART INITIALISERING
+   //========================================================= */
+//
+//void UART_init(void)
+//{
+    ///* Sett baudrate */
+    //UBRR0H = (unsigned char)(UBRR_VALUE >> 8);
+    //UBRR0L = (unsigned char)UBRR_VALUE;
+//
+    ///*
+     //* Enable Receiver og Transmitter.
+     //* Ingen interrupts brukes.
+     //*/
+    //UCSR0B =
+        //(1u << RXEN0) |
+        //(1u << TXEN0);
+//
+    ///*
+     //* URSEL0 = velg UCSR0C
+     //* 8 databits
+     //* No parity
+     //* 1 stopbit
+     //*/
+    //UCSR0C =
+        //(1u << URSEL0) |
+        //(1u << UCSZ01) |
+        //(1u << UCSZ00);
+//}
+//
+//
+///* =========================================================
+   //SEND ÉN CHARACTER
+   //========================================================= */
+//
+//void UART_transmit(unsigned char data)
+//{
+    ///*
+     //* Vent så lenge UDR0 IKKE er ledig.
+     //*
+     //* UDRE0 = 0 -> UDR0 opptatt
+     //* UDRE0 = 1 -> UDR0 ledig
+     //*/
+    //while (!(UCSR0A & (1u << UDRE0)))
+    //{
+        ///* Vent */
+    //}
+//
+    ///* Legg ny character i transmit-buffer */
+    //UDR0 = data;
+//}
+//
+//
+///* =========================================================
+   //RECEIVE ÉN CHARACTER
+   //========================================================= */
+//
+//unsigned char UART_receive(void)
+//{
+    ///*
+     //* Vent til en character er mottatt.
+     //*
+     //* RXC0 = 0 -> ingen ny data
+     //* RXC0 = 1 -> data tilgjengelig
+     //*/
+    //while (!(UCSR0A & (1u << RXC0)))
+    //{
+        ///* Vent */
+    //}
+//
+    //return UDR0;
+//}
+//
+//
+///* =========================================================
+   //FUNKSJON FOR PRINTF
+   //========================================================= */
+//
+//int UART_putchar(char c, FILE *stream)
+//{
+    ///*
+     //* Gjør \n om til \r\n slik at terminalen
+     //* får korrekt linjeskift.
+     //*/
+    //if (c == '\n')
+    //{
+        //UART_transmit('\r');
+    //}
+//
+    //UART_transmit((unsigned char)c);
+//
+    //return 0;
+//}
+//
+//
+///* =========================================================
+   //FUNKSJON FOR INPUT
+   //========================================================= */
+//
+//int UART_getchar(FILE *stream)
+//{
+    //return UART_receive();
+//}
+
+
+/* =========================================================
+   MAIN / TESTPROGRAM
+   ========================================================= */
 void sqaureWaveFunc(){
 	PORTB |= (1 << PB0);   // sett PB0 hih
 	_delay_ms(250);   // styrer frekvensen
@@ -24,64 +128,45 @@ void sqaureWaveFunc(){
 }
 
 
+
 int main(void)
 {
-	
-	
-	//Enable global interrupts
-	sei();
+    unsigned char received;
+    int value = 42;
+	//DDRB |= (1 << PB0); //Enable Square Wave Function
+	SET_BIT(DDRB,PB0); //Enable Square Wave Function
 
-	
-	
-	
-	
-	//Enable UART
-	uart_init();
-	
-	
-	DDRB |= (1 << PB0); //Enable Square Wave Function
-	
-	
-	const char melding[] = "DATA funker fremdeles?\n";
-	const char* ptrMelding = melding;
-	while (1) 
+    UART_init();
+
+    /*
+     * Koble stdin/stdout til UART-driveren.
+     */
+    fdevopen(UART_putchar, UART_getchar);
+
+    /*
+     * Test printf
+     */
+    printf("UART test started\n");
+    printf("Value = %d\n", value);
+    printf("Type characters on the PC:\n");
+
+    while (1)
     {
-		sqaureWaveFunc();
+        /*
+         * Vent på character fra PC.
+         */
+        received = UART_receive();
+
+        /*
+         * Send den samme tilbake til PC.
+         */
+        UART_transmit(received);
 		
-		_delay_us(100);
-		UCSR0B = UCSR0B | (1u << UDRIE0);
+		//
+		//sqaureWaveFunc();
 		
-		//uart_receive();
-		
-		//uart_print(ptrMelding); 
-			
-			
     }
+
+
+    return 0;
 }
-
-
-
-
-//-------------------------------INFO----------------------------------------------
-
-
-/*
-	DDRB(RETNING) - Data Direction Register - velger om skal vaare input eller output
-	
-	PORTB() - Dobbel funksjon avhengig av DDRB ()
-		Hvis DDB0 = 1 (output):
-		PORTB0 bestemmer spenningsnivaaet du sender ut:
-
-		PORTB |= (1 << PB0);   // PB0 settes HIGH (5V)
-		PORTB &= ~(1 << PB0);  // PB0 settes LOW (0V)
-		
-		Hvis DDB0 = 0 (input)
-		PORTB |= (1 << PB0);   // aktiverer intern pull-up paa PB0 (som input)
-	
-	PINB - kun for aa lese input-verdi
-		Uansett om pinnen er satt som input eller output, kan du lese den faktiske elektriske tilstanden paa pinnen via PINB:
-		if (PINB & (1 << PB0)) {
-			// PB0 er fysisk HIGH akkurat naa
-		}
-*/
-
