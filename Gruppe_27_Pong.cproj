@@ -120,6 +120,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ExternalMemory\SRAM.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ExternalMemory\SRAM.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
@@ -134,6 +140,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ExternalMemory" />
     <Folder Include="Utils" />
     <Folder Include="Protokoller" />
   </ItemGroup>
