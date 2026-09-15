@@ -12,6 +12,7 @@
  #define  CLEAR_BIT(x,n)  ((x) &= ~(1u<<(n)))
  #define  TOGGLE_BIT(x,n)  ((x) ^= (1u<<(n)))
  #define  CHECK_BIT(x,n)  ((x) >> (n)) & 1u)
+ #define  COMPARE_BIT(x,n) ((x) & (1u << (n))))
 
 
  #define BIT0 0
