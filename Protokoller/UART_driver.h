@@ -9,15 +9,17 @@
 #pragma once
 
 #define F_CPU 4915200UL
-#define BAUD 9600
-#define UBRR_VALUE ((F_CPU/(16UL*BAUD))-1)
 
 #include <avr/io.h>
 #include <stdio.h>
+#include <avr/interrupt.h>
 #include "../Utils/BitHandling.h"
 
-int UART_getchar(FILE *stream);
-int UART_putchar(char c, FILE *stream);
-unsigned char UART_receive(void);
-void UART_transmit(unsigned char data);
+//uint8_t buffer_is_empty(void);
+//uint8_t buffer_is_full(void);
+//uint8_t buffer_put(char data);
+//uint8_t buffer_get(char *data);
+
 void UART_init(void);
+void UART_sendChar(char data);
+void UART_sendString(const char *string);

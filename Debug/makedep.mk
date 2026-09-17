@@ -8,3 +8,5 @@ main.c
 
 Protokoller\UART_driver.c
 
+TEST_Functions\TEST_Functions.c
+

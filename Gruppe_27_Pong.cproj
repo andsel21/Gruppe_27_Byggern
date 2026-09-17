@@ -135,12 +135,19 @@
     <Compile Include="Protokoller\UART_driver.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="TEST_Functions\TEST_Functions.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="TEST_Functions\TEST_Functions.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Utils\BitHandling.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ExternalMemory" />
+    <Folder Include="TEST_Functions" />
     <Folder Include="Utils" />
     <Folder Include="Protokoller" />
   </ItemGroup>
