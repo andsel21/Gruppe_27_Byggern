@@ -35,6 +35,7 @@ int main(void)
     {
 		
 		sqaureWaveFuncPB0();
-        UART_sendString("Hello world!\r\n");
+        //UART_sendString("Hello world!\r\n");
+		printf("Hello World!\n");
     }
 }

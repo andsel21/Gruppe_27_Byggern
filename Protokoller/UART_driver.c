@@ -9,17 +9,30 @@
 #define BAUD        9600UL
 #define UBRR_VALUE  ((F_CPU / (16UL * BAUD)) - 1)
 
+struct ring_buffer{
+	uint8_t *buffer;
+	uint8_t bufferSize;
+	uint8_t head;
+	uint8_t tail;
+};
+
+
+
 #define BUFFER_SIZE 16
+static uint8_t buffer[BUFFER_SIZE];
+static struct ring_buffer tx_buffer = {.buffer = buffer, 
+									   .bufferSize = sizeof(buffer)};
+
 
 
 /* =========================================================
    TX RING BUFFER
    ========================================================= */
 
-volatile char tx_buffer[BUFFER_SIZE];
-
-volatile uint8_t tx_head = 0;
-volatile uint8_t tx_tail = 0;
+//volatile char tx_buffer[BUFFER_SIZE];
+//
+//volatile uint8_t tx_head = 0;
+//volatile uint8_t tx_tail = 0;
 
 
 /* =========================================================
@@ -40,49 +53,83 @@ volatile uint8_t priority_pending = 0;
    RING BUFFER FUNCTIONS
    ========================================================= */
 
-uint8_t buffer_is_empty(void)
+uint8_t buffer_is_empty(struct ring_buffer *rd)
+{ return (rd->head == rd->tail);}
+
+
+uint8_t buffer_is_full(struct ring_buffer *rd)
 {
-    return (tx_head == tx_tail);
-}
+    //return ((tx_head + 1) % BUFFER_SIZE == tx_tail);
+	//return (rd->head + 1 == rd->tail); //Same same? nei!!
 
+    uint8_t next = rd->head + 1;
 
-uint8_t buffer_is_full(void)
-{
-    return ((tx_head + 1) % BUFFER_SIZE == tx_tail);
-}
-
-
-uint8_t buffer_put(char data)
-{
-    uint8_t next = (tx_head + 1) % BUFFER_SIZE;
-
-    /* Buffer full */
-    if (next == tx_tail)
+    if (next >= rd->bufferSize)
     {
-        return 0;
+	    next = 0;
     }
 
-    tx_buffer[tx_head] = data;
-    tx_head = next;
+    return (next == rd->tail);
+    
+}
+
+
+uint8_t buffer_put(char data, struct ring_buffer *rd)
+{
+    if (buffer_is_full(rd))
+    { return 0;}
+
+    rd->buffer[rd->head] = data;
+    rd->head++;
+
+    if (rd->head >= rd->bufferSize)
+    { rd->head = 0; }
 
     return 1;
 }
 
 
-uint8_t buffer_get(char *data)
+uint8_t buffer_get(char *data, struct ring_buffer *rd)
 {
     /* Buffer empty */
-    if (tx_head == tx_tail)
-    {
-        return 0;
-    }
+    if (buffer_is_empty(rd))
+    {return 0;}
 
-    *data = tx_buffer[tx_tail];
+    *data = rd->buffer[rd->tail];
 
-    tx_tail = (tx_tail + 1) % BUFFER_SIZE;
+    //tx_tail = (tx_tail + 1) % BUFFER_SIZE;
+	rd->tail++;
+	
+	if(rd->tail >= rd->bufferSize){
+		rd->tail = 0;
+	}
 
     return 1;
 }
+
+
+
+int UART_putchar(char c, FILE *stream)
+{
+	/* Convert \n to \r\n for terminal */
+	if (c == '\n')
+	{
+		while (buffer_is_full(&tx_buffer))
+		{
+		}
+
+		UART_sendChar('\r');
+	}
+
+	while (buffer_is_full(&tx_buffer))
+	{
+	}
+
+	UART_sendChar(c);
+
+	return 0;
+}
+
 
 
 /* =========================================================
@@ -133,6 +180,9 @@ void UART_init(void)
         (1 << URSEL0) |
         (1 << UCSZ01) |
         (1 << UCSZ00);
+		
+		/* Connect printf to our UART */
+		fdevopen(UART_putchar,NULL);
 }
 
 
@@ -142,7 +192,7 @@ void UART_init(void)
 
 void UART_sendChar(char data)
 {
-    if (buffer_put(data))
+    if (buffer_put(data, &tx_buffer))
     {
         /*
          * Enable Data Register Empty interrupt.
@@ -161,7 +211,7 @@ void UART_sendString(const char *string)
 {
     while (*string != '\0')
     {
-        while (buffer_is_full())
+        while (buffer_is_full(&tx_buffer))
         {
 			
         }
@@ -212,6 +262,7 @@ ISR(USART0_RXC_vect)
 ISR(USART0_UDRE_vect)
 {
     char data;
+	
 
     if (priority_pending) //FIRST PRIORITY: Did we receive a character from the PC?
     {
@@ -219,7 +270,7 @@ ISR(USART0_UDRE_vect)
 
         priority_pending = 0;
     }
-    else if (buffer_get(&data)) //SECOND PRIORITY:Send normal data from ring buffer
+    else if (buffer_get(&data,&tx_buffer)) //SECOND PRIORITY:Send normal data from ring buffer
     {
         UDR0 = data;
     }
