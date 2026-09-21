@@ -13,6 +13,9 @@
 #include "Utils/BitHandling.h"
 #include "TEST_Functions/TEST_Functions.h"
 
+
+//Legger til tekst for git check
+
 /* =========================================================
    MAIN
    ========================================================= */
