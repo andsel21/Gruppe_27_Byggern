@@ -6,7 +6,7 @@ ExternalMemory\SRAM.c
 
 main.c
 
-Protokoller\UART_driver.c
+Communication\UART_driver.c
 
 TEST_Functions\TEST_Functions.c
 

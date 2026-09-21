@@ -9,7 +9,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <stdint.h>
-#include "Protokoller/UART_driver.h"
+#include "Communication/UART_driver.h"
 #include "Utils/BitHandling.h"
 #include "TEST_Functions/TEST_Functions.h"
 
