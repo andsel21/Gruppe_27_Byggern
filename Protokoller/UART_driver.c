@@ -207,20 +207,20 @@ void UART_sendChar(char data)
    SEND STRING
    ========================================================= */
 
-void UART_sendString(const char *string)
-{
-    while (*string != '\0')
-    {
-        while (buffer_is_full(&tx_buffer))
-        {
-			
-        }
-
-        UART_sendChar(*string);
-
-        string++;
-    }
-}
+//void UART_sendString(const char *string)
+//{
+    //while (*string != '\0')
+    //{
+        //while (buffer_is_full(&tx_buffer))
+        //{
+			//
+        //}
+//
+        //UART_sendChar(*string);
+//
+        //string++;
+    //}
+//}
 
 
 /* =========================================================

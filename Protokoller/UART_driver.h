@@ -22,4 +22,4 @@
 
 void UART_init(void);
 void UART_sendChar(char data);
-void UART_sendString(const char *string);
+//void UART_sendString(const char *string);

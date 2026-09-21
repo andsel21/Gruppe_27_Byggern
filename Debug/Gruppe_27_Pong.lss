@@ -13,21 +13,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000714  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000000a8  00000000  00000000  00000750  2**0
+  5 .debug_aranges 000000a0  00000000  00000000  00000750  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000ce1  00000000  00000000  000007f8  2**0
+  6 .debug_info   00000c80  00000000  00000000  000007f0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000008ce  00000000  00000000  000014d9  2**0
+  7 .debug_abbrev 000008ad  00000000  00000000  00001470  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000005d5  00000000  00000000  00001da7  2**0
+  8 .debug_line   0000059c  00000000  00000000  00001d1d  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001a0  00000000  00000000  0000237c  2**2
+  9 .debug_frame  00000180  00000000  00000000  000022bc  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000058d  00000000  00000000  0000251c  2**0
+ 10 .debug_str    00000576  00000000  00000000  0000243c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000466  00000000  00000000  00002aa9  2**0
+ 11 .debug_loc    00000402  00000000  00000000  000029b2  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000078  00000000  00000000  00002f0f  2**0
+ 12 .debug_ranges 00000070  00000000  00000000  00002db4  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -132,12 +132,12 @@ int main(void)
   c0:	f9 cf       	rjmp	.-14     	; 0xb4 <main+0x6>
 
 000000c2 <buffer_is_empty>:
+/* =========================================================
+   RING BUFFER FUNCTIONS
+   ========================================================= */
 
-        UART_sendChar(*string);
-
-        string++;
-    }
-}
+uint8_t buffer_is_empty(struct ring_buffer *rd)
+{ return (rd->head == rd->tail);}
   c2:	fc 01       	movw	r30, r24
   c4:	23 81       	ldd	r18, Z+3	; 0x03
   c6:	94 81       	ldd	r25, Z+4	; 0x04
@@ -147,63 +147,116 @@ int main(void)
   ce:	08 95       	ret
 
 000000d0 <buffer_is_full>:
+
+
+uint8_t buffer_is_full(struct ring_buffer *rd)
+{
   d0:	fc 01       	movw	r30, r24
+    //return ((tx_head + 1) % BUFFER_SIZE == tx_tail);
+	//return (rd->head + 1 == rd->tail); //Same same? nei!!
+
+    uint8_t next = rd->head + 1;
   d2:	93 81       	ldd	r25, Z+3	; 0x03
   d4:	9f 5f       	subi	r25, 0xFF	; 255
+
+    if (next >= rd->bufferSize)
   d6:	82 81       	ldd	r24, Z+2	; 0x02
   d8:	98 17       	cp	r25, r24
   da:	08 f0       	brcs	.+2      	; 0xde <buffer_is_full+0xe>
+    {
+	    next = 0;
   dc:	90 e0       	ldi	r25, 0x00	; 0
+    }
+
+    return (next == rd->tail);
   de:	24 81       	ldd	r18, Z+4	; 0x04
   e0:	81 e0       	ldi	r24, 0x01	; 1
   e2:	92 13       	cpse	r25, r18
   e4:	80 e0       	ldi	r24, 0x00	; 0
+    
+}
   e6:	08 95       	ret
 
 000000e8 <buffer_put>:
+
+
+uint8_t buffer_put(char data, struct ring_buffer *rd)
+{
   e8:	1f 93       	push	r17
   ea:	cf 93       	push	r28
   ec:	df 93       	push	r29
   ee:	18 2f       	mov	r17, r24
   f0:	eb 01       	movw	r28, r22
+    if (buffer_is_full(rd))
   f2:	cb 01       	movw	r24, r22
   f4:	0e 94 68 00 	call	0xd0	; 0xd0 <buffer_is_full>
   f8:	81 11       	cpse	r24, r1
   fa:	0f c0       	rjmp	.+30     	; 0x11a <buffer_put+0x32>
+    { return 0;}
+
+    rd->buffer[rd->head] = data;
   fc:	e8 81       	ld	r30, Y
   fe:	f9 81       	ldd	r31, Y+1	; 0x01
  100:	8b 81       	ldd	r24, Y+3	; 0x03
  102:	e8 0f       	add	r30, r24
  104:	f1 1d       	adc	r31, r1
  106:	10 83       	st	Z, r17
+    rd->head++;
  108:	8b 81       	ldd	r24, Y+3	; 0x03
  10a:	8f 5f       	subi	r24, 0xFF	; 255
  10c:	8b 83       	std	Y+3, r24	; 0x03
+
+    if (rd->head >= rd->bufferSize)
  10e:	9a 81       	ldd	r25, Y+2	; 0x02
  110:	89 17       	cp	r24, r25
  112:	28 f0       	brcs	.+10     	; 0x11e <buffer_put+0x36>
+    { rd->head = 0; }
  114:	1b 82       	std	Y+3, r1	; 0x03
+
+    return 1;
  116:	81 e0       	ldi	r24, 0x01	; 1
  118:	03 c0       	rjmp	.+6      	; 0x120 <buffer_put+0x38>
+
+
+uint8_t buffer_put(char data, struct ring_buffer *rd)
+{
+    if (buffer_is_full(rd))
+    { return 0;}
  11a:	80 e0       	ldi	r24, 0x00	; 0
  11c:	01 c0       	rjmp	.+2      	; 0x120 <buffer_put+0x38>
+    rd->head++;
+
+    if (rd->head >= rd->bufferSize)
+    { rd->head = 0; }
+
+    return 1;
  11e:	81 e0       	ldi	r24, 0x01	; 1
+}
  120:	df 91       	pop	r29
  122:	cf 91       	pop	r28
  124:	1f 91       	pop	r17
  126:	08 95       	ret
 
 00000128 <buffer_get>:
+
+
+uint8_t buffer_get(char *data, struct ring_buffer *rd)
+{
  128:	0f 93       	push	r16
  12a:	1f 93       	push	r17
  12c:	cf 93       	push	r28
  12e:	df 93       	push	r29
  130:	8c 01       	movw	r16, r24
  132:	eb 01       	movw	r28, r22
+    /* Buffer empty */
+    if (buffer_is_empty(rd))
  134:	cb 01       	movw	r24, r22
  136:	0e 94 61 00 	call	0xc2	; 0xc2 <buffer_is_empty>
  13a:	81 11       	cpse	r24, r1
  13c:	11 c0       	rjmp	.+34     	; 0x160 <buffer_get+0x38>
+    {return 0;}
+
+    *data = rd->buffer[rd->tail];
  13e:	e8 81       	ld	r30, Y
  140:	f9 81       	ldd	r31, Y+1	; 0x01
  142:	8c 81       	ldd	r24, Y+4	; 0x04
@@ -212,18 +265,40 @@ int main(void)
  148:	80 81       	ld	r24, Z
  14a:	f8 01       	movw	r30, r16
  14c:	80 83       	st	Z, r24
+
+    //tx_tail = (tx_tail + 1) % BUFFER_SIZE;
+	rd->tail++;
  14e:	8c 81       	ldd	r24, Y+4	; 0x04
  150:	8f 5f       	subi	r24, 0xFF	; 255
  152:	8c 83       	std	Y+4, r24	; 0x04
+	
+	if(rd->tail >= rd->bufferSize){
  154:	9a 81       	ldd	r25, Y+2	; 0x02
  156:	89 17       	cp	r24, r25
  158:	28 f0       	brcs	.+10     	; 0x164 <buffer_get+0x3c>
+		rd->tail = 0;
  15a:	1c 82       	std	Y+4, r1	; 0x04
+	}
+
+    return 1;
  15c:	81 e0       	ldi	r24, 0x01	; 1
  15e:	03 c0       	rjmp	.+6      	; 0x166 <buffer_get+0x3e>
+
+uint8_t buffer_get(char *data, struct ring_buffer *rd)
+{
+    /* Buffer empty */
+    if (buffer_is_empty(rd))
+    {return 0;}
  160:	80 e0       	ldi	r24, 0x00	; 0
  162:	01 c0       	rjmp	.+2      	; 0x166 <buffer_get+0x3e>
+	
+	if(rd->tail >= rd->bufferSize){
+		rd->tail = 0;
+	}
+
+    return 1;
  164:	81 e0       	ldi	r24, 0x01	; 1
+}
  166:	df 91       	pop	r29
  168:	cf 91       	pop	r28
  16a:	1f 91       	pop	r17
@@ -231,13 +306,38 @@ int main(void)
  16e:	08 95       	ret
 
 00000170 <UART_init>:
+     *
+     *      = 4915200 / (16 * 9600) - 1
+     *      = 31
+     */
+
+    UBRR0H = (uint8_t)(UBRR_VALUE >> 8);
  170:	10 bc       	out	0x20, r1	; 32
+    UBRR0L = (uint8_t)UBRR_VALUE;
  172:	8f e1       	ldi	r24, 0x1F	; 31
  174:	89 b9       	out	0x09, r24	; 9
+     *
+     * It means that when a character arrives from
+     * the computer, an interrupt will occur.
+     */
+
+    UCSR0B =
  176:	88 e9       	ldi	r24, 0x98	; 152
  178:	8a b9       	out	0x0a, r24	; 10
+     * 8 data bits
+     * No parity
+     * 1 stop bit
+     */
+
+    UCSR0C =
  17a:	86 e8       	ldi	r24, 0x86	; 134
  17c:	80 bd       	out	0x20, r24	; 32
+        (1 << URSEL0) |
+        (1 << UCSZ01) |
+        (1 << UCSZ00);
+		
+		/* Connect printf to our UART */
+		fdevopen(UART_putchar,NULL);
  17e:	60 e0       	ldi	r22, 0x00	; 0
  180:	70 e0       	ldi	r23, 0x00	; 0
  182:	80 ed       	ldi	r24, 0xD0	; 208
@@ -246,35 +346,71 @@ int main(void)
  18a:	08 95       	ret
 
 0000018c <UART_sendChar>:
+   SEND ONE CHARACTER
+   ========================================================= */
+
+void UART_sendChar(char data)
+{
+    if (buffer_put(data, &tx_buffer))
  18c:	66 e0       	ldi	r22, 0x06	; 6
  18e:	71 e0       	ldi	r23, 0x01	; 1
  190:	0e 94 74 00 	call	0xe8	; 0xe8 <buffer_put>
  194:	88 23       	and	r24, r24
  196:	19 f0       	breq	.+6      	; 0x19e <UART_sendChar+0x12>
+    {
+        /*
+         * Enable Data Register Empty interrupt.
+         */
+
+        UCSR0B |= (1 << UDRIE0);
  198:	8a b1       	in	r24, 0x0a	; 10
  19a:	80 62       	ori	r24, 0x20	; 32
  19c:	8a b9       	out	0x0a, r24	; 10
  19e:	08 95       	ret
 
 000001a0 <UART_putchar>:
+}
+
+
+
+int UART_putchar(char c, FILE *stream)
+{
  1a0:	cf 93       	push	r28
  1a2:	c8 2f       	mov	r28, r24
+	/* Convert \n to \r\n for terminal */
+	if (c == '\n')
  1a4:	8a 30       	cpi	r24, 0x0A	; 10
  1a6:	49 f4       	brne	.+18     	; 0x1ba <UART_putchar+0x1a>
+	{
+		while (buffer_is_full(&tx_buffer))
  1a8:	86 e0       	ldi	r24, 0x06	; 6
  1aa:	91 e0       	ldi	r25, 0x01	; 1
  1ac:	0e 94 68 00 	call	0xd0	; 0xd0 <buffer_is_full>
  1b0:	81 11       	cpse	r24, r1
  1b2:	fa cf       	rjmp	.-12     	; 0x1a8 <UART_putchar+0x8>
+		{
+		}
+
+		UART_sendChar('\r');
  1b4:	8d e0       	ldi	r24, 0x0D	; 13
  1b6:	0e 94 c6 00 	call	0x18c	; 0x18c <UART_sendChar>
+	}
+
+	while (buffer_is_full(&tx_buffer))
  1ba:	86 e0       	ldi	r24, 0x06	; 6
  1bc:	91 e0       	ldi	r25, 0x01	; 1
  1be:	0e 94 68 00 	call	0xd0	; 0xd0 <buffer_is_full>
  1c2:	81 11       	cpse	r24, r1
  1c4:	fa cf       	rjmp	.-12     	; 0x1ba <UART_putchar+0x1a>
+	{
+	}
+
+	UART_sendChar(c);
  1c6:	8c 2f       	mov	r24, r28
  1c8:	0e 94 c6 00 	call	0x18c	; 0x18c <UART_sendChar>
+
+	return 0;
+}
  1cc:	80 e0       	ldi	r24, 0x00	; 0
  1ce:	90 e0       	ldi	r25, 0x00	; 0
  1d0:	cf 91       	pop	r28
