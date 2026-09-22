@@ -1,5 +1,5 @@
-ExternalMemory/SRAM.d ExternalMemory/SRAM.o: ../ExternalMemory/SRAM.c \
- ../ExternalMemory/SRAM.h \
+ExternalMemory/ADC.d ExternalMemory/ADC.o: ../ExternalMemory/ADC.c \
+ ../ExternalMemory/ADC.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
@@ -16,7 +16,7 @@ ExternalMemory/SRAM.d ExternalMemory/SRAM.o: ../ExternalMemory/SRAM.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h
 
-../ExternalMemory/SRAM.h:
+../ExternalMemory/ADC.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
 

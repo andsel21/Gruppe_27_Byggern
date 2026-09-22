@@ -120,6 +120,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ExternalMemory\ADC.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ExternalMemory\ADC.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="ExternalMemory\SRAM.c">
       <SubType>compile</SubType>
     </Compile>
