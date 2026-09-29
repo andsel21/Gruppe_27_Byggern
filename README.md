@@ -1,6 +1,11 @@
 # Gruppe_27_Byggern
 TTK4155 - Embedded Pong  Lab 
 
+TODO:
+
+PD5 - clock signal til ADC. software må settes opp.
+
+
 
 Her kan vi lage til README-info som nødvendig info for prosjektet  
 
