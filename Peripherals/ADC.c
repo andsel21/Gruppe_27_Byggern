@@ -12,17 +12,13 @@
 
 /* MAX156 configuration bits */
 #define ADC_ALL  (1u << 7)
-#define ADC_DIFF (1u << 6)
-#define ADC_BIP  (1u << 5)
-#define ADC_INH  (1u << 4)
-#define ADC_PD   (1u << 3)
 
 /* BUSY connected to PE0 */
 #define ADC_BUSY  PE0
 
 void Init_ADC(void)
 {
-	// PD5 / OC1A as output
+	// PD5 / OC1A as output - connected to CLK (pin9) MAX156
 	DDRD |= (1 << PD5);
 
 	// Toggle OC1A on compare match
@@ -40,25 +36,65 @@ void Init_ADC(void)
 uint8_t ADC_read_channel(uint8_t channel)
 {
     uint8_t config;
+	uint8_t value;
 
     channel &= 0x03;       // MAX156: channel 0-3
 
     config = ADC_ALL | channel;
 
     *ADC_BASE = config;
-
+	
     /*
      * BUSY = 0 while converting.
      */
-    while (!(PINE & (1 << ADC_BUSY)))
-    {
-    }
-
+	
+	// Vent først på at BUSY faktisk går LOW
+	while (PINE & (1 << ADC_BUSY))
+	{
+	}
+	
+	while (!(PINE & (1 << ADC_BUSY))) //Vent mens BUSY e low. 
+	{
+		//printf("or if stuck here:\n");
+	}
     /*
      * Memory read:
      * ATmega automatically generates /CS + /RD.
      */
-    return *ADC_BASE;
+	
+	value = *ADC_BASE;
+    return value;
+}
+
+//uint8_t mapValue(uint8_t value, uint8_t fromMinValue, uint8_t fromMaxValue, uint8_t toMinValue, uint8_t toMaxValue){
+	//
+	//double normalizedValue = (value - fromMinValue)/(fromMaxValue - fromMinValue);
+	//
+	//uint8_t mappedValue = ((uint8_t)normalizedValue * (toMaxValue - toMinValue) + toMinValue);
+	//
+	//return mappedValue;
+//}
+
+int16_t mapValue(int16_t value, int16_t fromMinValue, int16_t fromMaxValue, int16_t toMinValue, int16_t toMaxValue)
+{
+	double normalizedValue = (double)(value - fromMinValue) / (fromMaxValue - fromMinValue);
+
+	int16_t mappedValue = (int16_t)(normalizedValue * (toMaxValue - toMinValue) + toMinValue);
+
+	if (mappedValue > 100){
+		mappedValue = 100;
+	}
+	if(mappedValue < -100){
+		mappedValue = -100;
+	}
+	return mappedValue;
 }
 
 
+void ADC_Print(int16_t value0, int16_t value1, int16_t x,int16_t y )
+{
+	printf(
+	"ValueCh0: %d, ValueCh1: %d y-axis: %d x-axis: %d\n",
+	value0,value1,y,x	
+	);
+}

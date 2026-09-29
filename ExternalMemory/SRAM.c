@@ -82,7 +82,7 @@ void WriteSRAM(struct MemoryReadWrite SRAMaddress){
 			if(SRAMaddress.PTR >= 0x1800 && SRAMaddress.PTR <= (0x1FFF - SRAMaddress.package_size)){
 			SRAMaddress.PTR[i] = SRAMaddress.package;
 			}else{
-				printf("Trying to write outside mem-area of SRAM")
+				printf("Trying to write outside mem-area of SRAM");
 			}
 		}	
 }
