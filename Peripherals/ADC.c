@@ -17,8 +17,8 @@
 #define ADC_INH  (1u << 4)
 #define ADC_PD   (1u << 3)
 
-/* BUSY connected to PE2 */
-#define ADC_BUSY  PE2
+/* BUSY connected to PE0 */
+#define ADC_BUSY  PE0
 
 void Init_ADC(void)
 {
@@ -45,11 +45,6 @@ uint8_t ADC_read_channel(uint8_t channel)
 
     config = ADC_ALL | channel;
 
-    /*
-     * Memory write:
-     * ATmega automatically generates /CS + /WR
-     * through external memory interface/address decoder.
-     */
     *ADC_BASE = config;
 
     /*
@@ -65,4 +60,5 @@ uint8_t ADC_read_channel(uint8_t channel)
      */
     return *ADC_BASE;
 }
+
 

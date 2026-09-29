@@ -120,12 +120,6 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ExternalMemory\ADC.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="ExternalMemory\ADC.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="ExternalMemory\SRAM.c">
       <SubType>compile</SubType>
     </Compile>
@@ -141,6 +135,18 @@
     <Compile Include="Communication\UART_driver.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Peripherals\ADC.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Peripherals\ADC.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Peripherals\Joystick.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Peripherals\Joystick.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="TEST_Functions\TEST_Functions.c">
       <SubType>compile</SubType>
     </Compile>
@@ -153,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ExternalMemory" />
+    <Folder Include="Peripherals" />
     <Folder Include="TEST_Functions" />
     <Folder Include="Utils" />
     <Folder Include="Communication" />
