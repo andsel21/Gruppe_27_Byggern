@@ -1,0 +1,20 @@
+[
+{
+  "directory": "C:/Users/torbl/OneDrive - NTNU/TTK4155 Embedded/Gruppe_27_Byggern/_build/Gruppe_27_Pong/Debug",
+  "command": "C:\\Users\\torbl\\.mplab\\app-finder\\apps\\avr-gcc\\v7.3.0\\avr8-gnu-toolchain-win32_x86_64\\bin\\avr-gcc.exe -DDebug=Debug -D__ATmega162__ -I\"C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/include\" -x c -fdiagnostics-color=always -g -gdwarf-2 -mmcu=atmega162 \"-BC:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega162\" -x c -c -funsigned-char -funsigned-bitfields -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -o CMakeFiles\\Gruppe_27_Pong_Debug_Debug_avr_gcc_compile.dir\\C_\\Users\\torbl\\OneDrive_-_NTNU\\TTK4155_Embedded\\Gruppe_27_Byggern\\ExternalMemory\\SRAM.c.o -c \"C:\\Users\\torbl\\OneDrive - NTNU\\TTK4155 Embedded\\Gruppe_27_Byggern\\ExternalMemory\\SRAM.c\"",
+  "file": "C:/Users/torbl/OneDrive - NTNU/TTK4155 Embedded/Gruppe_27_Byggern/ExternalMemory/SRAM.c",
+  "output": "C:/Users/torbl/OneDrive - NTNU/TTK4155 Embedded/Gruppe_27_Byggern/_build/Gruppe_27_Pong/Debug/CMakeFiles/Gruppe_27_Pong_Debug_Debug_avr_gcc_compile.dir/C_/Users/torbl/OneDrive_-_NTNU/TTK4155_Embedded/Gruppe_27_Byggern/ExternalMemory/SRAM.c.o"
+},
+{
+  "directory": "C:/Users/torbl/OneDrive - NTNU/TTK4155 Embedded/Gruppe_27_Byggern/_build/Gruppe_27_Pong/Debug",
+  "command": "C:\\Users\\torbl\\.mplab\\app-finder\\apps\\avr-gcc\\v7.3.0\\avr8-gnu-toolchain-win32_x86_64\\bin\\avr-gcc.exe -DDebug=Debug -D__ATmega162__ -I\"C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/include\" -x c -fdiagnostics-color=always -g -gdwarf-2 -mmcu=atmega162 \"-BC:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega162\" -x c -c -funsigned-char -funsigned-bitfields -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -o CMakeFiles\\Gruppe_27_Pong_Debug_Debug_avr_gcc_compile.dir\\C_\\Users\\torbl\\OneDrive_-_NTNU\\TTK4155_Embedded\\Gruppe_27_Byggern\\Protokoller\\UART_driver.c.o -c \"C:\\Users\\torbl\\OneDrive - NTNU\\TTK4155 Embedded\\Gruppe_27_Byggern\\Protokoller\\UART_driver.c\"",
+  "file": "C:/Users/torbl/OneDrive - NTNU/TTK4155 Embedded/Gruppe_27_Byggern/Protokoller/UART_driver.c",
+  "output": "C:/Users/torbl/OneDrive - NTNU/TTK4155 Embedded/Gruppe_27_Byggern/_build/Gruppe_27_Pong/Debug/CMakeFiles/Gruppe_27_Pong_Debug_Debug_avr_gcc_compile.dir/C_/Users/torbl/OneDrive_-_NTNU/TTK4155_Embedded/Gruppe_27_Byggern/Protokoller/UART_driver.c.o"
+},
+{
+  "directory": "C:/Users/torbl/OneDrive - NTNU/TTK4155 Embedded/Gruppe_27_Byggern/_build/Gruppe_27_Pong/Debug",
+  "command": "C:\\Users\\torbl\\.mplab\\app-finder\\apps\\avr-gcc\\v7.3.0\\avr8-gnu-toolchain-win32_x86_64\\bin\\avr-gcc.exe -DDebug=Debug -D__ATmega162__ -I\"C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/include\" -x c -fdiagnostics-color=always -g -gdwarf-2 -mmcu=atmega162 \"-BC:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega162\" -x c -c -funsigned-char -funsigned-bitfields -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -o CMakeFiles\\Gruppe_27_Pong_Debug_Debug_avr_gcc_compile.dir\\C_\\Users\\torbl\\OneDrive_-_NTNU\\TTK4155_Embedded\\Gruppe_27_Byggern\\main.c.o -c \"C:\\Users\\torbl\\OneDrive - NTNU\\TTK4155 Embedded\\Gruppe_27_Byggern\\main.c\"",
+  "file": "C:/Users/torbl/OneDrive - NTNU/TTK4155 Embedded/Gruppe_27_Byggern/main.c",
+  "output": "C:/Users/torbl/OneDrive - NTNU/TTK4155 Embedded/Gruppe_27_Byggern/_build/Gruppe_27_Pong/Debug/CMakeFiles/Gruppe_27_Pong_Debug_Debug_avr_gcc_compile.dir/C_/Users/torbl/OneDrive_-_NTNU/TTK4155_Embedded/Gruppe_27_Byggern/main.c.o"
+}
+]

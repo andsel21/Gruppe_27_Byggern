@@ -1,0 +1,4 @@
+C:/Users/torbl/OneDrive - NTNU/TTK4155 Embedded/Gruppe_27_Byggern/_build/Gruppe_27_Pong/Release/CMakeFiles/Gruppe_27_Pong_Release_Release_avr_gcc_compile.dir
+C:/Users/torbl/OneDrive - NTNU/TTK4155 Embedded/Gruppe_27_Byggern/_build/Gruppe_27_Pong/Release/CMakeFiles/Gruppe_27_Pong_Release_image_xh8Dnda9.dir
+C:/Users/torbl/OneDrive - NTNU/TTK4155 Embedded/Gruppe_27_Byggern/_build/Gruppe_27_Pong/Release/CMakeFiles/edit_cache.dir
+C:/Users/torbl/OneDrive - NTNU/TTK4155 Embedded/Gruppe_27_Byggern/_build/Gruppe_27_Pong/Release/CMakeFiles/rebuild_cache.dir

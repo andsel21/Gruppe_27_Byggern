@@ -1,0 +1,4 @@
+C:/Users/torbl/OneDrive - NTNU/TTK4155 Embedded/Gruppe_27_Byggern/_build/Gruppe_27_Pong/Debug/CMakeFiles/Gruppe_27_Pong_Debug_Debug_avr_gcc_compile.dir
+C:/Users/torbl/OneDrive - NTNU/TTK4155 Embedded/Gruppe_27_Byggern/_build/Gruppe_27_Pong/Debug/CMakeFiles/Gruppe_27_Pong_Debug_image_MpATHMyV.dir
+C:/Users/torbl/OneDrive - NTNU/TTK4155 Embedded/Gruppe_27_Byggern/_build/Gruppe_27_Pong/Debug/CMakeFiles/edit_cache.dir
+C:/Users/torbl/OneDrive - NTNU/TTK4155 Embedded/Gruppe_27_Byggern/_build/Gruppe_27_Pong/Debug/CMakeFiles/rebuild_cache.dir
