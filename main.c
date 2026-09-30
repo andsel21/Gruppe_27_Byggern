@@ -3,170 +3,193 @@
 #endif
 
 #include <avr/io.h>
-#include <stdio.h>
-#include "Protokoller/UART_driver.h"
+#include <avr/interrupt.h>
+#include <stdint.h>
+#include "Communication/UART_driver.h"
 #include "Utils/BitHandling.h"
+#include "TEST_Functions/TEST_Functions.h"
+#include "ExternalMemory/SRAM.h"
+#include "Peripherals/ADC.h"
+#include "Peripherals/Joystick.h"
 
-#define BAUD 9600UL
-#define UBRR_VALUE ((F_CPU / (16UL * BAUD)) - 1)
 
-//
-//
-///* =========================================================
-   //UART INITIALISERING
-   //========================================================= */
-//
-//void UART_init(void)
-//{
-    ///* Sett baudrate */
-    //UBRR0H = (unsigned char)(UBRR_VALUE >> 8);
-    //UBRR0L = (unsigned char)UBRR_VALUE;
-//
-    ///*
-     //* Enable Receiver og Transmitter.
-     //* Ingen interrupts brukes.
-     //*/
-    //UCSR0B =
-        //(1u << RXEN0) |
-        //(1u << TXEN0);
-//
-    ///*
-     //* URSEL0 = velg UCSR0C
-     //* 8 databits
-     //* No parity
-     //* 1 stopbit
-     //*/
-    //UCSR0C =
-        //(1u << URSEL0) |
-        //(1u << UCSZ01) |
-        //(1u << UCSZ00);
-//}
-//
-//
-///* =========================================================
-   //SEND ÉN CHARACTER
-   //========================================================= */
-//
-//void UART_transmit(unsigned char data)
-//{
-    ///*
-     //* Vent så lenge UDR0 IKKE er ledig.
-     //*
-     //* UDRE0 = 0 -> UDR0 opptatt
-     //* UDRE0 = 1 -> UDR0 ledig
-     //*/
-    //while (!(UCSR0A & (1u << UDRE0)))
-    //{
-        ///* Vent */
-    //}
-//
-    ///* Legg ny character i transmit-buffer */
-    //UDR0 = data;
-//}
-//
-//
-///* =========================================================
-   //RECEIVE ÉN CHARACTER
-   //========================================================= */
-//
-//unsigned char UART_receive(void)
-//{
-    ///*
-     //* Vent til en character er mottatt.
-     //*
-     //* RXC0 = 0 -> ingen ny data
-     //* RXC0 = 1 -> data tilgjengelig
-     //*/
-    //while (!(UCSR0A & (1u << RXC0)))
-    //{
-        ///* Vent */
-    //}
-//
-    //return UDR0;
-//}
-//
-//
-///* =========================================================
-   //FUNKSJON FOR PRINTF
-   //========================================================= */
-//
-//int UART_putchar(char c, FILE *stream)
-//{
-    ///*
-     //* Gjør \n om til \r\n slik at terminalen
-     //* får korrekt linjeskift.
-     //*/
-    //if (c == '\n')
-    //{
-        //UART_transmit('\r');
-    //}
-//
-    //UART_transmit((unsigned char)c);
-//
-    //return 0;
-//}
-//
-//
-///* =========================================================
-   //FUNKSJON FOR INPUT
-   //========================================================= */
-//
-//int UART_getchar(FILE *stream)
-//{
-    //return UART_receive();
-//}
-
+//Legger til tekst for git check
 
 /* =========================================================
-   MAIN / TESTPROGRAM
+   MAIN
    ========================================================= */
-void sqaureWaveFunc(){
-	PORTB |= (1 << PB0);   // sett PB0 hih
-	_delay_ms(250);   // styrer frekvensen
-	PORTB ^= (1 << PB0);  // sett PB0 low
-	_delay_ms(250);   // styrer frekvensen
-}
+
+//typedef struct joystick_Dir {
+	//uint8_t NEUTRAL,
+	//uint8_t LEFT,
+	//uint8_t RIGHT,
+	//uint8_t UP,
+	//uint8_t DOWN,
+//}joystick_Dir_t;
+//
 
 
 
 int main(void)
 {
-    unsigned char received;
-    int value = 42;
-	//DDRB |= (1 << PB0); //Enable Square Wave Function
-	SET_BIT(DDRB,PB0); //Enable Square Wave Function
 
+	
+	struct MemoryReadWrite SRAMaddress = {
+		.package = 0x0F,
+		.package_size = 2,
+		.PTR = 0x1800
+	};
+	
+	struct joystick_io js;
+	
+	joystickINIT(js);
+
+	
+	uint8_t adc_value;
+			
+	uint8_t ArrayToHoldTestData[SRAMaddress.package_size];
+	
     UART_init();
 
-    /*
-     * Koble stdin/stdout til UART-driveren.
-     */
-    fdevopen(UART_putchar, UART_getchar);
+    sei(); // Enable global interrupts
+	
+	InitSRAM();
+	Init_ADC();
+	
+	//SRAM_test();
 
-    /*
-     * Test printf
-     */
-    printf("UART test started\n");
-    printf("Value = %d\n", value);
-    printf("Type characters on the PC:\n");
+	uint8_t analogValue;
 
-    while (1)
+	while (1)
     {
-        /*
-         * Vent på character fra PC.
-         */
-        received = UART_receive();
+		SRAMaddress.PTR = 0x1800;
+		//adc_value = ADC_read_channel(0);
+		//printf("ADC channel:0 value: %d\n",adc_value);
+		//ADC_Print(0,ADC_read_channel(0));
+		
+		//joystick_Dir_t myDir;
+		
+		uint8_t var0 = ADC_read_channel(0);
+		uint8_t var1 = ADC_read_channel(1);
+		int16_t Raw_x = ADC_read_channel(2);
+		int16_t Raw_y = ADC_read_channel(3);
+		
+		int16_t scaledX = mapValue(Raw_x, 64, 255, -100, 100);
+		int16_t scaledY = mapValue(Raw_y, 77, 242, -100, 100);
+		
+		int16_t platX  = var0;
+		int16_t platY = var1;
+		
+		
+				
+				////kvadrant 1
+				//if(scaledX > 0 && scaledY > 0){
+					//if(scaledX > scaledY){
+						//myDir = RIGHT;
+						//}else{
+						//myDir = UP;
+					//}
+				//}
+//
+				////kvadrant 2
+				//if(scaledX < 0 && scaledY > 0){
+					//if(abs(scaledX) > abs(scaledY)){
+						//myDir = LEFT;
+						//}else{
+						//myDir = UP;
+					//}
+				//}
+//
+				////kvadrant 3
+				//if(scaledY<0 && scaledX > 0){
+					//if(abs(scaledX) > abs(scaledY)){
+						//myDir = DOWN;
+						//}else{
+						//myDir = RIGHT;
+					//}
+				//}
+//
+				////kvadrant 4
+				//if(scaledX < 0 && scaledY < 0){
+					//if(scaledX < scaledY){
+						//myDir = LEFT;
+						//}else{
+						//myDir = DOWN;
+					//}
+				//}
+		
+		ADC_Print(var0, var1,scaledX,scaledY);
+		
+	
+		//printf("%s",myDir);
+		
+		
+//
+		//analogValue = ADC_read_channel(0);
+		//ADC_Print(0, analogValue);
+		//_delay_ms(125);
+	    //analogValue = ADC_read_channel(1);
+		//ADC_Print(1, analogValue);
+		//_delay_ms(125);
+		//analogValue = ADC_read_channel(2);
+		//ADC_Print(2, analogValue);
+		//_delay_ms(125);
+		//analogValue = ADC_read_channel(3);
+		//ADC_Print(3, analogValue);
+		//printf("\n");
+		//_delay_ms(125);
+
 
         /*
-         * Send den samme tilbake til PC.
+         * Print result
          */
-        UART_transmit(received);
+        //ADC_Print(2, analogValue);
+
+
+        _delay_ms(100);
 		
+		sqaureWaveFuncPB0();
+
+		////SRAMaddress.PTR = 0x1800;
+		//WriteSRAM(SRAMaddress);
+		////SRAMaddress.PTR = 0x1800;
+		//ReadSRAM(SRAMaddress, ArrayToHoldTestData);
 		//
-		//sqaureWaveFunc();
+		//SRAM_test();
+	
+////
+		//uint8_t i = 0;
+		//uint8_t randomtall = 0xFF;
+		//for (i=0; i < 4; i++)
+		//{
+			//ext_ram[i] = randomtall;
+			//uint8_t readValue = ext_ram[i];
+			//
+			//printf("readValue: %d\n",readValue);
+		//}
+		//_delay_ms(250);
 		
+		
+		
+	
+		
+        //UART_sendString("Hello world!\r\n"); <---> old code
+		//printf("Hello World!\n");
+		
+		
+		//adc_value = ADC_read_channel(0);
+		//printf("Her kommer value: %d\n",adc_value);	
+		
+
+		//ext_ram = 0x1800;
+		//for (i =0; i < 2; i++)
+		//{
+			//ext_ram[i] = randomtall;
+			//uint8_t readValue = ext_ram[i];
+			//
+			//printf("readValue: %d\n",readValue);
+		//}
+				
+
     }
-
-
-    return 0;
 }

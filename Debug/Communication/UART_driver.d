@@ -1,5 +1,5 @@
-Protokoller/UART_driver.d Protokoller/UART_driver.o: \
- ../Protokoller/UART_driver.c ../Protokoller/UART_driver.h \
+Communication/UART_driver.d Communication/UART_driver.o: \
+ ../Communication/UART_driver.c ../Communication/UART_driver.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
@@ -15,9 +15,9 @@ Protokoller/UART_driver.d Protokoller/UART_driver.o: \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
- ../Protokoller/../Utils/BitHandling.h
+ ../Communication/../Utils/BitHandling.h
 
-../Protokoller/UART_driver.h:
+../Communication/UART_driver.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -49,4 +49,4 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
 
-../Protokoller/../Utils/BitHandling.h:
+../Communication/../Utils/BitHandling.h:
