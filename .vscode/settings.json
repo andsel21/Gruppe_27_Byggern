@@ -1,0 +1,8 @@
+{
+    "mplab.clangd.compileCommandsDir": "${workspaceFolder}\\_build\\Gruppe_27_Pong\\Release",
+    "mplab.clangd.arguments": [
+        "--header-insertion=never"
+    ],
+    "mplab.clangd.path": "c:\\Program Files\\Microchip\\xc8\\v4.00\\bin\\xc8-clangd.exe",
+    "C_Cpp.intelliSenseEngine": "disabled"
+}

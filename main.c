@@ -37,7 +37,7 @@ int main(void)
 	struct MemoryReadWrite SRAMaddress = {
 		.package = 0x0F,
 		.package_size = 2,
-		.PTR = 0x1800
+		.PTR = (volatile uint8_t*)0x1800
 	};
 	
 	struct joystick_io js;
@@ -62,7 +62,7 @@ int main(void)
 
 	while (1)
     {
-		SRAMaddress.PTR = 0x1800;
+		SRAMaddress.PTR = (volatile uint8_t*)0x1800;
 		//adc_value = ADC_read_channel(0);
 		//printf("ADC channel:0 value: %d\n",adc_value);
 		//ADC_Print(0,ADC_read_channel(0));
