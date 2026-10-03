@@ -16,8 +16,6 @@ struct ring_buffer{
 	uint8_t tail;
 };
 
-
-
 #define BUFFER_SIZE 16
 static uint8_t buffer[BUFFER_SIZE];
 static struct ring_buffer tx_buffer = {.buffer = buffer, 
@@ -108,27 +106,6 @@ uint8_t buffer_get(char *data, struct ring_buffer *rd)
 }
 
 
-//
-//int UART_putchar(char c, FILE *stream)
-//{
-	///* Convert \n to \r\n for terminal */
-	//if (c == '\n')
-	//{
-		//while (buffer_is_full(&tx_buffer))
-		//{
-		//}
-//
-		//UART_sendChar('\r');
-	//}
-//
-	//while (buffer_is_full(&tx_buffer))
-	//{
-	//}
-//
-	//UART_sendChar(c);
-//
-	//return 0;
-//}
 
 int UART_putchar(char c, FILE *stream)
 {
@@ -140,6 +117,18 @@ int UART_putchar(char c, FILE *stream)
 	UART_sendChar(c);
 
 	return 0;
+}
+
+void UART_sendChar(char c)
+{
+	while (buffer_is_full(&tx_buffer))
+	{
+	}
+
+	buffer_put(c, &tx_buffer);
+
+	// Enable UDRE interrupt
+	UCSR0B |= (1 << UDRIE0);
 }
 
 
@@ -199,56 +188,6 @@ void UART_init(void)
 
 
 /* =========================================================
-   SEND ONE CHARACTER
-   ========================================================= */
-
-//void UART_sendChar(char data)
-//{
-    //if (buffer_put(data, &tx_buffer))
-    //{
-        ///*
-         //* Enable Data Register Empty interrupt.
-         //*/
-//
-        //UCSR0B |= (1 << UDRIE0);
-    //}
-//}
-
-
-void UART_sendChar(char c)
-{
-	while (buffer_is_full(&tx_buffer))
-	{
-	}
-
-	buffer_put(c, &tx_buffer);
-
-	// Enable UDRE interrupt
-	UCSR0B |= (1 << UDRIE0);
-}
-
-
-/* =========================================================
-   SEND STRING
-   ========================================================= */
-
-//void UART_sendString(const char *string)
-//{
-    //while (*string != '\0')
-    //{
-        //while (buffer_is_full(&tx_buffer))
-        //{
-			//
-        //}
-//
-        //UART_sendChar(*string);
-//
-        //string++;
-    //}
-//}
-
-
-/* =========================================================
    RECEIVE COMPLETE INTERRUPT
    ========================================================= */
 
@@ -304,3 +243,4 @@ ISR(USART0_UDRE_vect)
         UCSR0B &= ~(1 << UDRIE0);
     }
 }
+

@@ -4,9 +4,12 @@
     "configurations": [
         {
             "name": "Release",
+            "id": "",
             "device": "ATmega162",
             "imageType": "application",
             "imagePath": "./out/Gruppe_27_Pong/Release.elf",
+            "toolProperties": "Release-tool-base",
+            "tool": "Atmel-ICE",
             "packs": [
                 {
                     "name": "ATmega_DFP",
@@ -15,7 +18,8 @@
                 }
             ],
             "fileSet": "Release files",
-            "toolchain": "Release-avr-gcc"
+            "toolchain": "Release-avr-gcc",
+            "userVariables": "Release-uservariables"
         },
         {
             "name": "Debug",
@@ -35,9 +39,14 @@
     ],
     "propertyGroups": [
         {
+            "name": "Release-uservariables",
+            "type": "uservariables",
+            "properties": {}
+        },
+        {
             "name": "Debug-avr-gcc",
             "type": "toolchain",
-            "provider": "microchip.toolchains:xc8@4.00",
+            "provider": "microchip.toolchains:avr-gcc@14.3.0",
             "properties": {
                 "global.relax-branches": false,
                 "global.external-ram-check": false,
@@ -96,20 +105,20 @@
                 "compiler++.support-ansi": false,
                 "compiler++.save-temps": false,
                 "linker.input-libraries": "m",
-                "compiler.appendMe": [
-                    "-g2"
-                ],
                 "global.omit-pack-options": "true",
                 "global.user-pack-include": [
                     "C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/include"
                 ],
-                "global.user-pack-device-support": "C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega162"
+                "global.user-pack-device-support": "C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega162",
+                "compiler.additional-options-command-line": [
+                    "-g2"
+                ]
             }
         },
         {
             "name": "Release-avr-gcc",
             "type": "toolchain",
-            "provider": "microchip.toolchains:xc8@4.00",
+            "provider": "microchip.toolchains:avr-gcc@14.3.0",
             "properties": {
                 "global.relax-branches": false,
                 "global.external-ram-check": false,
@@ -175,6 +184,11 @@
                 ],
                 "global.user-pack-device-support": "C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega162"
             }
+        },
+        {
+            "name": "Release-tool-base",
+            "type": "tool",
+            "properties": {}
         }
     ],
     "fileSets": [

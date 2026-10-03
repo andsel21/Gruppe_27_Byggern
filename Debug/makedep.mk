@@ -14,3 +14,5 @@ Peripherals\Joystick.c
 
 TEST_Functions\TEST_Functions.c
 
+Timers\Timers.c
+

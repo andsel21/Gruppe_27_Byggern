@@ -3,6 +3,14 @@
     "mplab.clangd.arguments": [
         "--header-insertion=never"
     ],
-    "mplab.clangd.path": "c:\\Program Files\\Microchip\\xc8\\v4.00\\bin\\xc8-clangd.exe",
-    "C_Cpp.intelliSenseEngine": "disabled"
+    "mplab.clangd.path": "",
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "memory-inspector.debugTypes": [
+        "arm-debugger",
+        "embedded-debug",
+        "gdb",
+        "gdbtarget",
+        "mplab-core-da"
+    ],
+    "cmake.sourceDirectory": "/run/media/student/OSDisk/Users/andrksel/Desktop/Gruppe_27_Byggern/proj/VSC_Gruppe27_Byggern/Codebase_031026/Gruppe_27_Byggern/cmake/Gruppe_27_Pong/Debug"
 }
