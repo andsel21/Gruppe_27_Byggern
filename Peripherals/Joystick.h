@@ -12,16 +12,34 @@
 #include <stdio.h>
 #include <avr/io.h>
 #include <stdbool.h>
+#include <avr/interrupt.h>
 
-#include "ADC.h"
+volatile uint8_t buttonPressed;
 
-struct joystick_io{
-	uint8_t x_axis;
-	uint8_t y_axis;
+typedef enum {
+	NEUTRAL,
+	LEFT,
+	RIGHT,
+	DOWN,
+	UP
+}Direction_t;
+
+
+typedef struct {
+	uint8_t RAW_x_axis;
+	uint8_t RAW_y_axis;
+	uint8_t RAW_x_joypad;
+	uint8_t RAW_y_joypad;
+	int16_t scaled_x_axis;
+	int16_t scaled_y_axis;
+	int16_t scaled_x_joypad;
+	int16_t scaled_y_joypad;
 	bool btn;
-};
+}joystick_io_t;
 
 
-void joystickINIT(struct joystick_io js);
-void ReadJoystickPos(struct joystick_io io);
-void btnRead(struct joystick_io io);
+void joystickINIT(joystick_io_t *js);
+
+void ReadAndScale(joystick_io_t *js);
+void JoyStickPos_Print(joystick_io_t *js);
+Direction_t JoyDirection(joystick_io_t *js);

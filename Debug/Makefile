@@ -34,6 +34,7 @@ LINKER_SCRIPT_DEP:=
 # Every subdirectory with source files must be described here
 SUBDIRS :=  \
 ../ExternalMemory \
+../Timers \
 ../Peripherals \
 ../TEST_Functions \
 ../Utils \
@@ -47,7 +48,8 @@ C_SRCS +=  \
 ../Communication/UART_driver.c \
 ../Peripherals/ADC.c \
 ../Peripherals/Joystick.c \
-../TEST_Functions/TEST_Functions.c
+../TEST_Functions/TEST_Functions.c \
+../Timers/Timers.c
 
 
 PREPROCESSING_SRCS += 
@@ -62,7 +64,8 @@ main.o \
 Communication/UART_driver.o \
 Peripherals/ADC.o \
 Peripherals/Joystick.o \
-TEST_Functions/TEST_Functions.o
+TEST_Functions/TEST_Functions.o \
+Timers/Timers.o
 
 OBJS_AS_ARGS +=  \
 ExternalMemory/SRAM.o \
@@ -70,7 +73,8 @@ main.o \
 Communication/UART_driver.o \
 Peripherals/ADC.o \
 Peripherals/Joystick.o \
-TEST_Functions/TEST_Functions.o
+TEST_Functions/TEST_Functions.o \
+Timers/Timers.o
 
 C_DEPS +=  \
 ExternalMemory/SRAM.d \
@@ -78,7 +82,8 @@ main.d \
 Communication/UART_driver.d \
 Peripherals/ADC.d \
 Peripherals/Joystick.d \
-TEST_Functions/TEST_Functions.d
+TEST_Functions/TEST_Functions.d \
+Timers/Timers.d
 
 C_DEPS_AS_ARGS +=  \
 ExternalMemory/SRAM.d \
@@ -86,7 +91,8 @@ main.d \
 Communication/UART_driver.d \
 Peripherals/ADC.d \
 Peripherals/Joystick.d \
-TEST_Functions/TEST_Functions.d
+TEST_Functions/TEST_Functions.d \
+Timers/Timers.d
 
 OUTPUT_FILE_PATH +=Gruppe_27_Pong.elf
 
@@ -138,6 +144,13 @@ Peripherals/Joystick.o: ../Peripherals/Joystick.c
 	
 
 TEST_Functions/TEST_Functions.o: ../TEST_Functions/TEST_Functions.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega162 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega162" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+Timers/Timers.o: ../Timers/Timers.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega162 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega162" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
