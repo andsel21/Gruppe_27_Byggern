@@ -136,6 +136,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Communication\SPI_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Communication\SPI_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="ExternalMemory\SRAM.c">
       <SubType>compile</SubType>
     </Compile>

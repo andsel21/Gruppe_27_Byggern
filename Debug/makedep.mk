@@ -2,6 +2,8 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+Communication\SPI_driver.c
+
 ExternalMemory\SRAM.c
 
 main.c

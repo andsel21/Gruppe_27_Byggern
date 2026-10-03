@@ -30,10 +30,10 @@ ISR(TIMER3_COMPA_vect){
 	
 	// Clear pending INT0 flag caused by bouncing
 	GIFR |= (1 << INTF0);
-	 //Button External interrupt Enable
-	 GICR |= (1<<INT0);
+	//Button External interrupt Enable
+	GICR |= (1<<INT0);
 	 
-	 //Prescalar 64: Start Timer (CS11 = 1m CS10 = 1)
-	 TCCR3B &= ~(1<<CS31);
-	 TCCR3B &= ~(1 << CS30);
+	//Prescalar 64: Start Timer (CS11 = 1m CS10 = 1)
+	TCCR3B &= ~(1<<CS31);
+	TCCR3B &= ~(1 << CS30);
 }

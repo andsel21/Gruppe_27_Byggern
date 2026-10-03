@@ -43,6 +43,7 @@ SUBDIRS :=  \
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../Communication/SPI_driver.c \
 ../ExternalMemory/SRAM.c \
 ../main.c \
 ../Communication/UART_driver.c \
@@ -59,6 +60,7 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+Communication/SPI_driver.o \
 ExternalMemory/SRAM.o \
 main.o \
 Communication/UART_driver.o \
@@ -68,6 +70,7 @@ TEST_Functions/TEST_Functions.o \
 Timers/Timers.o
 
 OBJS_AS_ARGS +=  \
+Communication/SPI_driver.o \
 ExternalMemory/SRAM.o \
 main.o \
 Communication/UART_driver.o \
@@ -77,6 +80,7 @@ TEST_Functions/TEST_Functions.o \
 Timers/Timers.o
 
 C_DEPS +=  \
+Communication/SPI_driver.d \
 ExternalMemory/SRAM.d \
 main.d \
 Communication/UART_driver.d \
@@ -86,6 +90,7 @@ TEST_Functions/TEST_Functions.d \
 Timers/Timers.d
 
 C_DEPS_AS_ARGS +=  \
+Communication/SPI_driver.d \
 ExternalMemory/SRAM.d \
 main.d \
 Communication/UART_driver.d \
@@ -108,6 +113,13 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+Communication/SPI_driver.o: ../Communication/SPI_driver.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega162 -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega162" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 ExternalMemory/SRAM.o: ../ExternalMemory/SRAM.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
