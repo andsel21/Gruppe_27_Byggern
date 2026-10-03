@@ -671,7 +671,7 @@
         "uuid": "43741492-b21a-4f5a-8ce1-a54a4b312e32"
       }
     ],
-    "used_designators": "0.1µ1,#PWR1-42,SW1-2,R1-3,J1-3,C1-12,U1-4,U7-13,ADC1-2,4.7my1-3,PC_UART1",
+    "used_designators": "#PWR1-48,0.1µ1,SW1-3,J1-3,R1-3,C1-12,OLED_Controller1,U1-4,U7-13,ADC1-2,4.7my1-3,PC_UART1,0.1my1",
     "variants": []
   },
   "sheets": [
