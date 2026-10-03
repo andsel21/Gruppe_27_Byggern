@@ -671,13 +671,17 @@
         "uuid": "43741492-b21a-4f5a-8ce1-a54a4b312e32"
       }
     ],
-    "used_designators": "0.1µ1,#PWR1-26,SW1-2,R1-2,J1-2,C1-12,U1-4,U7-10,ADC1",
+    "used_designators": "0.1µ1,#PWR1-42,SW1-2,R1-3,J1-3,C1-12,U1-4,U7-13,ADC1-2,4.7my1-3,PC_UART1",
     "variants": []
   },
   "sheets": [
     [
       "43741492-b21a-4f5a-8ce1-a54a4b312e32",
       "Root"
+    ],
+    [
+      "e2e8edda-29b2-43f8-8993-42c235fc9719",
+      "SRAM Block"
     ]
   ],
   "text_variables": {},
