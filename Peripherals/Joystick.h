@@ -13,15 +13,26 @@
 #include <avr/io.h>
 #include <stdbool.h>
 
-#include "ADC.h"
+typedef enum {
+	NEUTRAL,
+	LEFT,
+	RIGHT,
+	DOWN,
+	UP
+}Direction_t;
 
-struct joystick_io{
-	uint8_t x_axis;
-	uint8_t y_axis;
+
+typedef struct {
+	uint8_t RAW_x_axis;
+	uint8_t RAW_y_axis;
+	int16_t scaled_x_axis;
+	int16_t scaled_y_axis;
 	bool btn;
-};
+}joystick_io_t;
 
 
-void joystickINIT(struct joystick_io js);
-void ReadJoystickPos(struct joystick_io io);
-void btnRead(struct joystick_io io);
+void joystickINIT(joystick_io_t *js);
+
+joystick_io_t ReadAndScale();
+void JoyStickPos_Print(joystick_io_t *js);
+Direction_t JoyDirection(joystick_io_t *js);

@@ -13,39 +13,23 @@
 #include "Peripherals/Joystick.h"
 
 
-//Legger til tekst for git check
-
 /* =========================================================
    MAIN
    ========================================================= */
 
-//typedef struct joystick_Dir {
-	//uint8_t NEUTRAL,
-	//uint8_t LEFT,
-	//uint8_t RIGHT,
-	//uint8_t UP,
-	//uint8_t DOWN,
-//}joystick_Dir_t;
-//
-
-
+joystick_io_t JOYSTICK;
+Direction_t DIR_JOYSTICK;
 
 int main(void)
 {
-
-	
 	struct MemoryReadWrite SRAMaddress = {
 		.package = 0x0F,
 		.package_size = 2,
 		.PTR = (volatile uint8_t*)0x1800
 	};
 	
-	struct joystick_io js;
+	joystickINIT(&JOYSTICK);	
 	
-	joystickINIT(js);
-
-	
-	uint8_t adc_value;
 			
 	uint8_t ArrayToHoldTestData[SRAMaddress.package_size];
 	
@@ -58,94 +42,16 @@ int main(void)
 	
 	//SRAM_test();
 
-	uint8_t analogValue;
-
 	while (1)
     {
 		SRAMaddress.PTR = (volatile uint8_t*)0x1800;
-		//adc_value = ADC_read_channel(0);
-		//printf("ADC channel:0 value: %d\n",adc_value);
-		//ADC_Print(0,ADC_read_channel(0));
-		
-		//joystick_Dir_t myDir;
-		
-		uint8_t var0 = ADC_read_channel(0);
-		uint8_t var1 = ADC_read_channel(1);
-		int16_t Raw_x = ADC_read_channel(2);
-		int16_t Raw_y = ADC_read_channel(3);
-		
-		int16_t scaledX = mapValue(Raw_x, 64, 255, -100, 100);
-		int16_t scaledY = mapValue(Raw_y, 77, 242, -100, 100);
-		
-		int16_t platX  = var0;
-		int16_t platY = var1;
-		
-		
-				
-				////kvadrant 1
-				//if(scaledX > 0 && scaledY > 0){
-					//if(scaledX > scaledY){
-						//myDir = RIGHT;
-						//}else{
-						//myDir = UP;
-					//}
-				//}
-//
-				////kvadrant 2
-				//if(scaledX < 0 && scaledY > 0){
-					//if(abs(scaledX) > abs(scaledY)){
-						//myDir = LEFT;
-						//}else{
-						//myDir = UP;
-					//}
-				//}
-//
-				////kvadrant 3
-				//if(scaledY<0 && scaledX > 0){
-					//if(abs(scaledX) > abs(scaledY)){
-						//myDir = DOWN;
-						//}else{
-						//myDir = RIGHT;
-					//}
-				//}
-//
-				////kvadrant 4
-				//if(scaledX < 0 && scaledY < 0){
-					//if(scaledX < scaledY){
-						//myDir = LEFT;
-						//}else{
-						//myDir = DOWN;
-					//}
-				//}
-		
-		ADC_Print(var0, var1,scaledX,scaledY);
-		
-	
-		//printf("%s",myDir);
-		
-		
-//
-		//analogValue = ADC_read_channel(0);
-		//ADC_Print(0, analogValue);
-		//_delay_ms(125);
-	    //analogValue = ADC_read_channel(1);
-		//ADC_Print(1, analogValue);
-		//_delay_ms(125);
-		//analogValue = ADC_read_channel(2);
-		//ADC_Print(2, analogValue);
-		//_delay_ms(125);
-		//analogValue = ADC_read_channel(3);
-		//ADC_Print(3, analogValue);
-		//printf("\n");
-		//_delay_ms(125);
 
+		JOYSTICK = ReadAndScale();
+		
+		JoyStickPos_Print(&JOYSTICK);
 
-        /*
-         * Print result
-         */
-        //ADC_Print(2, analogValue);
-
-
+		DIR_JOYSTICK = JoyDirection(&JOYSTICK);
+		
         _delay_ms(100);
 		
 		sqaureWaveFuncPB0();
@@ -167,7 +73,7 @@ int main(void)
 			//
 			//printf("readValue: %d\n",readValue);
 		//}
-		//_delay_ms(250);
+		_delay_ms(250);
 		
 		
 		

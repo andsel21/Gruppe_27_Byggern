@@ -46,7 +46,7 @@
 */
 
 // BRUK PC3 - A11 til Chip select SRAM har en aktiv hly og en aktiv lav signal. 
-//Så PC3/A11 kan brukes til både ADC og SRAM chip.
+//Sï¿½ PC3/A11 kan brukes til bï¿½de ADC og SRAM chip.
 
 
 #include "SRAM.h"

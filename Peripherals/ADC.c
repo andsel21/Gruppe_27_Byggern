@@ -8,6 +8,9 @@
 
 #include "ADC.h"
 
+
+#define ADC_TIMEOUT 10000UL
+
 #define ADC_BASE ((volatile uint8_t *)0x1000)
 
 /* MAX156 configuration bits */
@@ -21,6 +24,9 @@ void Init_ADC(void)
 	// PD5 / OC1A as output - connected to CLK (pin9) MAX156
 	DDRD |= (1 << PD5);
 
+	DDRD &= ~(1 << PD3);
+	PORTD|= (1 << PD3);
+	//cli(); ?????????
 	// Toggle OC1A on compare match
 	// Timer1 CTC mode
 	TCCR1A = (1 << COM1A0);
@@ -31,11 +37,14 @@ void Init_ADC(void)
 		
 	// BUSY as input
 	DDRE &= ~(1 << ADC_BUSY);
+	//sei(); ?????????????
 }
+
 
 uint8_t ADC_read_channel(uint8_t channel)
 {
     uint8_t config;
+	uint32_t timeout;
 	uint8_t value;
 
     channel &= 0x03;       // MAX156: channel 0-3
@@ -48,14 +57,25 @@ uint8_t ADC_read_channel(uint8_t channel)
      * BUSY = 0 while converting.
      */
 	
-	// Vent først på at BUSY faktisk går LOW
+	timeout = ADC_TIMEOUT;
+	
+	// Vent fï¿½rst pï¿½ at BUSY faktisk gï¿½r LOW
 	while (PINE & (1 << ADC_BUSY))
 	{
+		 if (--timeout == 0)
+        {
+            return 0;
+        }
 	}
 	
+	timeout = ADC_TIMEOUT;
+
 	while (!(PINE & (1 << ADC_BUSY))) //Vent mens BUSY e low. 
 	{
-		//printf("or if stuck here:\n");
+		if (--timeout == 0)
+        {
+            return 0;
+        }
 	}
     /*
      * Memory read:
@@ -66,35 +86,6 @@ uint8_t ADC_read_channel(uint8_t channel)
     return value;
 }
 
-//uint8_t mapValue(uint8_t value, uint8_t fromMinValue, uint8_t fromMaxValue, uint8_t toMinValue, uint8_t toMaxValue){
-	//
-	//double normalizedValue = (value - fromMinValue)/(fromMaxValue - fromMinValue);
-	//
-	//uint8_t mappedValue = ((uint8_t)normalizedValue * (toMaxValue - toMinValue) + toMinValue);
-	//
-	//return mappedValue;
-//}
-
-int16_t mapValue(int16_t value, int16_t fromMinValue, int16_t fromMaxValue, int16_t toMinValue, int16_t toMaxValue)
-{
-	double normalizedValue = (double)(value - fromMinValue) / (fromMaxValue - fromMinValue);
-
-	int16_t mappedValue = (int16_t)(normalizedValue * (toMaxValue - toMinValue) + toMinValue);
-
-	if (mappedValue > 100){
-		mappedValue = 100;
-	}
-	if(mappedValue < -100){
-		mappedValue = -100;
-	}
-	return mappedValue;
-}
 
 
-void ADC_Print(int16_t value0, int16_t value1, int16_t x,int16_t y )
-{
-	printf(
-	"ValueCh0: %d, ValueCh1: %d y-axis: %d x-axis: %d\n",
-	value0,value1,y,x	
-	);
-}
+
