@@ -9,11 +9,13 @@
 
 #include <avr/io.h>
 
+
 typedef enum{
 	SPI_ID_OLED,
+	SPI_ID_CONTROLLER,
 	SPI_ID_CAN,
 	SS3
 	}SPI_CS_t;
 
 void Init_SPI(void);
-uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS);
+uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS, uint8_t D_C);

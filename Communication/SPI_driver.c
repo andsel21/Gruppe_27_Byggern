@@ -42,24 +42,41 @@ void Init_SPI(void){
 	//CPOL = 0, CPHA = 0 (MODE 0)
 	SPCR = (1 << SPE) | (1 << MSTR);
 	//SPSR: Ensure no double speed
-	SPSR = ~(1 << SPI2X);
-	//Setting Clock-rate
-	SPCR |= (1<<SPR0);
-	SPCR &= ~(1<<SPR1); 
+	SPSR &= ~(1 << SPI2X);
+	//Setting Clock-rate fosc/64
+	SPCR &= ~(1<<SPR0);
+	SPCR |= (1<<SPR1); 
 }
 
 
-uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS){
+uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS, uint8_t D_C){
 	
-	if(CS == SPI_ID_OLED){ //N�r man sender data ut p� MOSI, vil OLED returnere samme data p� MISO.
+	if(CS == SPI_ID_CONTROLLER){ //N�r man sender data ut p� MOSI, vil OLED returnere samme data p� MISO.
+		PORTB |= (1 << PB3); // Deaktiverer OLED SLAVE cHIP
 		PORTB &= ~(1<<PB4); //Aktiver Slave chip, deaktiver andre senere
 		SPDR = byte;
 		while(!(SPSR & (1 << SPIF))); //Wait for transmission complete
-		PORTB |= (1<<PB4); // FOR TEST
+		PORTB |= (1<<PB4); // deaktiverer etter melding
 		if(SPDR != byte){
 			printf("DIFFERENCE!! \n"); //Kan lages som til error-funksjon`?
 		}
 		
+		return SPDR;
+	}
+
+	if(CS == SPI_ID_OLED){
+		PORTB |= (1 << PB4); // Deaktiverer CONTROLLER SLAVE cHIP
+		PORTB &= ~(1<<PB3); //Aktiver Slave chip, deaktiver andre senere
+		if(D_C){
+			PORTB |= (1<<PB2); //D/C# PIN	
+		}
+		SPDR = byte;
+		while(!(SPSR & (1 << SPIF)));
+		// PORTB |= (1<<PB3);  // Deaktivere etter melding
+		PORTB &= ~(1<<PB2); // D/C# PIN
+		if(SPDR != byte){
+			printf("OLED!! \n"); //Kan lages som til error-funksjon`?
+		}
 		return SPDR;
 	}
 	
