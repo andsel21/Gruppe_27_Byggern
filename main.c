@@ -122,7 +122,18 @@ int main(void)
 
 	Init_OLED();
 	reset();
-	OLED_print_arrow(7, 80);
+	OLED_print_arrow(4, 80);
+	OLED_print_arrow(4, 80);
+	OLED_print_arrow(4, 80);
+	OLED_print_arrow(4, 80);
+	OLED_print_arrow(4, 80);
+	OLED_print_arrow(4, 80);
+
+
+	for(uint8_t i = 0; i < 100;i++){
+	OLED_print_arrow(4, i);
+	}
+
 
 
 

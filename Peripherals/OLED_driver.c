@@ -79,17 +79,17 @@ void OLED_print_arrow(uint8_t page, uint8_t column){
 	// PORTB |= (1<<PB1);
 
 	writeBYTE = 0xAF;
-	readBYTE = SPI_Transfer(writeBYTE, ChipSelect, 0);
+	readBYTE = SPI_Transfer(writeBYTE, SPI_ID_OLED, 0);
 	_delay_ms(150);
 
 	writeBYTE = 0xA4;
-	readBYTE = SPI_Transfer(writeBYTE, ChipSelect, 0);	
+	readBYTE = SPI_Transfer(writeBYTE, SPI_ID_OLED, 0);	
 
 	writeBYTE = 0xA6;
-	readBYTE = SPI_Transfer(writeBYTE, ChipSelect, 0);	
+	readBYTE = SPI_Transfer(writeBYTE, SPI_ID_OLED, 0);	
 	
-	SPI_Transfer(0x00 ,ChipSelect, 0);  // Lower column
-	SPI_Transfer(0x10 ,ChipSelect, 0);  // Higher column
+	SPI_Transfer(0x00 ,SPI_ID_OLED, 0);  // Lower column
+	SPI_Transfer(0x10 ,SPI_ID_OLED, 0);  // Higher column
 	//SKRU AV LED
 	// writeBYTE = 0xAE;
 	// readBYTE = SPI_Transfer(writeBYTE, ChipSelect);	
@@ -99,9 +99,9 @@ void OLED_print_arrow(uint8_t page, uint8_t column){
 
 void reset(){
 	for (uint8_t j = 0; j < 8; j++) {
-		SPI_Transfer(0xB0 | (j & 0x0F), ChipSelect, 0);          // Page 0
+		SPI_Transfer(0xB0 | (j & 0x0F), SPI_ID_OLED, 0);          // Page 0
 		for (uint8_t i = 0x00; i < 0x80; i += 1){
-	    	SPI_Transfer(0x00, ChipSelect, 1);
+	    	SPI_Transfer(0x00, SPI_ID_OLED, 1);
 			// _delay_ms(1000);
 		}
 	}	

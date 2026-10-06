@@ -36,8 +36,9 @@
 
 void Init_SPI(void){
 	//Sets MOSI,SCK and SS as outputs. MISO remains an input
-	DDRB |= (1 << SPI_MOSI) |(1 << SPI_MISO) | (1 << SPI_SCK) | (1 << SPI_SS);
-	
+	// DDRB |= (1 << SPI_MOSI) |(1 << SPI_MISO) | (1 << SPI_SCK) | (1 << SPI_SS);
+	DDRB |= (1 << SPI_MOSI) | (1 << SPI_SCK) | (1 << SPI_SS);
+	DDRB &= ~(1 << SPI_MISO);
 	//SPE = 1 (Enable), MSTR = 1 (MASTER), SPR1:0=00 (F_CPU/4)
 	//CPOL = 0, CPHA = 0 (MODE 0)
 	SPCR = (1 << SPE) | (1 << MSTR);
@@ -57,9 +58,9 @@ uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS, uint8_t D_C){
 		SPDR = byte;
 		while(!(SPSR & (1 << SPIF))); //Wait for transmission complete
 		PORTB |= (1<<PB4); // deaktiverer etter melding
-		if(SPDR != byte){
-			printf("DIFFERENCE!! \n"); //Kan lages som til error-funksjon`?
-		}
+		// if(SPDR != byte){
+		// 	printf("DIFFERENCE!! \n"); //Kan lages som til error-funksjon`?
+		// }
 		
 		return SPDR;
 	}
@@ -69,14 +70,15 @@ uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS, uint8_t D_C){
 		PORTB &= ~(1<<PB3); //Aktiver Slave chip, deaktiver andre senere
 		if(D_C){
 			PORTB |= (1<<PB2); //D/C# PIN	
+		}else{
+		PORTB &= ~(1<<PB2); // D/C# PIN
 		}
 		SPDR = byte;
 		while(!(SPSR & (1 << SPIF)));
 		// PORTB |= (1<<PB3);  // Deaktivere etter melding
-		PORTB &= ~(1<<PB2); // D/C# PIN
-		if(SPDR != byte){
-			printf("OLED!! \n"); //Kan lages som til error-funksjon`?
-		}
+		// if(SPDR != byte){
+		// 	printf("OLED!! \n"); //Kan lages som til error-funksjon`?
+		// }
 		return SPDR;
 	}
 	
