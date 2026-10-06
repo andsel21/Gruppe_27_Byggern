@@ -12,8 +12,8 @@
 struct ring_buffer{
 	uint8_t *buffer;
 	uint8_t bufferSize;
-	uint8_t head;
-	uint8_t tail;
+	volatile uint8_t head;
+	volatile uint8_t tail;
 };
 
 #define BUFFER_SIZE 16
@@ -182,8 +182,14 @@ void UART_init(void)
         (1 << UCSZ01) |
         (1 << UCSZ00);
 		
-		/* Connect printf to our UART */
-		fdevopen(UART_putchar,NULL);
+	/* Connect printf to our UART.
+	 * XC8 returns the new stream from fdevopen(), but does not
+	 * automatically install it as stdout like AVR-libc does. */
+	FILE *uart_stdout = fdevopen(UART_putchar, NULL);
+	if (uart_stdout != NULL)
+	{
+		stdout = uart_stdout;
+	}
 }
 
 

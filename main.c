@@ -13,6 +13,17 @@
 #include "Peripherals/Joystick.h"
 #include "Communication/SPI_driver.h"
 
+// ATmega162, external 4.9152 MHz crystal
+// #pragma config SUT_CKSEL = SUT_CKSEL_EXTXOSC_3MHZ_8MHZ_16KCK_65MS
+// #pragma config CKOUT = CLEAR
+// #pragma config CKDIV8 = CLEAR
+
+// #pragma config WDTON = CLEAR
+// #pragma config SPIEN = SET
+// #pragma config JTAGEN = SET
+// #pragma config OCDEN = CLEAR
+// #pragma config BODLEVEL = BODLEVEL_DISABLED
+// #pragma config M161C = CLEAR
 
 /* =========================================================
    MAIN
@@ -65,9 +76,9 @@ int main(void)
 		//
 		//printf("BUTTON : %d\n",JoyBtnPressed);
 //
-		//ReadAndScale(&JOYSTICK);
-		//
-		//JoyStickPos_Print(&JOYSTICK);
+		ReadAndScale(&JOYSTICK);
+		
+		JoyStickPos_Print(&JOYSTICK);
 //
 		//DIR_JOYSTICK = JoyDirection(&JOYSTICK);
 		//printf("DIRECTION: %d\n",DIR_JOYSTICK);
@@ -81,7 +92,7 @@ int main(void)
 		////SRAMaddress.PTR = 0x1800;
 		//ReadSRAM(SRAMaddress, ArrayToHoldTestData);
 		//
-		//SRAM_test();
+		// SRAM_test();
 
 		//_delay_ms(250);
 

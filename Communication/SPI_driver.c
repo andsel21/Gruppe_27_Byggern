@@ -7,6 +7,7 @@
  */ 
 
 #include "SPI_driver.h"
+#include <stdio.h>
 
 #define SPI_SS PB4
 #define SPI_MOSI PB5
@@ -50,7 +51,7 @@ void Init_SPI(void){
 
 uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS){
 	
-	if(CS == SPI_ID_OLED){ //Når man sender data ut på MOSI, vil OLED returnere samme data på MISO.
+	if(CS == SPI_ID_OLED){ //Nï¿½r man sender data ut pï¿½ MOSI, vil OLED returnere samme data pï¿½ MISO.
 		PORTB &= ~(1<<PB4); //Aktiver Slave chip, deaktiver andre senere
 		SPDR = byte;
 		while(!(SPSR & (1 << SPIF))); //Wait for transmission complete
@@ -63,8 +64,8 @@ uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS){
 	}
 	
 	if(CS == SPI_ID_CAN){
-		PORTB |= (1<<PB4); //Settes OLED CS Høy for deaktiver
-		//MÅ også deaktiver SS3, når den tid kjem
+		PORTB |= (1<<PB4); //Settes OLED CS Hï¿½y for deaktiver
+		//Mï¿½ ogsï¿½ deaktiver SS3, nï¿½r den tid kjem
 		//DO DIS
 		return SPDR;
 	}

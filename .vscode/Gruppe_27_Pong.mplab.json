@@ -46,7 +46,7 @@
         {
             "name": "Debug-avr-gcc",
             "type": "toolchain",
-            "provider": "microchip.toolchains:avr-gcc@14.3.0",
+            "provider": "microchip.toolchains:xc8@4.00",
             "properties": {
                 "global.relax-branches": false,
                 "global.external-ram-check": false,
@@ -118,7 +118,7 @@
         {
             "name": "Release-avr-gcc",
             "type": "toolchain",
-            "provider": "microchip.toolchains:avr-gcc@14.3.0",
+            "provider": "microchip.toolchains:xc8@4.00",
             "properties": {
                 "global.relax-branches": false,
                 "global.external-ram-check": false,

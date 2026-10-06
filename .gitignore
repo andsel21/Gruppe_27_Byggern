@@ -10,3 +10,5 @@ _build/
 cmake/**/.generated/*
 cmake/**/CMake*
 out/KiCad/.history/
+
+out/
