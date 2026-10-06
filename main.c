@@ -29,6 +29,8 @@ uint8_t readBYTE = 0x0;
 uint8_t writeBYTE = 0x0;
 
 
+//FUNKSJONELL KODE, MEN FLYTTET UT I EGEG C.file
+/*
 	
 void Init_OLED(void){
 	//PB2 = DISP D/C#
@@ -95,6 +97,8 @@ void OLED_print_arrow(uint8_t page, uint8_t column){
 	OLED_write_data(0b00011000);
 }
 
+*/
+
 int main(void)
 {
 	struct MemoryReadWrite SRAMaddress = {
@@ -118,8 +122,7 @@ int main(void)
 
 	Init_OLED();
 	reset();
-	OLED_print_arrow(6, 30);
-
+	OLED_print_arrow(7, 80);
 
 
 
@@ -128,7 +131,7 @@ int main(void)
 
 	while (1)
     {
-		// _delay_ms(1);
+		_delay_ms(1);
 
 
 		

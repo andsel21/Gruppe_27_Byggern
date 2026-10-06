@@ -9,6 +9,7 @@
 
 #include <avr/io.h>
 
+uint8_t writeBYTE;
 
 typedef enum{
 	SPI_ID_OLED,
