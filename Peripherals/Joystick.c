@@ -13,7 +13,7 @@
 volatile uint8_t JoyBtnPressed;
 
 
-void joystickINIT(joystick_io_t *js){
+void InitJoystick(joystick_io_t *js){
 	js->btn = false;
 	js->RAW_x_axis = 0;
 	js->RAW_y_axis = 0;
@@ -132,7 +132,7 @@ ISR(INT0_vect){
 	// Reset Timer
 	TCNT3 = 0;
 	//Enable Timer1 Compare Match A Interrupt - starter timer!
-	ETIMSK |= (1 << OCIE3A); //Slår på
+	ETIMSK |= (1 << OCIE3A); //Slï¿½r pï¿½
 	//Prescalar 64: Start Timer (CS11 = 1m CS10 = 1)
 	TCCR3B |= (1<<CS31) | (1 << CS30);
 	

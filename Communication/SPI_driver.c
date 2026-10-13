@@ -50,11 +50,11 @@ void Init_SPI(void){
 }
 
 
-uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS, uint8_t D_C){
+uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS, uint8_t D_C){ //byte = data to send, CS = which slave to select, D_C = Data/Command for OLED
 	
 	if(CS == SPI_ID_CONTROLLER){ //N�r man sender data ut p� MOSI, vil OLED returnere samme data p� MISO.
 		PORTB |= (1 << PB3); // Deaktiverer OLED SLAVE cHIP
-		PORTB &= ~(1<<PB4); //Aktiver Slave chip, deaktiver andre senere
+		PORTB &= ~(1<<PB4); //Aktiver Slave chip(IO), deaktiver andre senere
 		SPDR = byte;
 		while(!(SPSR & (1 << SPIF))); //Wait for transmission complete
 		PORTB |= (1<<PB4); // deaktiverer etter melding
@@ -67,11 +67,11 @@ uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS, uint8_t D_C){
 
 	if(CS == SPI_ID_OLED){
 		PORTB |= (1 << PB4); // Deaktiverer CONTROLLER SLAVE cHIP
-		PORTB &= ~(1<<PB3); //Aktiver Slave chip, deaktiver andre senere
+		PORTB &= ~(1<<PB3); //Aktiver Slave chip(DISP_CS), deaktiver andre senere
 		if(D_C){
-			PORTB |= (1<<PB2); //D/C# PIN	
+			PORTB |= (1<<PB2); //D/C# PIN - DATA	
 		}else{
-		PORTB &= ~(1<<PB2); // D/C# PIN
+			PORTB &= ~(1<<PB2); // D/C# PIN - COMMAND
 		}
 		SPDR = byte;
 		while(!(SPSR & (1 << SPIF)));

@@ -16,3 +16,4 @@ void sqaureWaveFuncPB0(){
 	PORTB ^= (1 << PB0);  // sett PB0 low
 	_delay_ms(250);   // styrer frekvensen
 }
+

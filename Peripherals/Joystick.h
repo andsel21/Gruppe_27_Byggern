@@ -38,7 +38,7 @@ typedef struct {
 }joystick_io_t;
 
 
-void joystickINIT(joystick_io_t *js);
+void InitJoystick(joystick_io_t *js);
 
 void ReadAndScale(joystick_io_t *js);
 void JoyStickPos_Print(joystick_io_t *js);
