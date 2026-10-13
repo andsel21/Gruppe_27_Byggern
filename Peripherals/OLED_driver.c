@@ -37,6 +37,17 @@ void OLED_POS(uint8_t page, uint8_t column){
     SPI_Transfer(0x10 | ((column >> 4) & 0x0F), SPI_ID_OLED, 0); //Setter upper column position
 }
 
+void OLED_clear_line(uint8_t page){
+	OLED_POS(page, 0);
+	for (uint8_t i = 0x00; i < 0x80; i += 1){ // velger 128 kolonner
+		OLED_write_data(0x00); //Skriver 0x00 til alle kolonner på den gitte pagen
+	}
+}
+
+void OLED_home(){
+	OLED_POS(0, 0);
+}
+
 void OLED_write_data(uint8_t data){
 	SPI_Transfer(data, SPI_ID_OLED, 1);
 }
