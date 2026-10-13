@@ -6,6 +6,16 @@
 #include "Joystick.h"
 #include "SPI.h"
 
+typedef enum {
+    STATE_HOME,
+    STATE_PLAY,
+    STATE_GAMEMODE,
+    STATE_TUTORIAL,
+    STATE_CALIBRATE
+} MenuState_t;
+
+static MenuState_t menu_state = STATE_HOME;
+
 void Init_OLED(void);
 void OLED_reset();
 void OLED_goto_line(uint8_t line);

@@ -126,6 +126,7 @@ uint8_t linjeSize = sizeof(menu_linjer) / sizeof(menu_linjer[0]); // Number of m
 static uint8_t indeks = 0; // Current menu index
 static Direction_t old_direction = NEUTRAL;
 
+
 void OLED_Menu_Pointer(uint8_t indeks) {
     for (uint8_t i = 0; i < linjeSize; i++) {
         OLED_POS(menu_linjer[i], 0);
@@ -133,17 +134,25 @@ void OLED_Menu_Pointer(uint8_t indeks) {
 	}
 }
 
-void OLED_Menu_Select(Direction_t direction){
-	if(direction != NEUTRAL && old_direction != direction){
-		if(direction == DOWN && indeks < linjeSize - 1){
-			indeks ++;
-			OLED_Menu_POINTER(indeks);
-		} else if(direction == UP && indeks > 0){
-			indeks--;
-			OLED_Menu_POINTER(indeks);
-		}
-	}
-	old_direction = direction;
+void OLED_Menu_Select(Direction_t direction) {
+    if (direction != old_direction) {            
+
+        if (menu_state == STATE_HOME) {
+            if (direction == DOWN && indeks < MENU_ITEMS - 1) {
+                indeks++;
+                OLED_Menu_POINTER(indeks);
+            } else if (direction == UP && indeks > 0) {
+                indeks--;
+                OLED_Menu_POINTER(indeks);
+            }
+        } else {
+            if (direction == LEFT) {                // tilbake til hovedmenyen
+                menu_state = STATE_HOME;
+                OLED_Menu_Home();
+            }
+        }
+    }
+    old_direction = direction;         
 }
 
 extern volatile uint8_t JoyBtnPressed; // Declare the external variable
@@ -154,12 +163,12 @@ void OLED_Menu_Enter(){
     }
     JoyBtnPressed = 0;                   // "bruk opp" trykket
 
-	if (indeks == 0) {OLED_Play();
-	} else if (indeks == 1) {OLED_GameMode();
-	} else if (indeks == 2) {OLED_Tutorial();
-	} else if (indeks == 3) {OLED_Calibrate();
-	}
+	if (indeks == 0) menu_state = STATE_PLAY; OLED_Play();
+	} else if (indeks == 1) {menu_state = STATE_GAMEMODE; OLED_GameMode();
+	} else if (indeks == 2) {menu_state = STATE_TUTORIAL; OLED_Tutorial();
+	} else if (indeks == 3) {menu_state = STATE_CALIBRATE; OLED_Calibrate();
 }
+
 /* =========================================================
    PRINT ARROW FUNCTION FOR FUN
    ========================================================= */
