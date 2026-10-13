@@ -4,7 +4,7 @@
 #include <avr/delay.h>
 
 #include "Joystick.h"
-#include "SPI.h"
+#include "../Communication/SPI_driver.h"
 
 typedef enum {
     STATE_HOME,
@@ -41,3 +41,6 @@ void OLED_GameMode_Pointer(uint8_t pointer);
 void OLED_Tutorial_Pointer(uint8_t pointer);
 void OLED_Calibrate_Pointer(uint8_t pointer);       
 void ReturnToHomeMenu();
+void OLED_Calibrate_Select(Direction_t direction);
+void OLED_Play_Select(Direction_t direction);
+void OLED_Tutorial_Select(Direction_t direction);

@@ -111,6 +111,7 @@ int main(void)
 		_delay_ms(1);
 		OLED_Menu_Select(DIR_JOYSTICK);
 		OLED_Menu_Enter();
+		ReturnToHomeMenu();
 		SRAMaddress.PTR = (volatile uint8_t*)0x1800;
 
 		printf("BUTTON : %d\n",JoyBtnPressed);
