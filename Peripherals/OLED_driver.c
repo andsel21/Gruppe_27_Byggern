@@ -1,6 +1,7 @@
 
 #include "OLED_driver.h"
 #include "../Communication/SPI_driver.h"
+#include "../fonts.h"
 
 
 
@@ -44,6 +45,21 @@ void OLED_write_data(uint8_t data){
 void OLED_write_command(uint8_t command){
 	SPI_Transfer(command, SPI_ID_OLED, 0);
 }
+
+
+void GetChar(char *charPtr){
+	uint8_t i = 0;
+	while(*charPtr != '\0'){ //While not end of string
+		OLED_write_data(pgm_read_byte(&font8[*charPtr - 32][i])); //Prints the character from font8 array
+		i++;
+		if(i == 8){ //If all 8 bytes of the character has been printed, reset i and move to next character
+			i = 0;
+			charPtr++;
+		}
+	}
+}
+
+
 
 
 /* =========================================================

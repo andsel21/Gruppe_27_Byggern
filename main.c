@@ -50,12 +50,17 @@ int main(void)
 	//SRAM_test();
 
 
-	///TESTING arrow printing on OLED
-	OLED_print_arrow(4, 20);
+	// ///TESTING arrow printing on OLED
+	// OLED_print_arrow(4, 20);
 
-	for(uint8_t i = 0; i < 100;i++){
-		OLED_print_arrow(4, i);
-	}
+	// for(uint8_t i = 0; i < 100;i++){
+	// 	OLED_print_arrow(4, i);
+	// }
+
+	SRAMaddress.PTR = (volatile uint8_t*)0x1800;
+	
+
+	GetChar("HELLO WORLD");
 		
 
 

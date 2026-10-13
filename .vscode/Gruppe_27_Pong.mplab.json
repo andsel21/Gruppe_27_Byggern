@@ -195,14 +195,32 @@
         {
             "name": "Release files",
             "files": [
-                "ExternalMemory/*",
-                "*.c",
-                "Communication/*",
-                "Peripherals/*",
-                "TEST_Functions/*",
-                "Utils/*"
-            ],
-            "encoding": "utf-8"
+                {
+                    "include": "ExternalMemory/*",
+                    "encoding": "utf-8"
+                },
+                {
+                    "include": "*.c",
+                    "encoding": "utf-8"
+                },
+                {
+                    "include": "Communication/*",
+                    "encoding": "utf-8"
+                },
+                {
+                    "include": "Peripherals/*",
+                    "encoding": "utf-8"
+                },
+                {
+                    "include": "TEST_Functions/*",
+                    "encoding": "utf-8"
+                },
+                {
+                    "include": "Utils/*",
+                    "encoding": "utf-8"
+                },
+                "fonts.h"
+            ]
         },
         {
             "name": "Debug files",
@@ -213,8 +231,7 @@
                 "Peripherals/*",
                 "TEST_Functions/*",
                 "Utils/*"
-            ],
-            "encoding": "utf-8"
+            ]
         }
     ]
 }
