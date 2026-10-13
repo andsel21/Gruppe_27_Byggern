@@ -98,25 +98,25 @@ void OLED_Menu_Home(){
 }
 void OLED_Play(){ //Play skjerm
 	OLED_reset();
-	OLED_goto_column(24);
+	OLED_POS(4, 20);
 	OLED_print("Playing");
 }
 
 void OLED_GameMode(){ //Game mode skjerm
 	OLED_reset();
-	OLED_goto_column(24);
+	OLED_POS(4, 20);
 	OLED_print("Game mode");
 }
 
 void OLED_Tutorial(){ //Tutorial skjerm
 	OLED_reset();
-	OLED_goto_column(24);
+	OLED_POS(4, 20);
 	OLED_print("Tutorial");
 }
 
 void OLED_Calibrate(){ //Calibrate skjerm
 	OLED_reset();
-	OLED_goto_column(24);
+	OLED_POS(4, 20);
 	OLED_print("Calibrate");
 }
 
@@ -124,6 +124,12 @@ static const uint8_t menu_linjer[linje] = {1, 3, 5, 7};  // Play, Game mode, Tut
 static uint8_t indeks = 0; // Current menu index
 static Direction_t old_direction = NEUTRAL;
 
+void OLED_Menu_POINTER(uint8_t indeks) {
+    for (uint8_t i = 0; i < linje; i++) {
+        OLED_POS(menu_linjer[i], 0);
+        OLED_print_char(i == indeks ? '>' : ' ');
+	}
+}
 
 void OLED_Menu_Select(Direction_t direction){
 	if(direction != NEUTRAL && old_direction != direction){
@@ -137,26 +143,6 @@ void OLED_Menu_Select(Direction_t direction){
 	}
 	old_direction = direction;
 }
-
-void OLED_Menu_POINTER(uint8_t pointer){
-	if (OLED_pointer == 1){
-		OLED_goto_line(1);
-		OLED_goto_column(0);
-		OLED_print(">");
-		OLED_goto_line(2);
-		OLED_goto_column(0);
-		OLED_print(" ");
-	}
-	if (OLED_pointer == 2){
-		OLED_goto_line(2);
-		OLED_goto_column(0);
-		OLED_print(">");
-		OLED_goto_line(1);
-		OLED_goto_column(0);
-		OLED_print(" ");
-	}
-}
-
 
 /* =========================================================
    PRINT ARROW FUNCTION FOR FUN
