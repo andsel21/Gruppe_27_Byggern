@@ -21,7 +21,7 @@
    ========================================================= */
 
 joystick_io_t JOYSTICK;
-Direction_t DIR_JOYSTICK;
+Direction_t DIR_JOYSTICK = NEUTRAL;
 SPI_CS_t ChipSelect;
 
 extern volatile uint8_t JoyBtnPressed;
@@ -57,25 +57,19 @@ int main(void)
 	// for(uint8_t i = 0; i < 100;i++){
 	// 	OLED_print_arrow(4, i);
 	// }
-
-	SRAMaddress.PTR = (volatile uint8_t*)0x1800;
-	
-
-
-	OLED_GetChar("HELLO WORLD");
 		
-
+	OLED_Menu_Home();
 
 	while (1)
     {
 		_delay_ms(1);
-
+		OLED_Menu_Select(DIR_JOYSTICK);
 		SRAMaddress.PTR = (volatile uint8_t*)0x1800;
 
 		//printf("BUTTON : %d\n",JoyBtnPressed);
-		// ReadAndScale(&JOYSTICK);	
-		// JoyStickPos_Print(&JOYSTICK);
-		// DIR_JOYSTICK = JoyDirection(&JOYSTICK);
+		ReadAndScale(&JOYSTICK);	
+		JoyStickPos_Print(&JOYSTICK);
+		DIR_JOYSTICK = JoyDirection(&JOYSTICK);
 		// printf("DIRECTION: %d\n",DIR_JOYSTICK);
         
 		sqaureWaveFuncPB0();
