@@ -1,6 +1,7 @@
 
 #include "OLED_driver.h"
 #include "../Communication/SPI_driver.h"
+#include "fonts.h"
 
 
 
@@ -52,7 +53,7 @@ void OLED_clear_line(uint8_t page){
 }
 
 void OLED_home(){
-	OLED_POS(0, 0);
+	OLED_POS(0, 0); 
 }
 
 void OLED_write_data(uint8_t data){
@@ -63,14 +64,17 @@ void OLED_write_command(uint8_t command){
 	SPI_Transfer(command, SPI_ID_OLED, 0);
 }
 
-void OLED_print(uint8_t char* str){
-	OLED_POS(page, column);
-	while(*str){
-		OLED_write_data(*str++);
-	}
-
+void OLED_print_char(char c){
+    for (uint8_t i = 0; i < 8; i++) {
+        OLED_write_data(pgm_read_byte(&font8[c - ' '][i]));
+    }
 }
 
+void OLED_print(const char* str){
+	while(*str){
+		OLED_print_char(*str++);
+	}
+}
 
 /* =========================================================
    PRINT ARROW FUNCTION FOR FUN
