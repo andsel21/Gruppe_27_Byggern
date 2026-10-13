@@ -1,7 +1,7 @@
 
 #include "OLED_driver.h"
 #include "../Communication/SPI_driver.h"
-#include "fonts.h"
+#include "../fonts.h"
 
 
 
@@ -13,6 +13,9 @@ void Init_OLED(void){
 	DDRB |= (1 << PB3); //Setter PB3 som output for OLED CS
 	PORTB &= ~(1 <<PB2); //Setter D/C# til 0 for command
 	PORTB &= ~(1 <<PB3); //Setter CS til 0 for command
+
+	OLED_write_command(0xA1); 
+	OLED_write_command(0xC8); 
 
 	OLED_write_command(0xAF); // Display ON normal Mode
 	_delay_ms(150);
@@ -66,15 +69,94 @@ void OLED_write_command(uint8_t command){
 
 void OLED_print_char(char c){
     for (uint8_t i = 0; i < 8; i++) {
-        OLED_write_data(pgm_read_byte(&font8[c - ' '][i]));
+        OLED_write_data(pgm_read_byte(&font8[c - 32][i]));
     }
 }
 
-void OLED_print(const char* str){
+void OLED_print(char* str){
 	while(*str){
-		OLED_print_char(*str++);
+		OLED_print_char(*str);
+		str++;
 	}
 }
+
+
+uint8_t OLED_pointer = 1;
+void OLED_Menu_Home(){
+	// Page 0: Titel
+ 	OLED_POS(0, 8);
+	OLED_print("Ping-Pong Game");
+
+	// Page 1: Cleard
+	OLED_clear_line(2);
+
+	// Page 2: Play
+	OLED_POS(1, 8);
+	OLED_print("Play");
+
+	// Page 3: Game mode
+	OLED_clear_line(2);
+	OLED_POS(3, 8);
+	OLED_print("Game mode");
+
+	// Page 4: Cleard
+	OLED_clear_line(4);
+	
+	// Page 6: Start Game
+	OLED_clear_line(5);
+	OLED_POS(5, 8);
+	OLED_print("Tutorial");
+
+	// Page 7: Start Game
+	OLED_clear_line(7);
+	OLED_POS(7, 8);
+	OLED_print("Calibrate");
+}
+
+void OLED_Menu_Play(){
+	OLED_reset();
+	OLED_goto_column(24);
+	OLED_print("Playing");
+}
+
+
+Direction_t old_direction = NEUTRAL;
+void OLED_Menu_Select(Direction_t direction){
+	// If 
+	if(direction != NEUTRAL && old_direction != direction){
+		if(OLED_pointer == 1 && direction == DOWN){
+			OLED_pointer = 2;
+			OLED_Menu_POINTER(OLED_pointer);
+			// Run pointer
+		}
+		if(OLED_pointer == 2 && direction == UP){
+			OLED_pointer = 1;
+			OLED_Menu_POINTER(OLED_pointer);
+			// Run pointer
+		}
+	}
+	old_direction = direction;
+}
+
+void OLED_Menu_POINTER(uint8_t pointer){
+	if (OLED_pointer == 1){
+		OLED_goto_line(1);
+		OLED_goto_column(0);
+		OLED_print(">");
+		OLED_goto_line(2);
+		OLED_goto_column(0);
+		OLED_print(" ");
+	}
+	if (OLED_pointer == 2){
+		OLED_goto_line(2);
+		OLED_goto_column(0);
+		OLED_print(">");
+		OLED_goto_line(1);
+		OLED_goto_column(0);
+		OLED_print(" ");
+	}
+}
+
 
 /* =========================================================
    PRINT ARROW FUNCTION FOR FUN
