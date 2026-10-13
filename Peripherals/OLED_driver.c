@@ -80,59 +80,59 @@ void OLED_print(char* str){
 	}
 }
 
-
-uint8_t OLED_pointer = 1;
 void OLED_Menu_Home(){
 	// Page 0: Titel
- 	OLED_POS(0, 8);
-	OLED_print("Ping-Pong Game");
-
+ 	OLED_POS(0, 8); OLED_print("Ping-Pong Game");
 	// Page 1: Cleard
-	OLED_clear_line(2);
-
+	OLED_clear_line(1);
 	// Page 2: Play
-	OLED_POS(1, 8);
-	OLED_print("Play");
-
+	OLED_POS(1, 8); OLED_print("Play");
 	// Page 3: Game mode
-	OLED_clear_line(2);
-	OLED_POS(3, 8);
-	OLED_print("Game mode");
-
+	OLED_clear_line(2); OLED_POS(3, 8); OLED_print("Game mode");
 	// Page 4: Cleard
 	OLED_clear_line(4);
-	
-	// Page 6: Start Game
-	OLED_clear_line(5);
-	OLED_POS(5, 8);
-	OLED_print("Tutorial");
-
-	// Page 7: Start Game
-	OLED_clear_line(7);
-	OLED_POS(7, 8);
-	OLED_print("Calibrate");
+	// Page 6: Tutorial
+	OLED_clear_line(5); OLED_POS(5, 8); OLED_print("Tutorial");
+	// Page 7: Calibrate
+	OLED_clear_line(7); OLED_POS(7, 8); OLED_print("Calibrate");
 }
-
-void OLED_Menu_Play(){
+void OLED_Play(){ //Play skjerm
 	OLED_reset();
 	OLED_goto_column(24);
 	OLED_print("Playing");
 }
 
+void OLED_GameMode(){ //Game mode skjerm
+	OLED_reset();
+	OLED_goto_column(24);
+	OLED_print("Game mode");
+}
 
-Direction_t old_direction = NEUTRAL;
+void OLED_Tutorial(){ //Tutorial skjerm
+	OLED_reset();
+	OLED_goto_column(24);
+	OLED_print("Tutorial");
+}
+
+void OLED_Calibrate(){ //Calibrate skjerm
+	OLED_reset();
+	OLED_goto_column(24);
+	OLED_print("Calibrate");
+}
+
+static const uint8_t menu_linjer[linje] = {1, 3, 5, 7};  // Play, Game mode, Tutorial, Calibrate
+static uint8_t indeks = 0; // Current menu index
+static Direction_t old_direction = NEUTRAL;
+
+
 void OLED_Menu_Select(Direction_t direction){
-	// If 
 	if(direction != NEUTRAL && old_direction != direction){
-		if(OLED_pointer == 1 && direction == DOWN){
-			OLED_pointer = 2;
-			OLED_Menu_POINTER(OLED_pointer);
-			// Run pointer
-		}
-		if(OLED_pointer == 2 && direction == UP){
-			OLED_pointer = 1;
-			OLED_Menu_POINTER(OLED_pointer);
-			// Run pointer
+		if(direction == Down && indeks < linje - 1){
+			indeks ++;
+			OLED_Menu_POINTER(indeks);
+		} else if(direction == Up && indeks > 0){
+			indeks --;
+			OLED_Menu_POINTER(indeks);
 		}
 	}
 	old_direction = direction;
