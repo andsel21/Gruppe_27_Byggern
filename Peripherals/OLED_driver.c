@@ -126,7 +126,7 @@ uint8_t linjeSize = sizeof(menu_linjer) / sizeof(menu_linjer[0]); // Number of m
 static uint8_t indeks = 0; // Current menu index
 static Direction_t old_direction = NEUTRAL;
 
-void OLED_Menu_POINTER(uint8_t indeks) {
+void OLED_Menu_Pointer(uint8_t indeks) {
     for (uint8_t i = 0; i < linjeSize; i++) {
         OLED_POS(menu_linjer[i], 0);
         OLED_print_char(i == indeks ? '>' : ' ');
@@ -146,6 +146,20 @@ void OLED_Menu_Select(Direction_t direction){
 	old_direction = direction;
 }
 
+extern volatile uint8_t JoyBtnPressed; // Declare the external variable
+
+void OLED_Menu_Enter(){
+	if (JoyBtnPressed == 0) {            // ingen trykk, gjør ingenting
+        return;
+    }
+    JoyBtnPressed = 0;                   // "bruk opp" trykket
+
+	if (indeks == 0) {OLED_Play();
+	} else if (indeks == 1) {OLED_GameMode();
+	} else if (indeks == 2) {OLED_Tutorial();
+	} else if (indeks == 3) {OLED_Calibrate();
+	}
+}
 /* =========================================================
    PRINT ARROW FUNCTION FOR FUN
    ========================================================= */
