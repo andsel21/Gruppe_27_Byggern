@@ -5,14 +5,15 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <stdint.h>
-#include "Communication/UART_driver.h"
 #include "Utils/BitHandling.h"
 #include "TEST_Functions/TEST_Functions.h"
 #include "ExternalMemory/SRAM.h"
 #include "Peripherals/ADC.h"
 #include "Peripherals/Joystick.h"
-#include "Communication/SPI_driver.h"
 #include "Peripherals/OLED_driver.h"
+#include "Communication/UART_driver.h"
+#include "Communication/SPI_driver.h"
+
 
 
 /* =========================================================
@@ -34,7 +35,6 @@ int main(void)
 	};
 	
 	
-			
 	uint8_t ArrayToHoldTestData[SRAMaddress.package_size];
 	
 
@@ -44,6 +44,7 @@ int main(void)
 	InitSRAM();
 	Init_ADC();
 	Init_SPI();
+
 
 	Init_OLED();
 	OLED_reset();
@@ -60,7 +61,8 @@ int main(void)
 	SRAMaddress.PTR = (volatile uint8_t*)0x1800;
 	
 
-	GetChar("HELLO WORLD");
+
+	OLED_GetChar("HELLO WORLD");
 		
 
 

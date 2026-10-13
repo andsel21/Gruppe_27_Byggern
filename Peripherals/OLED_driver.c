@@ -5,6 +5,7 @@
 
 
 
+
 extern SPI_CS_t ChipSelect;
 
 void Init_OLED(void){
@@ -14,10 +15,15 @@ void Init_OLED(void){
 	PORTB &= ~(1 <<PB2); //Setter D/C# til 0 for command
 	PORTB &= ~(1 <<PB3); //Setter CS til 0 for command
 
+	OLED_write_command(0xA1); //Set MUX ratio
+	OLED_write_command(0xC8);
+
 	OLED_write_command(0xAF); // Display ON normal Mode
 	_delay_ms(150);
 	OLED_write_command(0xA4); //Entire display ON, use RAM content: D7-0
 	OLED_write_command(0xA6); //Set Display to normal, A7 for inverse display, BLACK OR WHITE
+
+	
 	
 }
 
@@ -47,7 +53,8 @@ void OLED_write_command(uint8_t command){
 }
 
 
-void GetChar(char *charPtr){
+void OLED_GetChar(char *charPtr){
+
 	uint8_t i = 0;
 	while(*charPtr != '\0'){ //While not end of string
 		OLED_write_data(pgm_read_byte(&font8[*charPtr - 32][i])); //Prints the character from font8 array

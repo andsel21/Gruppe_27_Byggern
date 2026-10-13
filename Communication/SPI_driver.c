@@ -7,7 +7,6 @@
  */ 
 
 #include "SPI_driver.h"
-#include <stdio.h>
 
 #define SPI_SS PB4
 #define SPI_MOSI PB5

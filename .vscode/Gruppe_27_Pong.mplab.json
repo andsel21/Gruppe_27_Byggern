@@ -230,7 +230,8 @@
                 "Communication/*",
                 "Peripherals/*",
                 "TEST_Functions/*",
-                "Utils/*"
+                "Utils/*",
+                "fonts.h"
             ]
         }
     ]

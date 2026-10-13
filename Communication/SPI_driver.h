@@ -8,6 +8,8 @@
 #pragma once
 
 #include <avr/io.h>
+#include <stdio.h>
+
 
 uint8_t writeBYTE;
 
