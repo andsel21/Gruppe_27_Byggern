@@ -6954,7 +6954,7 @@
 		)
 		(uuid "3d69f5b2-c15c-4291-ab41-1ac3b231f8ef")
 	)
-	(text "Pulled Up = D[7:0] is data, Pulled Down = Teansfer data to Command Register. I2C: SA0"
+	(text "Pulled Up = D[7:0] is data, Pulled Down = Teansfer data to Command Register. I2C: SA0, PB2\n"
 		(exclude_from_sim no)
 		(at 666.242 91.186 0)
 		(effects
@@ -7004,7 +7004,7 @@
 		)
 		(uuid "722669de-6857-4618-a85c-8cab9f921baa")
 	)
-	(text "Slave Select"
+	(text "Slave Select, PB4"
 		(exclude_from_sim no)
 		(at 631.952 99.06 0)
 		(effects
@@ -7054,7 +7054,7 @@
 		)
 		(uuid "f20c6f88-23e5-45b8-954e-a589abaca80d")
 	)
-	(text "RESET = Pulled Up, Chip enable = Pull Down, Connect to MCU\n"
+	(text "RESET = Pulled Up, Chip enable = Pull Down, Connect to MCU, PB3\n\n"
 		(exclude_from_sim no)
 		(at 653.288 94.996 0)
 		(effects
@@ -11800,7 +11800,7 @@
 			(uuid "db9f080e-1a39-4c2b-aa48-041f21d27482")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "U1")
 					(unit 1)
@@ -11879,7 +11879,7 @@
 			(uuid "1b811674-184e-4b9b-920c-64f3a52c1213")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "C7")
 					(unit 1)
@@ -11958,7 +11958,7 @@
 			(uuid "0072daf3-c1ff-4550-bcab-f22234def426")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR014")
 					(unit 1)
@@ -12037,7 +12037,7 @@
 			(uuid "00bb19c9-6652-4565-aea4-1c90d3773fad")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "1k")
 					(unit 1)
@@ -12117,7 +12117,7 @@
 			(uuid "a1c56a6e-9762-40a8-a9b6-d262e73b67ef")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "SW1")
 					(unit 1)
@@ -12196,7 +12196,7 @@
 			(uuid "78b687fb-4cfc-46a1-8854-1fb8b0dca81f")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR011")
 					(unit 1)
@@ -12275,7 +12275,7 @@
 			(uuid "7ed288a4-0bf9-4a21-8f9f-db6e5e3356d5")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR021")
 					(unit 1)
@@ -12354,7 +12354,7 @@
 			(uuid "f59b24cd-d345-4cbd-9992-f2130bedccda")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR04")
 					(unit 1)
@@ -12435,7 +12435,7 @@
 			(uuid "2b141e0b-ddd1-486f-a6fd-774e3ef03c22")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "4.7my1")
 					(unit 1)
@@ -12517,7 +12517,7 @@
 			(uuid "5b33431c-2109-40ef-a8c2-7297bc073222")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "C2")
 					(unit 1)
@@ -12678,7 +12678,7 @@
 			(uuid "97a7c1e2-5f47-4d0a-98f4-70c5292a5a1d")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "U5")
 					(unit 1)
@@ -12755,7 +12755,7 @@
 			(uuid "f27f719a-4dee-487e-9022-62b4ddc2cb22")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR05")
 					(unit 1)
@@ -12863,7 +12863,7 @@
 			(uuid "214594bc-6bbb-4d00-8b0f-a3535b6a2a13")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "J1")
 					(unit 1)
@@ -12943,7 +12943,7 @@
 			(uuid "bdbeaffa-f36e-44e7-b84c-dfff3228ec02")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "C3")
 					(unit 1)
@@ -13023,7 +13023,7 @@
 			(uuid "6d9f74f4-d9d8-4871-9b9a-b09b026177fc")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "PC_UART")
 					(unit 1)
@@ -13100,7 +13100,7 @@
 			(uuid "fe0b9791-7879-4090-91e2-e2da822f6205")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR08")
 					(unit 1)
@@ -13177,7 +13177,7 @@
 			(uuid "2394b4a7-b999-46f1-8976-10b9697e339a")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR028")
 					(unit 1)
@@ -13258,7 +13258,7 @@
 			(uuid "630ed5f8-003e-47b4-b9f4-9de1af07b36e")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "R2")
 					(unit 1)
@@ -13337,7 +13337,7 @@
 			(uuid "a55c9a63-84f0-4475-8147-37d82af48af1")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR030")
 					(unit 1)
@@ -13414,7 +13414,7 @@
 			(uuid "b0268fe5-e90c-4175-a663-4d81558ff468")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR023")
 					(unit 1)
@@ -13647,7 +13647,7 @@
 			(uuid "c5a0a56f-d362-46f7-a5d7-be0fb17e9643")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "ADC1")
 					(unit 1)
@@ -13726,7 +13726,7 @@
 			(uuid "53e69630-8554-4677-845b-8361500baab5")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR01")
 					(unit 1)
@@ -13803,7 +13803,7 @@
 			(uuid "5627eaf2-ecf3-4be6-b1a6-4cbfcc6dac87")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR02")
 					(unit 1)
@@ -13880,7 +13880,7 @@
 			(uuid "dc9d3c0d-442a-4779-ae38-81499a4d7660")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR022")
 					(unit 1)
@@ -13964,7 +13964,7 @@
 			(uuid "e33cf993-5a2e-486a-ae6c-7746b981de36")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "C1")
 					(unit 1)
@@ -14041,7 +14041,7 @@
 			(uuid "e01a365b-65eb-4314-a983-19647e9cf46c")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR026")
 					(unit 1)
@@ -14122,7 +14122,7 @@
 			(uuid "e74636ae-950d-404f-902f-84f471f7497d")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "R1")
 					(unit 1)
@@ -14199,7 +14199,7 @@
 			(uuid "26c05349-62f6-44d6-b054-ffc6f895aa27")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR010")
 					(unit 1)
@@ -14279,7 +14279,7 @@
 			(uuid "b06b6133-f2d0-4443-aaf2-af99db56d72b")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "0.1µ")
 					(unit 1)
@@ -14359,7 +14359,7 @@
 			(uuid "0f0550b4-0666-4c52-b237-f1c80f113062")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "C4")
 					(unit 1)
@@ -14436,7 +14436,7 @@
 			(uuid "964ba840-33d9-439d-8956-f16a847c655d")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR06")
 					(unit 1)
@@ -14514,7 +14514,7 @@
 			(uuid "3ea35696-4cf5-4ae1-922b-b0bf9d7345cd")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR09")
 					(unit 1)
@@ -14603,7 +14603,7 @@
 			(uuid "34a3dacd-4a1a-4c4e-bcb9-cd2f10fbd2db")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "U2")
 					(unit 1)
@@ -14680,7 +14680,7 @@
 			(uuid "2c3193aa-a9f3-4a24-959b-ee34ec079701")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR025")
 					(unit 1)
@@ -14758,7 +14758,7 @@
 			(uuid "093cf708-7a02-4c2e-ac45-3ae5c2861e09")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR03")
 					(unit 1)
@@ -14873,7 +14873,7 @@
 			(uuid "1ef23b94-88bd-4e94-abf5-90358c8fd8b0")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "OLED_Controller")
 					(unit 1)
@@ -14952,7 +14952,7 @@
 			(uuid "0f09a770-ed4c-4ca8-b7fc-9880903927c5")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR029")
 					(unit 1)
@@ -15032,7 +15032,7 @@
 			(uuid "e964b515-8b61-465f-ab37-0541c1a05c93")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "C5")
 					(unit 1)
@@ -15157,7 +15157,7 @@
 			(uuid "b675e810-82bd-4a9c-9482-6f209ca5cde1")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "U3")
 					(unit 1)
@@ -15271,7 +15271,7 @@
 			(uuid "fb3ded1f-f075-4a4a-9e10-5410b60d0078")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "U7")
 					(unit 1)
@@ -15348,7 +15348,7 @@
 			(uuid "e1ca5412-fc22-4c28-9bde-c3d93f1d3021")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR016")
 					(unit 1)
@@ -15545,7 +15545,7 @@
 			(uuid "9e53896f-ea7b-4b61-8fb4-f9e9edd8d6ac")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "U6")
 					(unit 1)
@@ -15624,7 +15624,7 @@
 			(uuid "38f90df7-26f6-4603-b9df-6af379f1b649")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR027")
 					(unit 1)
@@ -15704,7 +15704,7 @@
 			(uuid "807eeead-5b5d-48b5-a389-4a594b2dcd2a")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "SW2")
 					(unit 1)
@@ -15783,7 +15783,7 @@
 			(uuid "481857c1-83c3-4cf2-b333-09bbc3095bf6")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR013")
 					(unit 1)
@@ -15864,7 +15864,7 @@
 			(uuid "f9f089fb-4f96-4eb2-afa6-2ee247a5e79c")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "0.1my")
 					(unit 1)
@@ -16062,7 +16062,7 @@
 			(uuid "d3f9cb09-4ee6-4712-a065-88dc4d4ccc49")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "U9")
 					(unit 1)
@@ -16139,7 +16139,7 @@
 			(uuid "196dc16d-2944-429a-baaa-4d226626019e")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR07")
 					(unit 1)
@@ -16248,7 +16248,7 @@
 			(uuid "e6709051-4093-4870-b2fe-1db33dcfd3bc")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "J2")
 					(unit 1)
@@ -16328,7 +16328,7 @@
 			(uuid "8905b472-e418-4db7-8387-8e1024f2b85f")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "C6")
 					(unit 1)
@@ -16407,7 +16407,7 @@
 			(uuid "45b0d30b-8565-455d-a83d-58f01a00fbb5")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR031")
 					(unit 1)
@@ -16486,7 +16486,7 @@
 			(uuid "1a65cc27-2382-454b-8fea-549449f3bc6b")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR015")
 					(unit 1)
@@ -16565,7 +16565,7 @@
 			(uuid "a7d6898f-1951-48cd-b4a6-27a75f2b5530")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR024")
 					(unit 1)
@@ -16643,7 +16643,7 @@
 			(uuid "89368903-237c-4f2c-b82e-50f127857b13")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "#PWR012")
 					(unit 1)
@@ -16875,7 +16875,7 @@
 			(uuid "78d4bc16-f025-46eb-baab-1c9bb03f37d1")
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(reference "ADC")
 					(unit 1)
@@ -17072,7 +17072,7 @@
 			)
 		)
 		(instances
-			(project "ByggernProject"
+			(project "ByggernProject (2)"
 				(path "/43741492-b21a-4f5a-8ce1-a54a4b312e32"
 					(page "2")
 				)
