@@ -120,12 +120,14 @@ void OLED_Calibrate(){ //Calibrate skjerm
 	OLED_print("Calibrate");
 }
 
-static const uint8_t menu_linjer[linje] = {1, 3, 5, 7};  // Play, Game mode, Tutorial, Calibrate
+static const uint8_t menu_linjer[] = {1, 3, 5, 7};  // Play, Game mode, Tutorial, Calibrate
+uint8_t linjeSize = sizeof(menu_linjer) / sizeof(menu_linjer[0]); // Number of menu lines
+
 static uint8_t indeks = 0; // Current menu index
 static Direction_t old_direction = NEUTRAL;
 
 void OLED_Menu_POINTER(uint8_t indeks) {
-    for (uint8_t i = 0; i < linje; i++) {
+    for (uint8_t i = 0; i < linjeSize; i++) {
         OLED_POS(menu_linjer[i], 0);
         OLED_print_char(i == indeks ? '>' : ' ');
 	}
@@ -133,11 +135,11 @@ void OLED_Menu_POINTER(uint8_t indeks) {
 
 void OLED_Menu_Select(Direction_t direction){
 	if(direction != NEUTRAL && old_direction != direction){
-		if(direction == Down && indeks < linje - 1){
+		if(direction == DOWN && indeks < linjeSize - 1){
 			indeks ++;
 			OLED_Menu_POINTER(indeks);
-		} else if(direction == Up && indeks > 0){
-			indeks --;
+		} else if(direction == UP && indeks > 0){
+			indeks--;
 			OLED_Menu_POINTER(indeks);
 		}
 	}

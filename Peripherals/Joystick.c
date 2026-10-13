@@ -30,19 +30,8 @@ void InitJoystick(joystick_io_t *js){
 	
 	// Button External interrupt Enable
 	GICR |= (1<<INT0);
-	//SREG BIT 7 SETTES TIL 1 FRA SEI() I MAIN.
-	//GIFR |= (1<<INTF0);
+
 }
-
-//
- //void btnRead(struct joystick_io io){
-	 //if(io.btn == 1){
-		 //printf("BTN pressed");
-		 //}else{
-		 //printf("Btn NOT Pressed");
-	 //}
-//}
-
 
 void ReadAndScale(joystick_io_t *js){
 		
