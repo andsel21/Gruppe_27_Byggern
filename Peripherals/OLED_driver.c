@@ -45,6 +45,77 @@ void OLED_write_command(uint8_t command){
 	SPI_Transfer(command, SPI_ID_OLED, 0);
 }
 
+// 8x8
+uint8_t OLED_pointer = 1;
+void OLED_Menu_Home(){
+	// Page 0: Titel
+	OLED_clear_line(1);
+	OLED_goto_column(24);
+	OLED_print("Ping-Pong Game");
+
+	// Page 1: Cleard
+	OLED_clear_line(2);
+
+	// Page 2: Play
+	OLED_clear_line(3);
+	OLED_goto_column(24);
+	OLED_print("Play");
+
+	// Page 3: Game mode
+	OLED_clear_line(4);
+	OLED_goto_column(24);
+	OLED_print("Game mode");
+
+	// Page 4: Cleard
+	OLED_clear_line(5);
+	
+	// Page 6: Start Game
+	OLED_clear_line(6);
+	OLED_goto_column(24);
+	OLED_print("Tutorial");
+
+	// Page 7: Start Game
+	OLED_clear_line(6);
+	OLED_goto_column(24);
+	OLED_print("Calibrate");
+}
+
+void OLED_Menu_Play(){
+	OLED_reset();
+	OLED_goto_column(24);
+	OLED_print("Playing");
+}
+
+uint8_t old_direction = NEUTRAL;
+void OLED_Menu_Select(uint8_t direction){
+	// If 
+	if(direction != NEUTRAL && old_direction != direction){
+		if(OLED_pointer == 1 && direction == DOWN){
+			OLED_pointer = 2;
+			OLED_Menu_POINTER(OLED_pointer);
+			// Run pointer
+		}
+		if(OLED_pointer == 2 && direction == UP){
+			OLED_pointer = 1;
+			OLED_Menu_POINTER(OLED_pointer);
+			// Run pointer
+		}
+	}
+	old_direction = direction;
+}
+
+void OLED_Menu_POINTER(uint8_t pointer){
+	if (OLED_pointer == 1){
+		OLED_goto_line(2);
+		OLED_goto_column(8);
+		OLED_print(">");
+	}
+	if (OLED_pointer == 2){
+		OLED_goto_line(3);
+		OLED_goto_column(8);
+		OLED_print(">");
+	}
+}
 
 /* =========================================================
    PRINT ARROW FUNCTION FOR FUN
