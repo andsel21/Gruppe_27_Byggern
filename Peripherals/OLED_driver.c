@@ -21,8 +21,6 @@ void Init_OLED(void){
 	_delay_ms(150);
 	OLED_write_command(0xA4); //Entire display ON, use RAM content: D7-0
 	OLED_write_command(0xA6); //Set Display to normal, A7 for inverse display, BLACK OR WHITE
-
-	
 	
 }
 
@@ -126,26 +124,109 @@ Direction_t old_direction = NEUTRAL;
 void OLED_Menu_Select(Direction_t direction){
 	// If 
 	if(direction != NEUTRAL && old_direction != direction){
-		if(OLED_pointer == 1 && direction == DOWN){
-			OLED_pointer = 2;
+		if(OLED_pointer == 1 && direction == UP){
+			OLED_pointer = 0;
 			OLED_Menu_POINTER(OLED_pointer);
 			// Run pointer
 		}
+
 		if(OLED_pointer == 2 && direction == UP){
 			OLED_pointer = 1;
 			OLED_Menu_POINTER(OLED_pointer);
 			// Run pointer
 		}
+
+		if(OLED_pointer == 3 && direction == UP){
+			OLED_pointer = 2;
+			OLED_Menu_POINTER(OLED_pointer);
+			// Run pointer
+		}
+		if(OLED_pointer == 4 && direction == UP){
+			OLED_pointer = 3;
+			OLED_Menu_POINTER(OLED_pointer);
+			// Run pointer
+		}
+
+		if(OLED_pointer == 5 && direction == UP){
+			OLED_pointer = 4;
+			OLED_Menu_POINTER(OLED_pointer);
+			// Run pointer
+		}
+
+		if(OLED_pointer == 4 && direction == DOWN){
+			OLED_pointer = 5;
+			OLED_Menu_POINTER(OLED_pointer);
+			// Run pointer
+		}
+
+		if(OLED_pointer == 3 && direction == DOWN){
+			OLED_pointer = 4;
+			OLED_Menu_POINTER(OLED_pointer);
+			// Run pointer
+		}
+
+		if(OLED_pointer == 2 && direction == DOWN){
+			OLED_pointer = 3;
+			OLED_Menu_POINTER(OLED_pointer);
+			// Run pointer
+		}
+
+		if(OLED_pointer == 1 && direction == DOWN){
+			OLED_pointer = 2;
+			OLED_Menu_POINTER(OLED_pointer);
+			// Run pointer
+		}
+		
+		if(OLED_pointer == 0 && direction == DOWN){
+			OLED_pointer = 1;
+			OLED_Menu_POINTER(OLED_pointer);
+			// Run pointer
+		}
+			
+
+	
+
+		// if(OLED_pointer == 5 && direction == DOWN){
+		// 	OLED_pointer = 6;
+		// 	OLED_Menu_POINTER(OLED_pointer);
+		// 	// Run pointer
+		// }
+
+		// if(OLED_pointer == 6 && direction == DOWN){
+		// 	OLED_pointer = 7;
+		// 	OLED_Menu_POINTER(OLED_pointer);
+		// 	// Run pointer
+		// }
+
+		// if(OLED_pointer == 7 && direction == DOWN){
+		// 	OLED_pointer = 7;
+		// 	OLED_Menu_POINTER(OLED_pointer);
+		// 	// Run pointer
+		// }
+	
+
 	}
 	old_direction = direction;
 }
 
 void OLED_Menu_POINTER(uint8_t pointer){
+	if (OLED_pointer == 0){
+		OLED_goto_line(0);
+		OLED_goto_column(0);
+		OLED_print(">");
+		OLED_goto_line(1);
+		OLED_goto_column(0);
+		OLED_print(" ");
+
+	}
 	if (OLED_pointer == 1){
 		OLED_goto_line(1);
 		OLED_goto_column(0);
 		OLED_print(">");
 		OLED_goto_line(2);
+		OLED_goto_column(0);
+		OLED_print(" ");
+		OLED_goto_line(0);
 		OLED_goto_column(0);
 		OLED_print(" ");
 	}
@@ -156,24 +237,44 @@ void OLED_Menu_POINTER(uint8_t pointer){
 		OLED_goto_line(1);
 		OLED_goto_column(0);
 		OLED_print(" ");
+		OLED_goto_line(3);
+		OLED_goto_column(0);
+		OLED_print(" ");
+	}
+	if (OLED_pointer == 3){
+		OLED_goto_line(3);
+		OLED_goto_column(0);
+		OLED_print(">");
+		OLED_goto_line(2);
+		OLED_goto_column(0);
+		OLED_print(" ");
+		OLED_goto_line(4);
+		OLED_goto_column(0);
+		OLED_print(" ");
+	}
+	if (OLED_pointer == 4){
+		OLED_goto_line(4);
+		OLED_goto_column(0);
+		OLED_print(">");
+		OLED_goto_line(3);
+		OLED_goto_column(0);
+		OLED_print(" ");
+		OLED_goto_line(5);
+		OLED_goto_column(0);
+		OLED_print(" ");
+	}
+	if (OLED_pointer == 5){
+		OLED_goto_line(5);
+		OLED_goto_column(0);
+		OLED_print(">");
+		OLED_goto_line(4);
+		OLED_goto_column(0);
+		OLED_print(" ");
+		OLED_goto_line(6);
+		OLED_goto_column(0);
+		OLED_print(" ");
 	}
 }
-
-
-void OLED_GetChar(char *charPtr){
-
-	uint8_t i = 0;
-	while(*charPtr != '\0'){ //While not end of string
-		OLED_write_data(pgm_read_byte(&font8[*charPtr - 32][i])); //Prints the character from font8 array
-		i++;
-		if(i == 8){ //If all 8 bytes of the character has been printed, reset i and move to next character
-			i = 0;
-			charPtr++;
-		}
-	}
-}
-
-
 
 
 /* =========================================================
