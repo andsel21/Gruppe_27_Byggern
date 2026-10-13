@@ -110,12 +110,11 @@ Direction_t JoyDirection(joystick_io_t *js){
 	   	//UP      - 4
 }
 
-ISR(INT0_vect){
+ISR(INT0_vect){ //Knappetrykk interrupt
 	//Flagg toggles automatisk
 	//Button External interrupt Disable
 	GICR&= ~(1<<INT0);
 	JoyBtnPressed += 1;
-	
 
 	
 	// Reset Timer

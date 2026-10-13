@@ -4,6 +4,7 @@
 #include <avr/delay.h>
 
 #include "Joystick.h"
+#include "SPI.h"
 
 void Init_OLED(void);
 void OLED_reset();
@@ -18,5 +19,10 @@ void OLED_home();
 void OLED_print_char(char c);
 void OLED_print(char* str);
 void OLED_Menu_Home();
-void OLED_Menu_POINTER(uint8_t pointer);
+void OLED_Menu_Pointer(uint8_t pointer);
 void OLED_Menu_Select(Direction_t direction);
+void OLED_Menu_Enter();
+void OLED_Play();      
+void OLED_GameMode();
+void OLED_Tutorial();
+void OLED_Calibrate();
