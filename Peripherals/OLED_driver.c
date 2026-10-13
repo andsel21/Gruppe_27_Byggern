@@ -3,8 +3,6 @@
 #include "../Communication/SPI_driver.h"
 #include "../fonts.h"
 
-
-
 extern SPI_CS_t ChipSelect;
 
 void Init_OLED(void){
@@ -80,7 +78,53 @@ void OLED_print(char* str){
 	}
 }
 
+
+
+
+
+void OLED_Menu_Pointer(uint8_t indeks) {			
+    for (uint8_t i = 0; i < linjeSize; i++) {
+        OLED_POS(menu_linjer[i], 0);
+        OLED_print_char(i == indeks ? '>' : ' ');
+	}
+}
+
+void OLED_Play_Pointer(uint8_t indeks) {
+	for (uint8_t i = 0; i < play_linjeSize; i++) {
+		OLED_POS(play_linjer[i], 0);
+		OLED_print_char(i == indeks ? '>' : ' ');
+	}
+}
+
+void OLED_GameMode_Pointer(uint8_t indeks) {
+	for (uint8_t i = 0; i < gamemode_linjeSize; i++) {
+		OLED_POS(gamemode_linjer[i], 0);
+		OLED_print_char(i == indeks ? '>' : ' ');
+	}
+}
+
+void OLED_Tutorial_Pointer(uint8_t indeks) {
+	for (uint8_t i = 0; i < tutorial_linjeSize; i++) {
+		OLED_POS(tutorial_linjer[i], 0);
+		OLED_print_char(i == indeks ? '>' : ' ');
+	}
+}
+
+void OLED_Calibrate_Pointer(uint8_t indeks) {
+	for (uint8_t i = 0; i < calibrate_linjeSize; i++) {
+		OLED_POS(calibrate_linjer[i], 0);
+		OLED_print_char(i == indeks ? '>' : ' ');
+	}
+}
+
+static uint8_t indeks = 0;
+static Direction_t old_direction = NEUTRAL;
+extern volatile uint8_t JoyBtnPressed; // Declare the external variable
+
 void OLED_Menu_Home(){
+	menu_state = STATE_HOME;
+	static const uint8_t menu_linjer[] = {1, 3, 5, 7};
+	uint8_t menu_lineSize = sizeof(menu_linjer) / sizeof(menu_linjer[0]);
 	// Page 0: Titel
  	OLED_POS(0, 8); OLED_print("Ping-Pong Game");
 	// Page 1: Cleard
@@ -95,80 +139,160 @@ void OLED_Menu_Home(){
 	OLED_clear_line(5); OLED_POS(5, 8); OLED_print("Tutorial");
 	// Page 7: Calibrate
 	OLED_clear_line(7); OLED_POS(7, 8); OLED_print("Calibrate");
+	OLED_Menu_Pointer();
 }
+
+	static const uint8_t play_linjer[] = {3, 7};
+	uint8_t play_lineSize = sizeof(play_linjer) / sizeof(play_linjer[0]);
 void OLED_Play(){ //Play skjerm
+	menu_state = STATE_PLAY;
 	OLED_reset();
-	OLED_POS(4, 20);
+	OLED_POS(3, 20);
 	OLED_print("Playing");
+	OLED_POS(7, 20);
+	OLED_print("Return");
+	OLED_Play_Pointer();
 }
 
+	static const uint8_t gamemode_linjer[] = {3, 7};
+	uint8_t gamemode_lineSize = sizeof(gamemode_linjer) / sizeof(gamemode_linjer[0]);
 void OLED_GameMode(){ //Game mode skjerm
+	menu_state = STATE_GAMEMODE;
+	aktiverte linjer = gamemode_linjer;
 	OLED_reset();
-	OLED_POS(4, 20);
+	OLED_POS(3, 20);
 	OLED_print("Game mode");
+	OLED_POS(7, 20);
+	OLED_print("Return");
+	OLED_GameMode_Pointer();
 }
 
+	static const uint8_t tutorial_linjer[] = {3, 7};
+	uint8_t tutorial_lineSize = sizeof(tutorial_linjer) / sizeof(tutorial_linjer[0]);
 void OLED_Tutorial(){ //Tutorial skjerm
+	menu_state = STATE_TUTORIAL;
+	aktiverte linjer = tutorial_linjer;	
 	OLED_reset();
-	OLED_POS(4, 20);
+	OLED_POS(3, 20);
 	OLED_print("Tutorial");
+	OLED_POS(7, 20);
+	OLED_print("Return");
+	OLED_Tutorial_Pointer();
 }
 
+	static const uint8_t calibrate_linjer[] = {3, 7};
+	uint8_t calibrate_lineSize = sizeof(calibrate_linjer) / sizeof(calibrate_linjer[0]);
 void OLED_Calibrate(){ //Calibrate skjerm
+	menu_state = STATE_CALIBRATE;
+	aktiverte linjer = calibrate_linjer;
 	OLED_reset();
-	OLED_POS(4, 20);
+	OLED_POS(3, 20);
 	OLED_print("Calibrate");
-}
-
-static const uint8_t menu_linjer[] = {1, 3, 5, 7};  // Play, Game mode, Tutorial, Calibrate
-uint8_t linjeSize = sizeof(menu_linjer) / sizeof(menu_linjer[0]); // Number of menu lines
-
-static uint8_t indeks = 0; // Current menu index
-static Direction_t old_direction = NEUTRAL;
-
-
-void OLED_Menu_Pointer(uint8_t indeks) {
-    for (uint8_t i = 0; i < linjeSize; i++) {
-        OLED_POS(menu_linjer[i], 0);
-        OLED_print_char(i == indeks ? '>' : ' ');
-	}
+	OLED_POS(7, 20);
+	OLED_print("Return");
+	OLED_Calibrate_Pointer();
 }
 
 void OLED_Menu_Select(Direction_t direction) {
-    if (direction != old_direction) {            
-
-        if (menu_state == STATE_HOME) {
-            if (direction == DOWN && indeks < MENU_ITEMS - 1) {
+	menu_state = STATE_HOME;
+	aktiverte linjer = menu_linjer;
+	if (direction != old_direction) {            
+            if (direction == DOWN && indeks < menu_lineSize - 1) {
                 indeks++;
                 OLED_Menu_POINTER(indeks);
             } else if (direction == UP && indeks > 0) {
                 indeks--;
                 OLED_Menu_POINTER(indeks);
             }
-        } else {
-            if (direction == LEFT) {                // tilbake til hovedmenyen
-                menu_state = STATE_HOME;
-                OLED_Menu_Home();
-            }
-        }
-    }
+        } 
     old_direction = direction;         
 }
 
-extern volatile uint8_t JoyBtnPressed; // Declare the external variable
+void OLED_Play_Select(Direction_t direction) {
+	menu_state = STATE_PLAY;
+	aktiverte linjer = play_linjer;
+	if (direction != old_direction) {            
+			if (direction == DOWN && indeks < play_lineSize - 1) {
+				indeks++;
+				OLED_Play_Pointer(indeks);
+			} else if (direction == UP && indeks > 0) {
+				indeks--;
+				OLED_Play_Pointer(indeks);
+			}
+		} 
+	old_direction = direction;         
+}
+
+void OLED_GameMode_Select(Direction_t direction) {
+	menu_state = STATE_GAMEMODE;
+	aktiverte linjer = gamemode_linjer;
+	if (direction != old_direction) {            
+			if (direction == DOWN && indeks < gamemode_lineSize - 1) {
+				indeks++;
+				OLED_GameMode_Pointer(indeks);
+			} else if (direction == UP && indeks > 0) {
+				indeks--;
+				OLED_GameMode_Pointer(indeks);
+			}
+		} 
+	old_direction = direction;         
+}
+
+void OLED_Tutorial_Select(Direction_t direction) {
+	menu_state = STATE_TUTORIAL;
+	aktiverte linjer = tutorial_linjer;
+	if (direction != old_direction) {            
+			if (direction == DOWN && indeks < tutorial_lineSize - 1) {
+				indeks++;
+				OLED_Tutorial_Pointer(indeks);
+			} else if (direction == UP && indeks > 0) {
+				indeks--;
+				OLED_Tutorial_Pointer(indeks);
+			}
+		} 
+	old_direction = direction;         
+}
+
+void OLED_Calibrate_Select(Direction_t direction) {
+	menu_state = STATE_CALIBRATE;
+	aktiverte linjer = calibrate_linjer;
+	if (direction != old_direction) {            
+			if (direction == DOWN && indeks < calibrate_lineSize - 1) {
+				indeks++;
+				OLED_Calibrate_Pointer(indeks);
+			} else if (direction == UP && indeks > 0) {
+				indeks--;
+				OLED_Calibrate_Pointer(indeks);
+			}
+		} 
+	old_direction = direction;         
+}
 
 void OLED_Menu_Enter(){
+	menu_state == STATE_HOME
 	if (JoyBtnPressed == 0) {            // ingen trykk, gjør ingenting
         return;
     }
     JoyBtnPressed = 0;                   // "bruk opp" trykket
 
-	if (indeks == 0) menu_state = STATE_PLAY; OLED_Play();
+	if (indeks == 0) {menu_state = STATE_PLAY; OLED_Play();
 	} else if (indeks == 1) {menu_state = STATE_GAMEMODE; OLED_GameMode();
 	} else if (indeks == 2) {menu_state = STATE_TUTORIAL; OLED_Tutorial();
 	} else if (indeks == 3) {menu_state = STATE_CALIBRATE; OLED_Calibrate();
+	}
+	
 }
 
+void ReturnToHomeMenu() {
+	menu_state = STATE_PLAY || menu_state == STATE_GAMEMODE || menu_state == STATE_TUTORIAL || menu_state == STATE_CALIBRATE;
+	if (JoyBtnPressed == 0) {            // ingen trykk, gjør ingenting
+        return;
+    }
+    JoyBtnPressed = 0;                   // "bruk opp" trykket
+
+		if (indeks == 1) {menu_state = STATE_HOME; OLED_Menu_Home();
+		}
+}
 /* =========================================================
    PRINT ARROW FUNCTION FOR FUN
    ========================================================= */

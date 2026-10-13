@@ -36,3 +36,8 @@ void OLED_Play();
 void OLED_GameMode();
 void OLED_Tutorial();
 void OLED_Calibrate();
+void OLED_Play_Pointer(uint8_t pointer);
+void OLED_GameMode_Pointer(uint8_t pointer);
+void OLED_Tutorial_Pointer(uint8_t pointer);
+void OLED_Calibrate_Pointer(uint8_t pointer);       
+void ReturnToHomeMenu();
