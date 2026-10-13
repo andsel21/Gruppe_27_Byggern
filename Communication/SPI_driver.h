@@ -8,6 +8,7 @@
 #pragma once
 
 #include <avr/io.h>
+#include <avr/delay.h>
 
 uint8_t writeBYTE;
 

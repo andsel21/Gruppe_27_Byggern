@@ -99,3 +99,34 @@ uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS, uint8_t D_C){ //byte = data to s
 }
 
 
+uint8_t CtnRightBtns;
+uint8_t CtnLeftBtns;
+uint8_t Navigation;
+
+uint8_t Board_Buttons(){
+	SPI_Transfer(0x05, SPI_ID_CONTROLLER, 0); 	// Send Command = D/C= 0
+	_delay_us(40);
+	CtnRightBtns = SPI_Transfer(0x00, SPI_ID_CONTROLLER, 1);
+	CtnLeftBtns = SPI_Transfer(0x00, SPI_ID_CONTROLLER, 1);
+	Navigation = SPI_Transfer(0x00, SPI_ID_CONTROLLER, 1);
+	return 0;
+}
+
+
+void Board_LEDS(uint8_t LED, uint8_t State){
+	// LED = 0x00 to 0x04
+	// State = 0x00: off, 0x01: on
+	SPI_Transfer(0x05, SPI_ID_CONTROLLER, 0);
+	_delay_us(40);
+	SPI_Transfer(LED, SPI_ID_CONTROLLER, 0);
+	SPI_Transfer(State, SPI_ID_CONTROLLER, 0);
+}
+
+void Board_PWM_LEDS(uint8_t LED, uint8_t PWM){
+	// LED = 0x00 to 0x05
+	// State = 0x00: off, 0xFF: Fully on
+	SPI_Transfer(0x05, SPI_ID_CONTROLLER, 0);
+	_delay_us(40);
+	SPI_Transfer(LED, SPI_ID_CONTROLLER, 0);
+	SPI_Transfer(PWM, SPI_ID_CONTROLLER, 0);
+}
