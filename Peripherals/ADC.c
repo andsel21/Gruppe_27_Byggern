@@ -18,10 +18,36 @@
 
 /* BUSY connected to PE0 */
 #define ADC_BUSY  PE0
+#define PE0_ADC_BUSY PE0
+
+
+#define PD5_CLK PD5
+#define PD3_DetPD3SkaVer PD3
+
+
+
+// extern PinStruct_t PINS;
 
 void Init_ADC(void)
 {
 	// PD5 / OC1A as output - connected to CLK (pin9) MAX156
+
+	//------------------------------------------------------------------------------------
+		//Erstattning for DDR registerene
+		//Configuring - Pin direction
+		*PINS.D_Config |= (1 << PD5_CLK);
+		*PINS.D_Config &= ~(1 << PD3_DetPD3SkaVer);
+
+		*PINS.A_Config |= (1 << PD5_CLK);
+
+		//BUSY AS INPUT
+		*PINS.E_Config &= ~(1 << PE0_ADC_BUSY);
+
+		
+		//Setting Output Level
+		*PINS.D_Set_H_L |= (1 << PD3_DetPD3SkaVer);
+
+	//------------------------------------------------------------------------------------
 	DDRD |= (1 << PD5);
 
 	DDRD &= ~(1 << PD3);

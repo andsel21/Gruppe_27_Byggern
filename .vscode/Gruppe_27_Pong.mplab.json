@@ -200,21 +200,41 @@
                 "Communication/*",
                 "Peripherals/*",
                 "TEST_Functions/*",
-                "Utils/*"
+                "Utils/*",
+                "BuiltInTimers/*"
             ],
             "encoding": "utf-8"
         },
         {
             "name": "Debug files",
             "files": [
-                "ExternalMemory/*",
-                "*.c",
-                "Communication/*",
-                "Peripherals/*",
-                "TEST_Functions/*",
-                "Utils/*"
-            ],
-            "encoding": "utf-8"
+                {
+                    "include": "ExternalMemory/*",
+                    "encoding": "utf-8"
+                },
+                {
+                    "include": "*.c",
+                    "encoding": "utf-8"
+                },
+                {
+                    "include": "Communication/*",
+                    "encoding": "utf-8"
+                },
+                {
+                    "include": "Peripherals/*",
+                    "encoding": "utf-8"
+                },
+                {
+                    "include": "TEST_Functions/*",
+                    "encoding": "utf-8"
+                },
+                {
+                    "include": "Utils/*",
+                    "encoding": "utf-8"
+                },
+                "BuiltInTimers/Timers.c",
+                "BuiltInTimers/Timers.h"
+            ]
         }
     ]
 }

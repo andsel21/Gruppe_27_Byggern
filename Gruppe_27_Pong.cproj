@@ -175,10 +175,10 @@
     <Compile Include="TEST_Functions\TEST_Functions.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Timers\Timer.h">
+    <Compile Include="BuiltInTimers\Timer.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Timers\Timers.c">
+    <Compile Include="BuiltInTimers\Timer.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Utils\BitHandling.h">
@@ -190,7 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ExternalMemory" />
-    <Folder Include="Timers" />
+    <Folder Include="BuiltInTimers" />
     <Folder Include="Peripherals" />
     <Folder Include="TEST_Functions" />
     <Folder Include="Utils" />

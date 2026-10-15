@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include "../Utils/PinStructure.h"
 
 void Init_ADC(void);
 uint8_t ADC_read_channel(uint8_t channel);

@@ -2,13 +2,18 @@
 #include "OLED_driver.h"
 #include "../Communication/SPI_driver.h"
 #include "../fonts.h"
+#include "../Utils/PinStructure.h"
+#include "../Utils/bithandling.h"
 
 extern SPI_CS_t ChipSelect;
 
 void Init_OLED(void){
 	//PB2 = DISP D/C#
+	*PINS.B_Config |= (1 << PB2_D_C); //Setter PB2 som output for OLED D/C#
+	SET_BIT(*PINS.B_Config, PB2_D_C);
+
 	DDRB |= (1 << PB2); //Setter PB2 som output for OLED D/C#
-	DDRB |= (1 << PB3); //Setter PB3 som output for OLED CS
+	DDRB |= (1 << PB3); //Setter PB3 som output for OLED CS	
 	PORTB &= ~(1 <<PB2); //Setter D/C# til 0 for command
 	PORTB &= ~(1 <<PB3); //Setter CS til 0 for command
 

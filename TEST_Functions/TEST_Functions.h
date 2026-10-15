@@ -10,5 +10,6 @@
 #include <avr/io.h>
 #include <avr/delay.h>
 #include "../Utils/BitHandling.h"
+#include "../Utils/PinStructure.h"
 
 void sqaureWaveFuncPB0();
