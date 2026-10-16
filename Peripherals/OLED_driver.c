@@ -111,45 +111,109 @@ static void set_aktiv_meny(MenuState_t state, const uint8_t* lines, uint8_t size
 	OLED_reset();
 }
 
-//Skjermer
-void OLED_Menu_Home() {
-	set_aktiv_meny(STATE_HOME, menu_line, ANTALL(menu_line), home_indeks);
-	OLED_POS(0, 8); OLED_print("Ping-Pong Game");
+//Skjerm design 
+void OLED_Menu_Home(){
+	menu_state = STATE_HOME;
+
+	// Page 0: Titel
+ 	OLED_POS(0, 8); OLED_print("Ping-Pong Game");
+	// Page 1: Cleard
+	OLED_clear_line(1);
+	// Page 2: Play
 	OLED_POS(2, 8); OLED_print("Play");
+	// Page 3: Cleard
+	OLED_clear_line(3);
+	// Page 4: Game mode
 	OLED_POS(4, 8); OLED_print("Game mode");
+	// Page 5: Cleard
+	OLED_clear_line(5);
+	// Page 6: Tutorial
 	OLED_POS(6, 8); OLED_print("Tutorial");
-	OLED_POS(7, 8); OLED_print("Calibrate");
+	// Page 7: Calibrate
+	OLED_clear_line(7); OLED_POS(7, 8); OLED_print("Calibrate");
 	OLED_Pointer();
 }
 
-void OLED_Play() {
-	set_aktiv_meny(STATE_PLAY, play_line, ANTALL(play_line), 0);
-	OLED_POS(0, 8); OLED_print("Play");
+void OLED_Play(){
+	menu_state = STATE_PLAY;
+	// Page 0: Titel
+ 	OLED_POS(0, 8); OLED_print("Play");
+	// Page 1: Cleard
+	OLED_clear_line(1);
+	//page 2: cleard
+	OLED_clear_line(2);
+	// Page 3: Start game
 	OLED_POS(3, 8); OLED_print("Start game");
+	// Page 4: Cleard
+	OLED_clear_line(4);
+	// Page 5: Cleard
+	OLED_clear_line(5); 
+	// Page 6: Cleard
+	OLED_clear_line(6);
+	// Page 7: Back to menu
 	OLED_POS(7, 8); OLED_print("Back to menu");
 	OLED_Pointer();
 }
 
-void OLED_GameMode() {
-	set_aktiv_meny(STATE_GAMEMODE, gamemode_line, ANTALL(gamemode_line), 0);
-	OLED_POS(0, 8); OLED_print("Game mode");
+void OLED_GameMode(){
+	menu_state = STATE_GAMEMODE;
+	// Page 0: Titel
+ 	OLED_POS(0, 8); OLED_print("Game mode");
+	// Page 1: Cleard
+	OLED_clear_line(1);
+	//page 2: cleard
+	OLED_clear_line(2);
+	// Page 3: Single player
 	OLED_POS(3, 8); OLED_print("Single player");
+	// Page 4: Cleard
+	OLED_clear_line(4);
+	// Page 5: Cleared
+	OLED_clear_line(5);
+	// Page 6: Cleard
+	OLED_clear_line(6);
+	// Page 7: Back to menu
 	OLED_POS(7, 8); OLED_print("Back to menu");
 	OLED_Pointer();
 }
 
-void OLED_Tutorial() {
-	set_aktiv_meny(STATE_TUTORIAL, tutorial_line, ANTALL(tutorial_line), 0);
-	OLED_POS(0, 8); OLED_print("Tutorial");
+void OLED_Tutorial(){
+	menu_state = STATE_TUTORIAL;
+	// Page 0: Titel
+ 	OLED_POS(0, 8); OLED_print("Tutorial");
+	// Page 1: Cleard
+	OLED_clear_line(1);
+	//page 2: cleard
+	OLED_clear_line(2);
+	// Page 3: Start tutorial
 	OLED_POS(3, 8); OLED_print("Start tutorial");
+	// Page 4: Cleard
+	OLED_clear_line(4);
+	// Page 5: Cleard
+	OLED_clear_line(5);
+	// Page 6: Cleard
+	OLED_clear_line(6);
+	// Page 7: Back to menu
 	OLED_POS(7, 8); OLED_print("Back to menu");
 	OLED_Pointer();
 }
 
-void OLED_Calibrate() {
-	set_aktiv_meny(STATE_CALIBRATE, calibrate_line, ANTALL(calibrate_line), 0);
-	OLED_POS(0, 8); OLED_print("Calibrate");
-	OLED_POS(3, 8); OLED_print("Calibrate now");
+void OLED_Calibrate(){
+	menu_state = STATE_CALIBRATE;
+	// Page 0: Titel
+ 	OLED_POS(0, 8); OLED_print("Calibrate");
+	// Page 1: Cleard
+	OLED_clear_line(1);
+	//page 2: cleard
+	OLED_clear_line(2);
+	// Page 3: Start calibration
+	OLED_POS(3, 8); OLED_print("Start calibration");
+	// Page 4: Cleard
+	OLED_clear_line(4);
+	// Page 5: Cleard
+	OLED_clear_line(5);
+	// Page 6: Cleard
+	OLED_clear_line(6);
+	// Page 7: Back to menu
 	OLED_POS(7, 8); OLED_print("Back to menu");
 	OLED_Pointer();
 }
