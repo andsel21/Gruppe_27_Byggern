@@ -108,10 +108,11 @@ int main(void)
 
 	while (1)
     {
-		_delay_ms(1);
-		OLED_Menu_Select(DIR_JOYSTICK);
-		OLED_Menu_Enter();
-		ReturnToHomeMenu();
+        _delay_ms(1);
+        OLED_Menu_Select(DIR_JOYSTICK);   // flytt markøren
+        OLED_Menu_Enter();                // reager på knappetrykk
+    }
+}
 		SRAMaddress.PTR = (volatile uint8_t*)0x1800;
 
 		printf("BUTTON : %d\n",JoyBtnPressed);
