@@ -117,7 +117,6 @@ ISR(INT0_vect){ //Knappetrykk interrupt
 	//Button External interrupt Disable
 	GICR&= ~(1<<INT0);
 	JoyBtnPressed += 1;
-	OLED_Menu_Enter();
 
 	
 	// Reset Timer
