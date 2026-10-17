@@ -25,23 +25,23 @@ SPI_CS_t ChipSelect;
 
 extern volatile uint8_t JoyBtnPressed;
 
-void SELECTIIOON(){
-	if(menu_state == STATE_HOME){
-	OLED_Menu_Home_Select(DIR_JOYSTICK);
-	}
-	if(menu_state == STATE_PLAY){
-		OLED_Play_Select(DIR_JOYSTICK);
-	}
-	if(menu_state == STATE_GAMEMODE){
-		OLED_GameMode_Select(DIR_JOYSTICK);
-	}
-	if(menu_state == STATE_TUTORIAL){
-		OLED_Tutorial_Select(DIR_JOYSTICK);
-	}
-	if(menu_state == STATE_CALIBRATE){
-		OLED_Calibrate_Select(DIR_JOYSTICK);
-	}
+void Print_to_Screen_Joystick(joystick_io_t *js){
+		if(menu_state==STATE_CALIBRATE){
+        char buffer[8];
 
+        // X
+        OLED_POS(3, 36);
+        sprintf(buffer, "%d", js->scaled_x_axis);
+        OLED_print(buffer);
+        OLED_print("    ");
+
+        // Y
+        OLED_POS(4, 36);
+        sprintf(buffer, "%d", js->scaled_y_axis);
+        OLED_print(buffer);
+        OLED_print("    ");
+		}
+		
 }
 
 int main(void)
@@ -71,18 +71,23 @@ int main(void)
 	//SRAM_test();
 
 
-	OLED_Menu_Home();
+	OLED_DrawMenu();
+
+	
+
 
 	while (1)
     {
 		_delay_ms(1);
-		SELECTIIOON();
-		// OLED_ReturnToHomeMenu();
+		OLED_Select(DIR_JOYSTICK);
+		Print_to_Screen_Joystick(&JOYSTICK);
+
 		SRAMaddress.PTR = (volatile uint8_t*)0x1800;
 
-		printf("BUTTON : %d\n",JoyBtnPressed);
+		//printf("BUTTON : %d\n",JoyBtnPressed);
 		ReadAndScale(&JOYSTICK);	
-		// JoyStickPos_Print(&JOYSTICK);
+		//JoyStickPos_Print(&JOYSTICK);
+
 		DIR_JOYSTICK = JoyDirection(&JOYSTICK);
 		// printf("DIRECTION: %d\n",DIR_JOYSTICK);
         
