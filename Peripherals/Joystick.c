@@ -9,6 +9,7 @@
 #include "Joystick.h"
 #include "ADC.h"
 #include "../Utils/ScaleMapping.h"
+#include "OLED_driver.h"
 
 volatile uint8_t JoyBtnPressed;
 
@@ -116,7 +117,8 @@ ISR(INT0_vect){ //Knappetrykk interrupt
 	//Button External interrupt Disable
 	GICR&= ~(1<<INT0);
 	JoyBtnPressed += 1;
-	printf("what?\n");
+	OLED_Menu_Enter();
+
 	
 	// Reset Timer
 	TCNT3 = 0;

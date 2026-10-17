@@ -25,6 +25,25 @@ SPI_CS_t ChipSelect;
 
 extern volatile uint8_t JoyBtnPressed;
 
+void SELECTIIOON(){
+	if(menu_state == STATE_HOME){
+	OLED_Menu_Home_Select(DIR_JOYSTICK);
+	}
+	if(menu_state == STATE_PLAY){
+		OLED_Play_Select(DIR_JOYSTICK);
+	}
+	if(menu_state == STATE_GAMEMODE){
+		OLED_GameMode_Select(DIR_JOYSTICK);
+	}
+	if(menu_state == STATE_TUTORIAL){
+		OLED_Tutorial_Select(DIR_JOYSTICK);
+	}
+	if(menu_state == STATE_CALIBRATE){
+		OLED_Calibrate_Select(DIR_JOYSTICK);
+	}
+
+}
+
 int main(void)
 {
 	struct MemoryReadWrite SRAMaddress = {
@@ -48,24 +67,17 @@ int main(void)
 
 	Init_OLED();
 	OLED_reset();
+
 	//SRAM_test();
 
 
-	///TESTING arrow printing on OLED
-	OLED_print_arrow(4, 20);
-
-	// for(uint8_t i = 0; i < 100;i++){
-	// 	OLED_print_arrow(4, i);
-	// }
-		
 	OLED_Menu_Home();
 
 	while (1)
     {
 		_delay_ms(1);
-		//OLED_Menu_Select(DIR_JOYSTICK);
-		// OLED_Menu_Enter();
-		//ReturnToHomeMenu();
+		SELECTIIOON();
+		// OLED_ReturnToHomeMenu();
 		SRAMaddress.PTR = (volatile uint8_t*)0x1800;
 
 		printf("BUTTON : %d\n",JoyBtnPressed);
