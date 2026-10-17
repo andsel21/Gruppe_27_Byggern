@@ -47,6 +47,7 @@ void Init_ADC(void)
 		//Setting Output Level
 		*PINS.D_Set_H_L |= (1 << PD3_DetPD3SkaVer);
 
+
 	//------------------------------------------------------------------------------------
 	DDRD |= (1 << PD5);
 

@@ -79,7 +79,7 @@ void InitSRAM(void){
 void WriteSRAM(struct MemoryReadWrite SRAMaddress){
 		for(uint8_t i = 0;i < SRAMaddress.package_size; i++)
 		{
-			if(SRAMaddress.PTR >= 0x1800 && SRAMaddress.PTR <= (0x1FFF - SRAMaddress.package_size)){
+			if((uintptr_t)SRAMaddress.PTR >= 0x1800 && (uintptr_t)SRAMaddress.PTR <= (0x1FFF - SRAMaddress.package_size + 1)){
 			SRAMaddress.PTR[i] = SRAMaddress.package;
 			}else{
 				printf("Trying to write outside mem-area of SRAM");
@@ -90,7 +90,7 @@ void WriteSRAM(struct MemoryReadWrite SRAMaddress){
 void ReadSRAM(struct MemoryReadWrite SRAMaddress, uint8_t ReadData[]){
 		for (uint8_t i = 0; i < SRAMaddress.package_size;i++)
 		{
-			if(SRAMaddress.PTR >= 0x1800 && SRAMaddress.PTR <= (0x17FFF - SRAMaddress.package_size)){
+			if((uintptr_t)SRAMaddress.PTR >= 0x1800 && (uintptr_t)SRAMaddress.PTR <= (0x17FF - (uintptr_t)SRAMaddress.package_size + 1)){
 			ReadData[i] = SRAMaddress.PTR[i];
 			}else{
 				printf("Trying to read outside mem-area of SRAM");

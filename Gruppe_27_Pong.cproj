@@ -175,10 +175,10 @@
     <Compile Include="TEST_Functions\TEST_Functions.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="BuiltInTimers\Timer.h">
+    <Compile Include="Timers\Timer.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="BuiltInTimers\Timer.h">
+    <Compile Include="Timers\Timer.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Utils\BitHandling.h">
@@ -194,6 +194,7 @@
     <Folder Include="Peripherals" />
     <Folder Include="TEST_Functions" />
     <Folder Include="Utils" />
+    <Folder Include="Timers" />
     <Folder Include="Communication" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />

@@ -12,6 +12,7 @@
 #include <stdbool.h>
 #include "../Utils/PinStructure.h"
 
+
 void timer3_init(void);
 void JoyBtnPress(void);
 
@@ -36,6 +37,8 @@ typedef struct Timers{
     
     volatile uint8_t *GIFR_GeneralInterruptFlag;
     volatile uint8_t *GICR_GeneralInterruptControl;
+
+    volatile uint8_t *TCNT3_Timer3Counter;
 
 
 }TimerStruct_t;

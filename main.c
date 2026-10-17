@@ -13,7 +13,7 @@
 #include "Peripherals/Joystick.h"
 #include "Communication/SPI_driver.h"
 #include "Peripherals/OLED_driver.h"
-#include "BuiltInTimers/Timers.h"
+#include "Timers/Timers.h"
 
 
 /* =========================================================

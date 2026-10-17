@@ -9,6 +9,7 @@
 #include "Joystick.h"
 #include "ADC.h"
 #include "../Utils/ScaleMapping.h"
+#include "../Timers/Timers.h"
 
 volatile uint8_t JoyBtnPressed;
 

@@ -201,7 +201,7 @@
                 "Peripherals/*",
                 "TEST_Functions/*",
                 "Utils/*",
-                "BuiltInTimers/*"
+                "Timers/*"
             ],
             "encoding": "utf-8"
         },
@@ -232,8 +232,8 @@
                     "include": "Utils/*",
                     "encoding": "utf-8"
                 },
-                "BuiltInTimers/Timers.c",
-                "BuiltInTimers/Timers.h"
+                "Timers/Timers.c",
+                "Timers/Timers.h"   
             ]
         }
     ]
