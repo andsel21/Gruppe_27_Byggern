@@ -75,7 +75,11 @@ int main(void)
 
 	
 
-
+    // Husk: Button function ut av ISR, Lag global
+	// LED Off leaves PB0 high if already inside square wave function
+	// Menu can be interruoted. OLED_Select with interrpt changing menu State before complete
+	// To Do: 
+	//	Buttons 
 	while (1)
     {
 		_delay_ms(1);

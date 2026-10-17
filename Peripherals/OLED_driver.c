@@ -161,10 +161,14 @@ static const Menu_t menus[] = {
     [STATE_CALIBRATE] = {Menu_Calibrate, sizeof(Menu_Calibrate) / sizeof(Menu_Calibrate[0])}
 };
 
-// Peker på meny Home
-// const Menu_t *menu = &menus[STATE_HOME];
-// Peker på velgbare linje i en menu (Ikke i global )
-// const MenuLines_t *item = &menu->Lines[0];
+/* =========================================================
+   TO DO 
+   ========================================================= */
+/
+/ / Peker på meny Home
+/ / const Menu_t *menu = &menus[STATE_HOME];
+/ / Peker på velgbare linje i en menu (Ikke i global )
+/ / const MenuLines_t *item = &menu->Lines[0];
 
 
 
