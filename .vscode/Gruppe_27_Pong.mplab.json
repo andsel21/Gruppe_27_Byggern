@@ -46,7 +46,7 @@
         {
             "name": "Debug-avr-gcc",
             "type": "toolchain",
-            "provider": "microchip.toolchains:xc8@4.00",
+            "provider": "microchip.toolchains:xc8@3.10",
             "properties": {
                 "global.relax-branches": false,
                 "global.external-ram-check": false,
@@ -118,7 +118,7 @@
         {
             "name": "Release-avr-gcc",
             "type": "toolchain",
-            "provider": "microchip.toolchains:xc8@4.00",
+            "provider": "microchip.toolchains:xc8@3.10",
             "properties": {
                 "global.relax-branches": false,
                 "global.external-ram-check": false,
@@ -200,6 +200,7 @@
                 "Communication/*",
                 "Peripherals/*",
                 "TEST_Functions/*",
+                "Timers/*",
                 "Utils/*"
             ],
             "encoding": "utf-8"
@@ -207,14 +208,36 @@
         {
             "name": "Debug files",
             "files": [
-                "ExternalMemory/*",
-                "*.c",
-                "Communication/*",
-                "Peripherals/*",
-                "TEST_Functions/*",
-                "Utils/*"
-            ],
-            "encoding": "utf-8"
+                {
+                    "include": "ExternalMemory/*",
+                    "encoding": "utf-8"
+                },
+                {
+                    "include": "*.c",
+                    "encoding": "utf-8"
+                },
+                {
+                    "include": "Communication/*",
+                    "encoding": "utf-8"
+                },
+                {
+                    "include": "Peripherals/*",
+                    "encoding": "utf-8"
+                },
+                {
+                    "include": "TEST_Functions/*",
+                    "encoding": "utf-8"
+                },
+                {
+                    "include": "Utils/*",
+                    "encoding": "utf-8"
+                },
+                {
+                    "include": "Timers/*",
+                    "encoding": "utf-8"
+                },
+                "Timers/Timers.h"
+            ]
         }
     ]
 }
