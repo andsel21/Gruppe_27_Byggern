@@ -8,7 +8,8 @@
 
 #include "SPI_driver.h"
 #include <stdio.h>
-
+//#include "../Utils/PIN_Alias.h"
+#define PB2_D_C PB2
 #define SPI_SS PB4
 #define SPI_MOSI PB5
 #define SPI_MISO PB6
@@ -55,9 +56,14 @@ uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS, uint8_t D_C){ //byte = data to s
 	if(CS == SPI_ID_CONTROLLER){ //N�r man sender data ut p� MOSI, vil OLED returnere samme data p� MISO.
 		PORTB |= (1 << PB3); // Deaktiverer OLED SLAVE cHIP
 		PORTB &= ~(1<<PB4); //Aktiver Slave chip(IO), deaktiver andre senere
+		if(D_C){
+			PORTB |= (1<<PB2_D_C); //D/C# PIN - DATA	
+		}else{
+			PORTB &= ~(1<<PB2_D_C); // D/C# PIN - COMMAND
+		}
 		SPDR = byte;
 		while(!(SPSR & (1 << SPIF))); //Wait for transmission complete
-		PORTB |= (1<<PB4); // deaktiverer etter melding
+		// PORTB |= (1<<PB4); // deaktiverer etter melding
 		// if(SPDR != byte){
 		// 	printf("DIFFERENCE!! \n"); //Kan lages som til error-funksjon`?
 		// }
@@ -69,9 +75,9 @@ uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS, uint8_t D_C){ //byte = data to s
 		PORTB |= (1 << PB4); // Deaktiverer CONTROLLER SLAVE cHIP
 		PORTB &= ~(1<<PB3); //Aktiver Slave chip(DISP_CS), deaktiver andre senere
 		if(D_C){
-			PORTB |= (1<<PB2); //D/C# PIN - DATA	
+			PORTB |= (1<<PB2_D_C); //D/C# PIN - DATA	
 		}else{
-			PORTB &= ~(1<<PB2); // D/C# PIN - COMMAND
+			PORTB &= ~(1<<PB2_D_C); // D/C# PIN - COMMAND
 		}
 		SPDR = byte;
 		while(!(SPSR & (1 << SPIF)));
@@ -98,18 +104,21 @@ uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS, uint8_t D_C){ //byte = data to s
 	//while(!(SPSR & (1 << SPIF))){ //Wait for transmission complete
 }
 
-
+Buttons boardbuttons;
 uint8_t CtnRightBtns;
 uint8_t CtnLeftBtns;
 uint8_t Navigation;
 
-uint8_t Board_Buttons(){
-	SPI_Transfer(0x05, SPI_ID_CONTROLLER, 0); 	// Send Command = D/C= 0
+void Board_Buttons(){
+	SPI_Transfer(0x04, SPI_ID_CONTROLLER, 0); 	// Send Command = D/C= 0
 	_delay_us(40);
-	CtnRightBtns = SPI_Transfer(0x00, SPI_ID_CONTROLLER, 1);
-	CtnLeftBtns = SPI_Transfer(0x00, SPI_ID_CONTROLLER, 1);
-	Navigation = SPI_Transfer(0x00, SPI_ID_CONTROLLER, 1);
-	return 0;
+	CtnRightBtns = SPI_Transfer(0x00, SPI_ID_CONTROLLER, 0);
+	CtnLeftBtns = SPI_Transfer(0x00, SPI_ID_CONTROLLER, 0);
+	Navigation = SPI_Transfer(0x00, SPI_ID_CONTROLLER, 0);
+	PORTB |= (1<<PB4);
+	boardbuttons.right = CtnRightBtns;
+	boardbuttons.left = CtnLeftBtns;
+	boardbuttons.nav = Navigation;
 }
 
 
@@ -119,14 +128,21 @@ void Board_LEDS(uint8_t LED, uint8_t State){
 	SPI_Transfer(0x05, SPI_ID_CONTROLLER, 0);
 	_delay_us(40);
 	SPI_Transfer(LED, SPI_ID_CONTROLLER, 0);
+	_delay_us(40);
 	SPI_Transfer(State, SPI_ID_CONTROLLER, 0);
+	_delay_us(40);
+	PORTB |= (1<<PB4);
 }
+
 
 void Board_PWM_LEDS(uint8_t LED, uint8_t PWM){
 	// LED = 0x00 to 0x05
 	// State = 0x00: off, 0xFF: Fully on
-	SPI_Transfer(0x05, SPI_ID_CONTROLLER, 0);
+	SPI_Transfer(0x06, SPI_ID_CONTROLLER, 0);
 	_delay_us(40);
 	SPI_Transfer(LED, SPI_ID_CONTROLLER, 0);
+	_delay_us(40);
 	SPI_Transfer(PWM, SPI_ID_CONTROLLER, 0);
+	PORTB |= (1<<PB4);
 }
+

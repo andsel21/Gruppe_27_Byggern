@@ -115,7 +115,6 @@ void LED_ON(){
 }
 void LED_OFF(){
     EnableSW = 0;
-    PORTB &= ~(1 << PB0); 
 }
 
 // {TEXT, Line, Collum, Type, Targetmenu, functionCall}
@@ -164,11 +163,11 @@ static const Menu_t menus[] = {
 /* =========================================================
    TO DO 
    ========================================================= */
-/
-/ / Peker på meny Home
-/ / const Menu_t *menu = &menus[STATE_HOME];
-/ / Peker på velgbare linje i en menu (Ikke i global )
-/ / const MenuLines_t *item = &menu->Lines[0];
+//
+// / Peker på meny Home
+// / const Menu_t *menu = &menus[STATE_HOME];
+// / Peker på velgbare linje i en menu (Ikke i global )
+// / const MenuLines_t *item = &menu->Lines[0];
 
 
 
@@ -215,7 +214,11 @@ void OLED_Pointer(uint8_t indeks) {
 
 void OLED_Menu_Action(void) {
 
+    if (JoyBtnPressed == 0){
+        return;
+    } 
     JoyBtnPressed = 0;
+
     const Menu_t *menu = &menus[menu_state];
     uint8_t selectableIndex = 0;
 

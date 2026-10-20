@@ -14,6 +14,7 @@
 #include "Communication/SPI_driver.h"
 #include "Peripherals/OLED_driver.h"
 #include "Timers/Timers.h"
+#include "Utils/PIN_Alias.h"
 
 /* =========================================================
    MAIN
@@ -24,6 +25,7 @@ Direction_t DIR_JOYSTICK = NEUTRAL;
 SPI_CS_t ChipSelect;
 
 extern volatile uint8_t JoyBtnPressed;
+extern Buttons boardbuttons;
 
 void Print_to_Screen_Joystick(joystick_io_t *js){
 		if(menu_state==STATE_CALIBRATE){
@@ -52,7 +54,7 @@ int main(void)
 		.PTR = (volatile uint8_t*)0x1800
 	};
 	
-	
+	DDRB |= (1 << PB0_LED_PULSE);
 			
 	uint8_t ArrayToHoldTestData[SRAMaddress.package_size];
 
@@ -80,12 +82,28 @@ int main(void)
 	// Menu can be interruoted. OLED_Select with interrpt changing menu State before complete
 	// To Do: 
 	//	Buttons 
+
+	Board_LEDS(0,1);
+	Board_LEDS(1,1);
+	Board_LEDS(2,1);
+	Board_LEDS(3,1);
+	Board_LEDS(4,0);
+	Board_LEDS(5,1);
+
+	// Board_PWM_LEDS(0,100);
+	// Board_PWM_LEDS(1,200);
+	// Board_PWM_LEDS(2,50);
+	// Board_PWM_LEDS(3,0);
+	// Board_PWM_LEDS(4,50);
+	// Board_PWM_LEDS(5,255);
+
+
 	while (1)
     {
 		_delay_ms(1);
 		OLED_Select(DIR_JOYSTICK);
+		OLED_Menu_Action();
 		Print_to_Screen_Joystick(&JOYSTICK);
-
 		SRAMaddress.PTR = (volatile uint8_t*)0x1800;
 
 		//printf("BUTTON : %d\n",JoyBtnPressed);
@@ -97,5 +115,8 @@ int main(void)
         
 		sqaureWaveFuncPB0();
 
+		Board_Buttons();
+		printf("hei %d   nr: %d\n", boardbuttons.L2,boardbuttons.L3);
     }
 }
+
