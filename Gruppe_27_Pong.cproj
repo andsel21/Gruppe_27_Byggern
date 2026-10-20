@@ -175,7 +175,7 @@
     <Compile Include="TEST_Functions\TEST_Functions.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Timers\Timer.h">
+    <Compile Include="Timers\Timers.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Timers\Timers.c">

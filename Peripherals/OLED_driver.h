@@ -14,7 +14,7 @@ typedef enum {
     STATE_CALIBRATE
 } MenuState_t;
 
-static MenuState_t menu_state = STATE_HOME;
+extern MenuState_t menu_state;
 
 void Init_OLED(void);
 void OLED_reset();
@@ -28,19 +28,13 @@ void OLED_clear_line(uint8_t page);
 void OLED_home();
 void OLED_print_char(char c);
 void OLED_print(char* str);
+
 void OLED_Menu_Home();
-void OLED_Menu_Pointer(uint8_t pointer);
-void OLED_Menu_Select(Direction_t direction);
-void OLED_Menu_Enter();
-void OLED_Play();      
-void OLED_GameMode();
-void OLED_Tutorial();
-void OLED_Calibrate();
-void OLED_Play_Pointer(uint8_t pointer);
-void OLED_GameMode_Pointer(uint8_t pointer);
-void OLED_Tutorial_Pointer(uint8_t pointer);
-void OLED_Calibrate_Pointer(uint8_t pointer);       
-void ReturnToHomeMenu();
-void OLED_Calibrate_Select(Direction_t direction);
-void OLED_Play_Select(Direction_t direction);
-void OLED_Tutorial_Select(Direction_t direction);
+
+void OLED_Menu_Action();
+
+void OLED_DrawMenu(void);
+ 
+void OLED_Pointer(uint8_t pointer);
+
+void OLED_Select(Direction_t direction);

@@ -13,54 +13,9 @@
 #include "Peripherals/Joystick.h"
 #include "Communication/SPI_driver.h"
 #include "Peripherals/OLED_driver.h"
-#include "Timers/Timer.h"
+#include "Timers/Timers.h"
+#include "Utils/PIN_Alias.h"
 
-
-void timer1_init(void){
-	//Set Mode 4: CTC with TOP = OCR1A
-	TCCR3B	|= (1<<WGM32);
-	//Set compare match for 100 Hz (10ms)
-	//OCR1A = 7679;
-	OCR3A = 767;
-}
-
-ISR(TIMER3_COMPA_vect){
-	//Gamle kode før debounce bug
-	// //Timer External interrupt Disable
-	// ETIMSK &= ~(1<<OCIE3A);
-	
-	// // Clear pending INT0 flag caused by bouncing
-	// GIFR |= (1 << INTF0);
-	// //Button External interrupt Enable
-	// GICR |= (1<<INT0);
-	 
-	// //Prescalar 64: Start Timer (CS11 = 1m CS10 = 1)
-	// TCCR3B &= ~(1<<CS31);
-	// TCCR3B &= ~(1 << CS30);
-
-    static uint8_t releaseSamples = 0;
-
-	//PD2 = JoyButton
-    if (PIND & (1 << PD2)) {
-        // Still pressed: keep INT0 disabled.
-        releaseSamples = 0;
-        return;
-    }
-
-    if (++releaseSamples < 3) {
-        return;
-    }
-
-    releaseSamples = 0;
-
-    // Stop Timer3 and disable its compare interrupt.
-    TCCR3B &= ~((1 << CS32) | (1 << CS31) | (1 << CS30));
-    ETIMSK &= ~(1 << OCIE3A);
-
-    // Clear bounce interrupts before accepting another press.
-    GIFR = (1 << INTF0);
-    GICR |= (1 << INT0);
-}
 /* =========================================================
    MAIN
    ========================================================= */
@@ -70,6 +25,26 @@ Direction_t DIR_JOYSTICK = NEUTRAL;
 SPI_CS_t ChipSelect;
 
 extern volatile uint8_t JoyBtnPressed;
+extern Buttons boardbuttons;
+
+void Print_to_Screen_Joystick(joystick_io_t *js){
+		if(menu_state==STATE_CALIBRATE){
+        char buffer[8];
+
+        // X
+        OLED_POS(3, 36);
+        sprintf(buffer, "%d", js->scaled_x_axis);
+        OLED_print(buffer);
+        OLED_print("    ");
+
+        // Y
+        OLED_POS(4, 36);
+        sprintf(buffer, "%d", js->scaled_y_axis);
+        OLED_print(buffer);
+        OLED_print("    ");
+		}
+		
+}
 
 int main(void)
 {
@@ -79,13 +54,13 @@ int main(void)
 		.PTR = (volatile uint8_t*)0x1800
 	};
 	
-	
+	DDRB |= (1 << PB0_LED_PULSE);
 			
 	uint8_t ArrayToHoldTestData[SRAMaddress.package_size];
 
 
     sei(); // Enable global interrupts
-	timer1_init();
+	timer3_init();
 	InitJoystick(&JOYSTICK);
     UART_init();
 	InitSRAM();
@@ -94,33 +69,54 @@ int main(void)
 
 	Init_OLED();
 	OLED_reset();
+
 	//SRAM_test();
 
 
-	///TESTING arrow printing on OLED
-	OLED_print_arrow(4, 20);
+	OLED_DrawMenu();
 
-	// for(uint8_t i = 0; i < 100;i++){
-	// 	OLED_print_arrow(4, i);
-	// }
-		
-	OLED_Menu_Home();
+	
+
+    // Husk: Button function ut av ISR, Lag global
+	// LED Off leaves PB0 high if already inside square wave function
+	// Menu can be interruoted. OLED_Select with interrpt changing menu State before complete
+	// To Do: 
+	//	Buttons 
+
+	Board_LEDS(0,1);
+	Board_LEDS(1,1);
+	Board_LEDS(2,1);
+	Board_LEDS(3,1);
+	Board_LEDS(4,0);
+	Board_LEDS(5,1);
+
+	// Board_PWM_LEDS(0,100);
+	// Board_PWM_LEDS(1,200);
+	// Board_PWM_LEDS(2,50);
+	// Board_PWM_LEDS(3,0);
+	// Board_PWM_LEDS(4,50);
+	// Board_PWM_LEDS(5,255);
+
 
 	while (1)
     {
 		_delay_ms(1);
-		OLED_Menu_Select(DIR_JOYSTICK);
-		OLED_Menu_Enter();
-		ReturnToHomeMenu();
+		OLED_Select(DIR_JOYSTICK);
+		OLED_Menu_Action();
+		Print_to_Screen_Joystick(&JOYSTICK);
 		SRAMaddress.PTR = (volatile uint8_t*)0x1800;
 
-		printf("BUTTON : %d\n",JoyBtnPressed);
+		//printf("BUTTON : %d\n",JoyBtnPressed);
 		ReadAndScale(&JOYSTICK);	
-		// JoyStickPos_Print(&JOYSTICK);
+		//JoyStickPos_Print(&JOYSTICK);
+
 		DIR_JOYSTICK = JoyDirection(&JOYSTICK);
 		// printf("DIRECTION: %d\n",DIR_JOYSTICK);
         
 		sqaureWaveFuncPB0();
 
+		Board_Buttons();
+		printf("hei %d   nr: %d\n", boardbuttons.L2,boardbuttons.L3);
     }
 }
+

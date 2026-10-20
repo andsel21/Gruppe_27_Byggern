@@ -6,14 +6,21 @@
  */ 
 
 #include "TEST_Functions.h"
+#include <avr/io.h>
+#include <stdio.h>
+
+
+uint8_t EnableSW = 1;
 
 void sqaureWaveFuncPB0(){
-	if(CHECK_BIT(DDRB,DDB0) == 0){
-		DDRB |= (1u<<DDB0);
+	if (EnableSW == 1) {
+		PORTB |= (1 << PB0);   // sett PB0 high
+		_delay_ms(250);   // styrer frekvense
+		PORTB &= ~(1 << PB0); // sett PB0 low
+		_delay_ms(50);  
 	}
-	PORTB |= (1 << PB0);   // sett PB0 hih
-	_delay_ms(250);   // styrer frekvensen
-	PORTB ^= (1 << PB0);  // sett PB0 low
-	_delay_ms(250);   // styrer frekvensen
+	else {
+	PORTB &= ~(1 << PB0); // sett PB0 low
+	}
 }
 

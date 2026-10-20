@@ -12,5 +12,6 @@
         "gdbtarget",
         "mplab-core-da"
     ],
-    "cmake.sourceDirectory": "/run/media/student/OSDisk/Users/andrksel/Desktop/Gruppe_27_Byggern/proj/VSC_Gruppe27_Byggern/Codebase_031026/Gruppe_27_Byggern/cmake/Gruppe_27_Pong/Debug"
+    "cmake.sourceDirectory": "/run/media/student/OSDisk/Users/andrksel/Desktop/Gruppe_27_Byggern/proj/VSC_Gruppe27_Byggern/Codebase_031026/Gruppe_27_Byggern/cmake/Gruppe_27_Pong/Debug",
+    "mplab.project.workspace.addNewSourceFiles": "Always"
 }

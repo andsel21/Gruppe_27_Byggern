@@ -11,6 +11,5 @@
 #include <avr/interrupt.h>
 #include <stdbool.h>
 
-void timer1_init(void);
+void timer3_init(void);
 void JoyBtnPress(void);
-

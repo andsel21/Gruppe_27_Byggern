@@ -9,6 +9,7 @@
 #include "Joystick.h"
 #include "ADC.h"
 #include "../Utils/ScaleMapping.h"
+#include "OLED_driver.h"
 
 volatile uint8_t JoyBtnPressed;
 
@@ -27,6 +28,7 @@ void InitJoystick(joystick_io_t *js){
 	//Konfigureres til Rising Edge		
 	MCUCR |= (1<<ISC00);
 	MCUCR |= (1<<ISC01);
+	printf("SKJER DETTE?\n");
 	
 	// Button External interrupt Enable
 	GICR |= (1<<INT0);
@@ -115,6 +117,7 @@ ISR(INT0_vect){ //Knappetrykk interrupt
 	//Button External interrupt Disable
 	GICR&= ~(1<<INT0);
 	JoyBtnPressed += 1;
+	// OLED_Menu_Action();
 
 	
 	// Reset Timer
