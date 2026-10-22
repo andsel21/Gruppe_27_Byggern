@@ -28,7 +28,6 @@ void InitJoystick(joystick_io_t *js){
 	//Konfigureres til Rising Edge		
 	MCUCR |= (1<<ISC00);
 	MCUCR |= (1<<ISC01);
-	printf("SKJER DETTE?\n");
 	
 	// Button External interrupt Enable
 	GICR |= (1<<INT0);

@@ -55,7 +55,9 @@ uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS, uint8_t D_C){ //byte = data to s
 	
 	if(CS == SPI_ID_CONTROLLER){ //N�r man sender data ut p� MOSI, vil OLED returnere samme data p� MISO.
 		PORTB |= (1 << PB3); // Deaktiverer OLED SLAVE cHIP
-		PORTB &= ~(1<<PB4); //Aktiver Slave chip(IO), deaktiver andre senere
+		PORTB |= (1<<PB1); //Settes OLED CS Høy for deaktiver
+		PORTB &= ~(1<<PB4); //Aktiver Slave chip(IO)
+
 		if(D_C){
 			PORTB |= (1<<PB2_D_C); //D/C# PIN - DATA	
 		}else{
@@ -73,7 +75,9 @@ uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS, uint8_t D_C){ //byte = data to s
 
 	if(CS == SPI_ID_OLED){
 		PORTB |= (1 << PB4); // Deaktiverer CONTROLLER SLAVE cHIP
-		PORTB &= ~(1<<PB3); //Aktiver Slave chip(DISP_CS), deaktiver andre senere
+		PORTB |= (1<<PB1); //Settes OLED CS høy for deaktiver
+		PORTB &= ~(1<<PB3); //Aktiver Slave chip(DISP_CS)
+		
 		if(D_C){
 			PORTB |= (1<<PB2_D_C); //D/C# PIN - DATA	
 		}else{
@@ -89,8 +93,18 @@ uint8_t SPI_Transfer(uint8_t byte, SPI_CS_t CS, uint8_t D_C){ //byte = data to s
 	}
 	
 	if(CS == SPI_ID_CAN){
-		PORTB |= (1<<PB4); //Settes OLED CS H�y for deaktiver
-		//M� ogs� deaktiver SS3, n�r den tid kjem
+		PORTB |= (1 << PB4); // Deaktiverer CONTROLLER SLAVE cHIP
+		PORTB |= (1<<PB3); //Deaktiverer Slave chip(DISP_CS)
+		PORTB &= ~(1<<PB1); //Settes OLED CS lav for aktiver
+		
+		if(D_C){
+			PORTB |= (1<<PB2_D_C); //D/C# PIN - DATA	
+		}else{
+			PORTB &= ~(1<<PB2_D_C); // D/C# PIN - COMMAND
+		}
+		SPDR = byte;
+		while(!(SPSR & (1 << SPIF)));
+		//Må også deaktiver SS3, når den tid kjem
 		//DO DIS
 		return SPDR;
 	}

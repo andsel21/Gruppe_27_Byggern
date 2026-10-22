@@ -15,6 +15,7 @@
 #include "Peripherals/OLED_driver.h"
 #include "Timers/Timers.h"
 #include "Utils/PIN_Alias.h"
+#include "Communication/MCP2515.h"
 
 /* =========================================================
    MAIN
@@ -55,6 +56,7 @@ int main(void)
 	};
 	
 	DDRB |= (1 << PB0_LED_PULSE);
+	DDRB |= (1 << PB1_CAN_CS);
 			
 	uint8_t ArrayToHoldTestData[SRAMaddress.package_size];
 
@@ -96,6 +98,7 @@ int main(void)
 	// Board_PWM_LEDS(3,0);
 	// Board_PWM_LEDS(4,50);
 	// Board_PWM_LEDS(5,255);
+		mcp2515_test();
 
 
 	while (1)
@@ -103,7 +106,7 @@ int main(void)
 		_delay_ms(1);
 		OLED_Select(DIR_JOYSTICK);
 		OLED_Menu_Action();
-		Print_to_Screen_Joystick(&JOYSTICK);
+		// Print_to_Screen_Joystick(&JOYSTICK);
 		SRAMaddress.PTR = (volatile uint8_t*)0x1800;
 
 		//printf("BUTTON : %d\n",JoyBtnPressed);
@@ -115,8 +118,12 @@ int main(void)
         
 		sqaureWaveFuncPB0();
 
-		Board_Buttons();
-		printf("hei %d   nr: %d\n", boardbuttons.L2,boardbuttons.L3);
+		mcp2515_test();
+		_delay_ms(10);
+
+
+		// Board_Buttons();
+		// printf("hei %d   nr: %d\n", boardbuttons.L2,boardbuttons.L3);
     }
 }
 
