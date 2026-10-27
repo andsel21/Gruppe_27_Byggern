@@ -14,7 +14,7 @@
 #include <stdbool.h>
 #include <avr/interrupt.h>
 
-volatile uint8_t buttonPressed;
+extern volatile uint8_t buttonPressed;
 
 typedef enum {
 	NEUTRAL,

@@ -78,7 +78,7 @@ void OLED_print_char(char c){
     }
 }
 
-void OLED_print(char* str){
+void OLED_print(const char* str){
 	while(*str){
 		OLED_print_char(*str);
 		str++;
@@ -118,7 +118,7 @@ void LED_OFF(){
 }
 
 // {TEXT, Line, Collum, Type, Targetmenu, functionCall}
-static const MenuLines_t Menu_Home[] = {
+const static const MenuLines_t Menu_Home[] = {
     {"Ping-Pong Game", 0, 8,  TEXT,     0,               NULL},
     {"Play",           1, 8,  MENU,     STATE_PLAY,      NULL},
     {"Game mode",      3, 8,  MENU,     STATE_GAMEMODE,  NULL},
@@ -126,23 +126,23 @@ static const MenuLines_t Menu_Home[] = {
     {"Calibrate",      7, 8,  MENU,     STATE_CALIBRATE, NULL}
 };
 
-static const MenuLines_t Menu_Play[] = {
+const static const MenuLines_t Menu_Play[] = {
     {"Playing",        0, 20, TEXT,     0,               NULL},
     {"Return",         7, 20, MENU,     STATE_HOME,      NULL}
 };
 
-static const MenuLines_t Menu_Gamemode[] = {
+const static const MenuLines_t Menu_Gamemode[] = {
     {"Game mode",      0, 20, TEXT, 0,                   NULL},
     {"Return",         7, 20, MENU,     STATE_HOME,      NULL}
 };
 
-static const MenuLines_t Menu_Tutorial[] = {
+const static const MenuLines_t Menu_Tutorial[] = {
     {"Tutorial",       0, 20, TEXT,     0,               NULL},
     {"bob",            3, 20, MENU,     STATE_PLAY,      NULL},
     {"Return",         7, 20, MENU,     STATE_HOME,      NULL}
 };
 
-static const MenuLines_t Menu_Calibrate[] = {
+const static const MenuLines_t Menu_Calibrate[] = {
     {"Calibrate",      0, 20, TEXT, 0,                   NULL},
     {"Led Blink On",   1, 20, FUNCTION, 0,               LED_ON},
     {"Led Blink Off",  2, 20, FUNCTION, 0,               LED_OFF},
@@ -152,7 +152,7 @@ static const MenuLines_t Menu_Calibrate[] = {
 };
 
 // Hold menu as array with ammount of lines.
-static const Menu_t menus[] = {
+const static const Menu_t menus[] = {
     [STATE_HOME]      = {Menu_Home,      sizeof(Menu_Home) / sizeof(Menu_Home[0])},
     [STATE_PLAY]      = {Menu_Play,      sizeof(Menu_Play) / sizeof(Menu_Play[0])},
     [STATE_GAMEMODE]  = {Menu_Gamemode,  sizeof(Menu_Gamemode) / sizeof(Menu_Gamemode[0])},

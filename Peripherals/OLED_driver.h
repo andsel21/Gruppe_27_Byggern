@@ -27,7 +27,7 @@ void OLED_write_command(uint8_t command);
 void OLED_clear_line(uint8_t page);
 void OLED_home();
 void OLED_print_char(char c);
-void OLED_print(char* str);
+void OLED_print(const char* str);
 
 void OLED_Menu_Home();
 

@@ -15,11 +15,16 @@
 #include "Peripherals/OLED_driver.h"
 #include "Timers/Timers.h"
 #include "Utils/PIN_Alias.h"
-#include "Communication/MCP2515.h"
+#include "Communication/CAN_driver.h"
+
+#define CAN_writeregister 0x02
 
 /* =========================================================
    MAIN
    ========================================================= */
+
+	//TO download do : make clean && make
+
 
 joystick_io_t JOYSTICK;
 Direction_t DIR_JOYSTICK = NEUTRAL;
@@ -27,6 +32,7 @@ SPI_CS_t ChipSelect;
 
 extern volatile uint8_t JoyBtnPressed;
 extern Buttons boardbuttons;
+extern uint8_t *dummyPTR;
 
 void Print_to_Screen_Joystick(joystick_io_t *js){
 		if(menu_state==STATE_CALIBRATE){
@@ -98,7 +104,7 @@ int main(void)
 	// Board_PWM_LEDS(3,0);
 	// Board_PWM_LEDS(4,50);
 	// Board_PWM_LEDS(5,255);
-		mcp2515_test();
+	Init_CAN(1);
 
 
 	while (1)
@@ -106,7 +112,7 @@ int main(void)
 		_delay_ms(1);
 		OLED_Select(DIR_JOYSTICK);
 		OLED_Menu_Action();
-		// Print_to_Screen_Joystick(&JOYSTICK);
+		Print_to_Screen_Joystick(&JOYSTICK);
 		SRAMaddress.PTR = (volatile uint8_t*)0x1800;
 
 		//printf("BUTTON : %d\n",JoyBtnPressed);
@@ -118,11 +124,49 @@ int main(void)
         
 		sqaureWaveFuncPB0();
 
-		mcp2515_test();
+		// Init_CAN(1);
+		// CAN_test(); 
 		_delay_ms(10);
 
+	    // SPI_Transfer(CAN_writeregister, SPI_ID_CAN, 0);
+		// CAN_Write(dummyPTR, 0x20, 0);
+    	// PORTB |= (1 << PB1_CAN_CS); //CS high
 
-		// Board_Buttons();
+		CAN_Write(dummyPTR,0x30, 1,1, 0);  //Addresse TXB0CTRL - Buffer0
+ 		CAN_Write(dummyPTR,0x00, 1,0, 1);  //not pending transmission(must be clear to write)
+
+		//HIGH part
+		CAN_Write(dummyPTR,0x31, 1,1, 0);  //TXBnSIDH
+ 		CAN_Write(dummyPTR,0x0, 1,0, 1);  //ID HIGH PART
+
+		//LOW part
+		CAN_Write(dummyPTR,0x32, 1,1, 0);  //TXBnSIDL
+ 		CAN_Write(dummyPTR,0x20, 1,0, 1);  //ID LOW PART 0010 0000
+				
+		//data length
+		CAN_Write(dummyPTR,0x35, 1,1, 0);  // TXBnDLC
+ 		CAN_Write(dummyPTR,0x01, 1,0, 1);  //Length 8 bits
+
+		CAN_Write(dummyPTR,0x2B, 1,1, 0);  //CANINTE – INTERRUPT 
+ 		CAN_Write(dummyPTR,0x0, 1,0, 1);  //Disable interrupts
+
+		CAN_Write(dummyPTR,0x36, 1,1, 0);  // TXBnDm - Transmitt buffer n Data Byte m
+ 		CAN_Write(dummyPTR,0xFF, 1,0, 1);  // data
+
+		CAN_Write(dummyPTR,0x30, 1,1, 0);  //Addresse TXB0CTRL - Buffer0
+ 		CAN_Write(dummyPTR,0x8, 1,0, 1);   //Pending transmission
+		_delay_ms(100);
+
+		
+
+
+
+		//TXB0CTRL
+		// - bit3: TXREQ = SET TO REQUEST MESSAGE TO BE TRANSMITTET
+		//Denne må settes for sende data fra bufferen.
+
+		// CAN_SendTest();
+		Board_Buttons();
 		// printf("hei %d   nr: %d\n", boardbuttons.L2,boardbuttons.L3);
     }
 }
