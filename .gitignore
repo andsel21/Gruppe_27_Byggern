@@ -2,6 +2,7 @@
 build/
 dist/
 nbproject/
+Makefile*
 Package-*
 private/
 _build/
