@@ -17,7 +17,6 @@
 
 uint8_t CNF_arr[3] = {0x2A,0x29,0x28};
 
-uint8_t *dummyPTR = NULL;
 
 uint8_t CAN_Read(uint8_t adr){
     uint8_t value = 0;
@@ -111,95 +110,24 @@ void CAN_Reset(){
 */
 
 void Init_CAN(uint8_t mode){ //1 == Testmode
-// MCP2515 — 4.9152 MHz
-// Bitrate: 102400 bit/s
+// MCP2515 — 16.0 MHz
+// Bitrate: 250 000 bit/s
 // Sample point: 75%
 
-    // SPI_Transfer(CAN_writeregister, SPI_ID_CAN, 0);
-    // SPI_Transfer(CAN_resetregister, SPI_ID_CAN, 0);
-    // PORTB |= (1<<PB1_CAN_CS);
-
-    // SPI_Transfer(CAN_writeregister, SPI_ID_CAN, 0);
-    // CAN_Write(dummyPTR,CNF1, 1); // BRP = 1, SJW = 1 TQ
-    // CAN_Write(dummyPTR,0x01, 1); // data
-    // PORTB |= (1<<PB1_CAN_CS);
-
-    // SPI_Transfer(CAN_writeregister, SPI_ID_CAN, 0);
-    // CAN_Write(dummyPTR,CNF2, 1); //PropSqg = 3, PhaseSeg1 = 5
-    //  CAN_Write(dummyPTR,0xA2, 1); // data
-    // PORTB |= (1<<PB1_CAN_CS);
-
-    // SPI_Transfer(CAN_writeregister, SPI_ID_CAN, 0);
-    // CAN_Write(dummyPTR,CNF3, 1); //PhaseSeg2 = 3
-    //  CAN_Write(dummyPTR,0x02, 1); // data
-    // PORTB |= (1<<PB1_CAN_CS);
-
-    // SPI_Transfer(CAN_writeregister, SPI_ID_CAN, 0);
-    // CAN_Write(dummyPTR,0x0, 1); // NormalMode
-    // PORTB |= (1<<PB1_CAN_CS);
-
-
-    CAN_Write(dummyPTR,0xC0, 1,0, 1); //RESET
+    CAN_Write(NULL,0xC0, 1,0, 1); //RESET
     _delay_ms(10);
 
-    CAN_Write(dummyPTR,CNF1, 1,1, 0); // BRP = 1, SJW = 1 TQ
-    CAN_Write(dummyPTR,0x01, 1,0, 1); 
-    CAN_Write(dummyPTR,CNF2, 1,1, 0); // PropSeg = 3, PhaseSeg1 = 5
-    CAN_Write(dummyPTR,0xA2, 1,0, 1);
-    CAN_Write(dummyPTR,CNF3, 1,1, 0); // PhaseSeg2 = 3
-    CAN_Write(dummyPTR,0x02, 1,0, 1);
+    CAN_Write(NULL,CNF1, 1,1, 0); // BRP = 1, SJW = 1 TQ
+    CAN_Write(NULL,0x01, 1,0, 1); 
+    CAN_Write(NULL,CNF2, 1,1, 0); // PropSeg = 4, PhaseSeg1 = 5
+    CAN_Write(NULL,0xAC, 1,0, 1);
+    CAN_Write(NULL,CNF3, 1,1, 0); // PhaseSeg2 = 3
+    CAN_Write(NULL,0x03, 1,0, 1);
     
-    CAN_Write(dummyPTR,0xF, 1,1, 0); //Normal Mode
-    CAN_Write(dummyPTR,0x40, 1,0, 1); //0x0 = normal,  0x40 = loopback
-
-
-
+    CAN_Write(NULL,0xF, 1,1, 0); //Normal Mode
+    CAN_Write(NULL,0x00, 1,0, 1); //0x0 = normal,  0x40 = loopback
 
 }
-/*
-    AI KODE
-
-// */
-// void CAN_Request_To_Send2(uint8_t buffer)
-// {
-//     if (buffer > 2) {
-//         return;
-//     }
-
-//     SPI_Transfer(0x80 | (1 << buffer), SPI_ID_CAN, 0);
-//     PORTB |= (1 << PB1_CAN_CS);
-// }
-
-// uint8_t CAN_SendTest(void)
-// {
-//     // Krever Normal mode.
-//     if ((CAN_Read(0x0E) & 0xE0) != 0x00) {
-//         return 0;
-//     }
-
-//     // Ikke overskriv buffer 0 mens en sending venter.
-//     if (CAN_Read(0x30) & (1 << 3)) { // TXB0CTRL.TXREQ
-//         return 0;
-//     }
-
-//     // WRITE fra TXB0SIDH. CS holdes lav gjennom hele skrivingen.
-//     SPI_Transfer(0x02, SPI_ID_CAN, 0); // WRITE
-//     SPI_Transfer(0x31, SPI_ID_CAN, 0); // Startadresse
-
-//     SPI_Transfer(0x24, SPI_ID_CAN, 0); // SIDH: ID 0x123 >> 3
-//     SPI_Transfer(0x60, SPI_ID_CAN, 0); // SIDL: (ID & 7) << 5
-//     SPI_Transfer(0x00, SPI_ID_CAN, 0); // EID8
-//     SPI_Transfer(0x00, SPI_ID_CAN, 0); // EID0
-//     SPI_Transfer(0x01, SPI_ID_CAN, 0); // DLC: én databyte
-//     SPI_Transfer(0xFF, SPI_ID_CAN, 0); // Data
-
-//     PORTB |= (1 << PB1_CAN_CS);
-
-//     CAN_Request_To_Send2(0);
-
-//     return 1; // Sending forespurt, ikke bekreftet fullført.
-// }
-
 
 
 void CAN_test(uint8_t mode){
@@ -224,45 +152,4 @@ void CAN_test(uint8_t mode){
         printf("Feil \n");
     }
 }
-
-
-// uint8_t CAN_read(uint8_t adr){
-
-//     uint8_t value = 0;
-
-//     SPI_Transfer(CAN_readregister, SPI_ID_CAN, 0);
-//     SPI_Transfer(adr, SPI_ID_CAN, 0);
-//     value = SPI_Transfer(0x00, SPI_ID_CAN, 0);
-     
-//     PORTB |= (1 << PB1_CAN_CS); //CS high
-
-//     return value;
-
-// }
-
-
-// void CAN_reset() {
-
-//     SPI_Transfer(CAN_resetregister, SPI_ID_CAN, 0);
-     
-//     PORTB |= (1 << PB1_CAN_CS);
-
-//     _delay_ms(10);
-// }
-
-
-// void CAN_test(){
-//     CAN_reset();
-//     SPI_Transfer(0x40, SPI_ID_CAN,0); //Enables Loopback mode, For TESTING
-//     PORTB |= (1 << PB1_CAN_CS);
-//     uint8_t canstat = CAN_read(CAN_canstat);
-
-//     printf("canstat %d \n", canstat);
-
-//     if (canstat == 0x80) {
-//         printf("Svarer \n");
-//     } else {
-//         printf("Feil \n");
-//     }
-// }
 
