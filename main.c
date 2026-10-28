@@ -15,10 +15,16 @@
 #include "Peripherals/OLED_driver.h"
 #include "Timers/Timers.h"
 #include "Utils/PIN_Alias.h"
+#include "Communication/CAN_driver.h"
+
+#define CAN_writeregister 0x02
 
 /* =========================================================
    MAIN
    ========================================================= */
+
+	//TO download do : make clean && make
+
 
 joystick_io_t JOYSTICK;
 Direction_t DIR_JOYSTICK = NEUTRAL;
@@ -46,6 +52,36 @@ void Print_to_Screen_Joystick(joystick_io_t *js){
 		
 }
 
+void WriteTest(){
+
+		CAN_Write(NULL,0x30, 1,1, 0);  //Addresse TXB0CTRL - Buffer0
+ 		CAN_Write(NULL,0x00, 1,0, 1);  //not pending transmission(must be clear to write)
+
+		//HIGH part
+		CAN_Write(NULL,0x31, 1,1, 0);  //TXBnSIDH
+ 		CAN_Write(NULL,0x0, 1,0, 1);  //ID HIGH PART
+
+		//LOW part
+		CAN_Write(NULL,0x32, 1,1, 0);  //TXBnSIDL
+ 		CAN_Write(NULL,0x20, 1,0, 1);  //ID LOW PART 0010 0000
+				
+		//data length
+		CAN_Write(NULL,0x35, 1,1, 0);  // TXBnDLC
+ 		CAN_Write(NULL,0x01, 1,0, 1);  //Length 8 bits
+
+		CAN_Write(NULL,0x2B, 1,1, 0);  //CANINTE – INTERRUPT 
+ 		CAN_Write(NULL,0x0, 1,0, 1);  //Disable interrupts
+
+		CAN_Write(NULL,0x36, 1,1, 0);  // TXBnDm - Transmitt buffer n Data Byte m
+ 		CAN_Write(NULL,0xFF, 1,0, 1);  // data
+
+		CAN_Write(NULL,0x30, 1,1, 0);  //Addresse TXB0CTRL - Buffer0
+ 		CAN_Write(NULL,0x8, 1,0, 1);   //Pending transmission
+	
+		_delay_ms(100);
+
+}
+
 int main(void)
 {
 	struct MemoryReadWrite SRAMaddress = {
@@ -55,6 +91,7 @@ int main(void)
 	};
 	
 	DDRB |= (1 << PB0_LED_PULSE);
+	DDRB |= (1 << PB1_CAN_CS);
 			
 	uint8_t ArrayToHoldTestData[SRAMaddress.package_size];
 
@@ -96,6 +133,7 @@ int main(void)
 	// Board_PWM_LEDS(3,0);
 	// Board_PWM_LEDS(4,50);
 	// Board_PWM_LEDS(5,255);
+	Init_CAN(1);
 
 
 	while (1)
@@ -112,11 +150,25 @@ int main(void)
 
 		DIR_JOYSTICK = JoyDirection(&JOYSTICK);
 		// printf("DIRECTION: %d\n",DIR_JOYSTICK);
+
+		if(DIR_JOYSTICK == UP){
+			WriteTest();
+
+			_delay_ms(500);
+		}
         
 		sqaureWaveFuncPB0();
 
+		// Init_CAN(1);
+		// CAN_test(); 
+		_delay_ms(10);
+
+		//TXB0CTRL
+		// - bit3: TXREQ = SET TO REQUEST MESSAGE TO BE TRANSMITTET
+		//Denne må settes for sende data fra bufferen.
+
 		Board_Buttons();
-		printf("hei %d   nr: %d\n", boardbuttons.L2,boardbuttons.L3);
+		// printf("hei %d   nr: %d\n", boardbuttons.L2,boardbuttons.L3);
     }
 }
 
