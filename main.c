@@ -32,7 +32,6 @@ SPI_CS_t ChipSelect;
 
 extern volatile uint8_t JoyBtnPressed;
 extern Buttons boardbuttons;
-extern uint8_t *dummyPTR;
 
 void Print_to_Screen_Joystick(joystick_io_t *js){
 		if(menu_state==STATE_CALIBRATE){
@@ -51,6 +50,36 @@ void Print_to_Screen_Joystick(joystick_io_t *js){
         OLED_print("    ");
 		}
 		
+}
+
+void WriteTest(){
+
+		CAN_Write(NULL,0x30, 1,1, 0);  //Addresse TXB0CTRL - Buffer0
+ 		CAN_Write(NULL,0x00, 1,0, 1);  //not pending transmission(must be clear to write)
+
+		//HIGH part
+		CAN_Write(NULL,0x31, 1,1, 0);  //TXBnSIDH
+ 		CAN_Write(NULL,0x0, 1,0, 1);  //ID HIGH PART
+
+		//LOW part
+		CAN_Write(NULL,0x32, 1,1, 0);  //TXBnSIDL
+ 		CAN_Write(NULL,0x20, 1,0, 1);  //ID LOW PART 0010 0000
+				
+		//data length
+		CAN_Write(NULL,0x35, 1,1, 0);  // TXBnDLC
+ 		CAN_Write(NULL,0x01, 1,0, 1);  //Length 8 bits
+
+		CAN_Write(NULL,0x2B, 1,1, 0);  //CANINTE – INTERRUPT 
+ 		CAN_Write(NULL,0x0, 1,0, 1);  //Disable interrupts
+
+		CAN_Write(NULL,0x36, 1,1, 0);  // TXBnDm - Transmitt buffer n Data Byte m
+ 		CAN_Write(NULL,0xFF, 1,0, 1);  // data
+
+		CAN_Write(NULL,0x30, 1,1, 0);  //Addresse TXB0CTRL - Buffer0
+ 		CAN_Write(NULL,0x8, 1,0, 1);   //Pending transmission
+	
+		_delay_ms(100);
+
 }
 
 int main(void)
@@ -121,6 +150,12 @@ int main(void)
 
 		DIR_JOYSTICK = JoyDirection(&JOYSTICK);
 		// printf("DIRECTION: %d\n",DIR_JOYSTICK);
+
+		if(DIR_JOYSTICK == UP){
+			WriteTest();
+
+			_delay_ms(500);
+		}
         
 		sqaureWaveFuncPB0();
 
@@ -128,44 +163,10 @@ int main(void)
 		// CAN_test(); 
 		_delay_ms(10);
 
-	    // SPI_Transfer(CAN_writeregister, SPI_ID_CAN, 0);
-		// CAN_Write(dummyPTR, 0x20, 0);
-    	// PORTB |= (1 << PB1_CAN_CS); //CS high
-
-		CAN_Write(dummyPTR,0x30, 1,1, 0);  //Addresse TXB0CTRL - Buffer0
- 		CAN_Write(dummyPTR,0x00, 1,0, 1);  //not pending transmission(must be clear to write)
-
-		//HIGH part
-		CAN_Write(dummyPTR,0x31, 1,1, 0);  //TXBnSIDH
- 		CAN_Write(dummyPTR,0x0, 1,0, 1);  //ID HIGH PART
-
-		//LOW part
-		CAN_Write(dummyPTR,0x32, 1,1, 0);  //TXBnSIDL
- 		CAN_Write(dummyPTR,0x20, 1,0, 1);  //ID LOW PART 0010 0000
-				
-		//data length
-		CAN_Write(dummyPTR,0x35, 1,1, 0);  // TXBnDLC
- 		CAN_Write(dummyPTR,0x01, 1,0, 1);  //Length 8 bits
-
-		CAN_Write(dummyPTR,0x2B, 1,1, 0);  //CANINTE – INTERRUPT 
- 		CAN_Write(dummyPTR,0x0, 1,0, 1);  //Disable interrupts
-
-		CAN_Write(dummyPTR,0x36, 1,1, 0);  // TXBnDm - Transmitt buffer n Data Byte m
- 		CAN_Write(dummyPTR,0xFF, 1,0, 1);  // data
-
-		CAN_Write(dummyPTR,0x30, 1,1, 0);  //Addresse TXB0CTRL - Buffer0
- 		CAN_Write(dummyPTR,0x8, 1,0, 1);   //Pending transmission
-		_delay_ms(100);
-
-		
-
-
-
 		//TXB0CTRL
 		// - bit3: TXREQ = SET TO REQUEST MESSAGE TO BE TRANSMITTET
 		//Denne må settes for sende data fra bufferen.
 
-		// CAN_SendTest();
 		Board_Buttons();
 		// printf("hei %d   nr: %d\n", boardbuttons.L2,boardbuttons.L3);
     }
