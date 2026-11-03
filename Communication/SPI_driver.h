@@ -10,7 +10,7 @@
 #include <avr/io.h>
 #include <avr/delay.h>
 
-uint8_t writeBYTE;
+extern uint8_t writeBYTE;
 
 typedef struct __attribute__((packed)) {
     union {

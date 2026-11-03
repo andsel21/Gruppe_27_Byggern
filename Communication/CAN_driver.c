@@ -39,23 +39,23 @@ void CAN_Write(uint8_t *data,uint8_t litteral, uint8_t size, uint8_t newMsg, uin
     SPI_Transfer(CAN_writeregister, SPI_ID_CAN, 0);
     }
     
-    // if(litteral != NULL){
-    //     CAN_WriteMessage(litteral); //data
-    //     if(deselect){
-    //       PORTB |= (1<<PB1_CAN_CS);
-    //     }
-    // }else{
-    //    for (uint8_t i = 0; i < size; i++) {        
-    //         CAN_WriteMessage(*data);
-    //         data += 1;
-    //         if(deselect){
-    //           PORTB |= (1<<PB1_CAN_CS);}
-    //     }
-    // }
-
-     CAN_WriteMessage(litteral); //data
+    if(data == NULL){
+        CAN_WriteMessage(litteral); //data
         if(deselect){
-          PORTB |= (1<<PB1_CAN_CS);}
+          PORTB |= (1<<PB1_CAN_CS);
+        }
+    }else{
+       for (uint8_t i = 0; i < size; i++) {        
+            CAN_WriteMessage(*data);
+            data += 1;
+            if(deselect){
+              PORTB |= (1<<PB1_CAN_CS);}
+        }
+    }
+
+    //  CAN_WriteMessage(litteral); //data
+    //     if(deselect){
+    //       PORTB |= (1<<PB1_CAN_CS);}
 }
 
 uint8_t CAN_ReadStatus(){
