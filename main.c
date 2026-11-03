@@ -67,13 +67,13 @@ void WriteTest(){
 				
 		//data length
 		CAN_Write(NULL,0x35, 1,1, 0);  // TXBnDLC
- 		CAN_Write(NULL,0x01, 1,0, 1);  //Length 8 bits
+ 		CAN_Write(NULL,0x01, 1,0, 1);  //Length 8 bytes
 
 		CAN_Write(NULL,0x2B, 1,1, 0);  //CANINTE – INTERRUPT 
  		CAN_Write(NULL,0x0, 1,0, 1);  //Disable interrupts
 
 		CAN_Write(NULL,0x36, 1,1, 0);  // TXBnDm - Transmitt buffer n Data Byte m
- 		CAN_Write(NULL,0xFF, 1,0, 1);  // data
+ 		CAN_Write(NULL,0xF1, 1,0, 1);  // data
 
 		CAN_Write(NULL,0x30, 1,1, 0);  //Addresse TXB0CTRL - Buffer0
  		CAN_Write(NULL,0x8, 1,0, 1);   //Pending transmission
@@ -82,6 +82,38 @@ void WriteTest(){
 
 }
 
+void CAN_Send(uint8_t AdrH, uint8_t AdrL, uint8_t data){
+
+		//AdrL 3 siste bits endres på = 3første bits i adresse, max 7
+		//AdrH alle bits brukes, bit 3-11
+
+		CAN_Write(NULL,0x30, 1,1, 0);  //Addresse TXB0CTRL - Buffer0
+ 		CAN_Write(NULL,0x00, 1,0, 1);  //not pending transmission(must be clear to write)
+
+		//HIGH part
+		CAN_Write(NULL,0x31, 1,1, 0);  //TXBnSIDH
+ 		CAN_Write(NULL,AdrH, 1,0, 1);  //ID HIGH PART
+
+		//LOW part
+		CAN_Write(NULL,0x32, 1,1, 0);  //TXBnSIDL
+ 		CAN_Write(NULL,AdrL, 1,0, 1);  //ID LOW PART 0010 0000
+				
+		//data length
+		CAN_Write(NULL,0x35, 1,1, 0);  // TXBnDLC
+ 		CAN_Write(NULL,0x01, 1,0, 1);  //Length 8 bytes
+
+		CAN_Write(NULL,0x2B, 1,1, 0);  //CANINTE – INTERRUPT 
+ 		CAN_Write(NULL,0x0, 1,0, 1);  //Disable interrupts
+
+		CAN_Write(NULL,0x36, 1,1, 0);  // TXBnDm - Transmitt buffer n Data Byte m
+ 		CAN_Write(NULL,data, 1,0, 1);  // data
+
+		CAN_Write(NULL,0x30, 1,1, 0);  //Addresse TXB0CTRL - Buffer0
+ 		CAN_Write(NULL,0x8, 1,0, 1);   //Pending transmission
+	
+		_delay_ms(100);
+
+}
 int main(void)
 {
 	struct MemoryReadWrite SRAMaddress = {
@@ -138,37 +170,41 @@ int main(void)
 
 	while (1)
     {
+		// _delay_ms(250);
+		
 		_delay_ms(1);
 		OLED_Select(DIR_JOYSTICK);
 		OLED_Menu_Action();
 		Print_to_Screen_Joystick(&JOYSTICK);
 		SRAMaddress.PTR = (volatile uint8_t*)0x1800;
 
-		//printf("BUTTON : %d\n",JoyBtnPressed);
+		// printf("BUTTON : %d\n",JoyBtnPressed);
 		ReadAndScale(&JOYSTICK);	
 		//JoyStickPos_Print(&JOYSTICK);
 
 		DIR_JOYSTICK = JoyDirection(&JOYSTICK);
-		// printf("DIRECTION: %d\n",DIR_JOYSTICK);
+		//printf("DIRECTION: %d\n",DIR_JOYSTICK);
 
-		if(DIR_JOYSTICK == UP){
-			WriteTest();
-
-			_delay_ms(500);
-		}
-        
+		//if(DIR_JOYSTICK == UP){
+		//	WriteTest();
+		//	_delay_ms(500);
+		//}
 		sqaureWaveFuncPB0();
 
 		// Init_CAN(1);
 		// CAN_test(); 
 		_delay_ms(10);
-
+ 		CAN_Send(0, 0x60, (uint8_t)(JOYSTICK.scaled_x_axis + 100));
+		//CAN_Send(0, 0x40, (uint8_t)(JOYSTICK.scaled_y_axis + 100));
 		//TXB0CTRL
 		// - bit3: TXREQ = SET TO REQUEST MESSAGE TO BE TRANSMITTET
 		//Denne må settes for sende data fra bufferen.
 
 		Board_Buttons();
 		// printf("hei %d   nr: %d\n", boardbuttons.L2,boardbuttons.L3);
+
+		
     }
 }
+
 
