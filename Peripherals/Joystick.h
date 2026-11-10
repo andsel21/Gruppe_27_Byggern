@@ -15,6 +15,7 @@
 #include <avr/interrupt.h>
 
 extern volatile uint8_t buttonPressed;
+extern volatile uint8_t JoyBtnPressed_CAN;
 
 typedef enum {
 	NEUTRAL,
@@ -43,3 +44,5 @@ void InitJoystick(joystick_io_t *js);
 void ReadAndScale(joystick_io_t *js);
 void JoyStickPos_Print(joystick_io_t *js);
 Direction_t JoyDirection(joystick_io_t *js);
+void Print_to_Screen_Joystick(joystick_io_t *js);
+void JoyStickPos_Print(joystick_io_t *js);

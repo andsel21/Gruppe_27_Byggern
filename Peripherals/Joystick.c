@@ -12,6 +12,7 @@
 #include "OLED_driver.h"
 
 volatile uint8_t JoyBtnPressed;
+volatile uint8_t JoyBtnPressed_CAN;
 
 
 void InitJoystick(joystick_io_t *js){
@@ -61,6 +62,24 @@ void JoyStickPos_Print(joystick_io_t *js)
 	js->scaled_x_axis
 	);
 	//Legg til Joystick-PAD??
+}
+
+void Print_to_Screen_Joystick(joystick_io_t *js){
+		if(menu_state==STATE_CALIBRATE){
+        char buffer[8];
+
+        // X
+        OLED_POS(3, 36);
+        sprintf(buffer, "%d", js->scaled_x_axis);
+        OLED_print(buffer);
+        OLED_print("    ");
+
+        // Y
+        OLED_POS(4, 36);
+        sprintf(buffer, "%d", js->scaled_y_axis);
+        OLED_print(buffer);
+        OLED_print("    ");
+		}	
 }
 
 
@@ -116,6 +135,7 @@ ISR(INT0_vect){ //Knappetrykk interrupt
 	//Button External interrupt Disable
 	GICR&= ~(1<<INT0);
 	JoyBtnPressed += 1;
+	JoyBtnPressed_CAN = 1;
 	// OLED_Menu_Action();
 
 	

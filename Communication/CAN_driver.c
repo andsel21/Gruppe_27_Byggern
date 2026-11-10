@@ -39,23 +39,23 @@ void CAN_Write(uint8_t *data,uint8_t litteral, uint8_t size, uint8_t newMsg, uin
     SPI_Transfer(CAN_writeregister, SPI_ID_CAN, 0);
     }
     
-    // if(litteral != NULL){
-    //     CAN_WriteMessage(litteral); //data
-    //     if(deselect){
-    //       PORTB |= (1<<PB1_CAN_CS);
-    //     }
-    // }else{
-    //    for (uint8_t i = 0; i < size; i++) {        
-    //         CAN_WriteMessage(*data);
-    //         data += 1;
-    //         if(deselect){
-    //           PORTB |= (1<<PB1_CAN_CS);}
-    //     }
-    // }
-
-     CAN_WriteMessage(litteral); //data
+    if(data == NULL){
+        CAN_WriteMessage(litteral); //data
         if(deselect){
-          PORTB |= (1<<PB1_CAN_CS);}
+          PORTB |= (1<<PB1_CAN_CS);
+        }
+    }else{
+       for (uint8_t i = 0; i < size; i++) {        
+            CAN_WriteMessage(*data);
+            data += 1;
+            if(deselect){
+              PORTB |= (1<<PB1_CAN_CS);}
+        }
+    }
+
+    //  CAN_WriteMessage(litteral); //data
+    //     if(deselect){
+    //       PORTB |= (1<<PB1_CAN_CS);}
 }
 
 uint8_t CAN_ReadStatus(){
@@ -129,6 +129,39 @@ void Init_CAN(uint8_t mode){ //1 == Testmode
 
 }
 
+void CAN_Send(uint8_t AdrH, uint8_t AdrL, uint8_t data){
+
+		//AdrL 3 siste bits endres på = 3 første bits i adresse, max 7
+		//AdrH alle bits brukes, bit 3-11
+
+		CAN_Write(NULL,0x30, 1,1, 0);  //Addresse TXB0CTRL - Buffer0
+ 		CAN_Write(NULL,0x00, 1,0, 1);  //not pending transmission(must be clear to write)
+
+		//HIGH part
+		CAN_Write(NULL,0x31, 1,1, 0);  //TXBnSIDH
+ 		CAN_Write(NULL,AdrH, 1,0, 1);  //ID HIGH PART
+
+		//LOW part
+		CAN_Write(NULL,0x32, 1,1, 0);  //TXBnSIDL
+ 		CAN_Write(NULL,AdrL, 1,0, 1);  //ID LOW PART 0010 0000
+				
+		//data length
+		CAN_Write(NULL,0x35, 1,1, 0);  // TXBnDLC
+ 		CAN_Write(NULL,0x01, 1,0, 1);  //Length 8 bytes
+
+		CAN_Write(NULL,0x2B, 1,1, 0);  //CANINTE – INTERRUPT 
+ 		CAN_Write(NULL,0x0, 1,0, 1);  //Disable interrupts
+
+		CAN_Write(NULL,0x36, 1,1, 0);  // TXBnDm - Transmitt buffer n Data Byte m
+ 		CAN_Write(NULL,data, 1,0, 1);  // data
+
+		CAN_Write(NULL,0x30, 1,1, 0);  //Addresse TXB0CTRL - Buffer0
+ 		CAN_Write(NULL,0x8, 1,0, 1);   //Pending transmission
+	
+		_delay_ms(100);
+
+}
+
 
 void CAN_test(uint8_t mode){
     SPI_Transfer(CAN_resetregister, SPI_ID_CAN, 0);
@@ -152,4 +185,36 @@ void CAN_test(uint8_t mode){
         printf("Feil \n");
     }
 }
+
+void WriteTest(){
+
+		CAN_Write(NULL,0x30, 1,1, 0);  //Addresse TXB0CTRL - Buffer0
+ 		CAN_Write(NULL,0x00, 1,0, 1);  //not pending transmission(must be clear to write)
+
+		//HIGH part
+		CAN_Write(NULL,0x31, 1,1, 0);  //TXBnSIDH
+ 		CAN_Write(NULL,0x0, 1,0, 1);  //ID HIGH PART
+
+		//LOW part
+		CAN_Write(NULL,0x32, 1,1, 0);  //TXBnSIDL
+ 		CAN_Write(NULL,0x20, 1,0, 1);  //ID LOW PART 0010 0000
+				
+		//data length
+		CAN_Write(NULL,0x35, 1,1, 0);  // TXBnDLC
+ 		CAN_Write(NULL,0x01, 1,0, 1);  //Length 8 bytes
+
+		CAN_Write(NULL,0x2B, 1,1, 0);  //CANINTE – INTERRUPT 
+ 		CAN_Write(NULL,0x0, 1,0, 1);  //Disable interrupts
+
+		CAN_Write(NULL,0x36, 1,1, 0);  // TXBnDm - Transmitt buffer n Data Byte m
+ 		CAN_Write(NULL,0xF1, 1,0, 1);  // data
+
+		CAN_Write(NULL,0x30, 1,1, 0);  //Addresse TXB0CTRL - Buffer0
+ 		CAN_Write(NULL,0x8, 1,0, 1);   //Pending transmission
+	
+		_delay_ms(100);
+
+}
+
+
 

@@ -13,6 +13,8 @@ void CAN_test(uint8_t mode);
 void CAN_Write(uint8_t *data,uint8_t litteral, uint8_t size, uint8_t newMsg, uint8_t deselect);
 void CAN_test(uint8_t mode);
 void CAN_Reset();
+void CAN_Send(uint8_t AdrH, uint8_t AdrL, uint8_t data);
+void WriteTest();
 
 
 // void CAN_Request_To_Send2(uint8_t buffer);
