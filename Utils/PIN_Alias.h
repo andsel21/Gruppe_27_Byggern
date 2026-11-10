@@ -15,3 +15,5 @@
 #define INT0_ExternalInterrupt0         INT0
 #define INT1_ExternalInterrupt1         INT1
 #define PB2_D_C                         PB2
+#define PD3_ExternalInterruptCAN        PD3
+#define PB1_CAN_CS                      PB1
